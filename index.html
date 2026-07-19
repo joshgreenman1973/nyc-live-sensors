@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The instrumented city — New York's public sensors, live</title>
+<meta name="description" content="What New York City's public real-time sensors are reporting right now: tide gauges, weather stations, stream gauges, wave buoys, traffic detectors, radar, aircraft transponders, bike docks, the power grid and the subway.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62.5..125,100..900;1,62.5..125,100..900&family=Martian+Mono:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='none' stroke='%2353d7f0' stroke-width='8'/><circle cx='50' cy='50' r='10' fill='%2353d7f0'/></svg>">
+</head>
+<body>
+
+<header id="masthead">
+  <div class="mast-left">
+    <div class="kicker"><span class="live-dot" aria-hidden="true"></span> Live instrument panel &middot; New York City</div>
+    <h1>The instrumented city</h1>
+    <p class="dek">What the city's public real-time sensors are reporting right now — tide gauges, weather stations, stream gauges, wave buoys, traffic detectors, weather radar, aircraft transponders, bike docks, the power grid and the subway. Every reading below comes from a public feed your browser (or a small robot that runs every 15 minutes) is reading directly from the source.</p>
+  </div>
+  <div class="mast-right">
+    <div id="clock" class="clock">—:—:—</div>
+    <div id="clock-date" class="clock-date">&nbsp;</div>
+    <div id="feed-status" class="feed-status">connecting to feeds…</div>
+    <nav class="mast-nav">
+      <a href="methodology.html">Methodology</a>
+      <button class="ai" id="ai-btn">AI caution</button>
+    </nav>
+  </div>
+</header>
+
+<div id="ai-pop" role="dialog" aria-label="AI caution">
+  <h4>About this page</h4>
+  <ul>
+    <li>This dashboard was built with AI assistance. Every number is fetched live from the public feed named on its tile — nothing is stored, modeled or adjusted by this page, with one labeled exception: the air-quality tile is a model estimate, not a physical sensor, and is marked as such.</li>
+    <li>Feeds go down, lag or report bad values; each tile shows its own "as of" time and goes gray when its feed is stale or unreachable.</li>
+    <li>Readings here are for curiosity, not safety decisions. For emergencies rely on official channels, not this page.</li>
+    <li>Spot-check anything you plan to rely on. See the <a href="methodology.html">methodology</a> for every endpoint, refresh cadence and known caveat.</li>
+  </ul>
+</div>
+
+<div id="ticker-wrap" aria-hidden="true"><div id="ticker"></div></div>
+
+<main id="board"></main>
+
+<footer>
+  <p>Sources: National Oceanic and Atmospheric Administration (tides, buoys, weather, radar), United States Geological Survey (stream and tide gauges), New York City Department of Transportation (traffic sensors and cameras), Metropolitan Transportation Authority (subway feeds), New York Independent System Operator (grid), Citi Bike (dock telemetry), airplanes.live (aircraft transponders) and Open-Meteo (air-quality model). Full details in the <a href="methodology.html">methodology</a>.</p>
+  <p>A <a href="https://joshgreenman.com">Josh Greenman</a> experiment &middot; Built July 2026 &middot; <a href="https://github.com/joshgreenman1973/nyc-live-sensors">Source</a></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

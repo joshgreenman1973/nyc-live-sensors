@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Methodology — The instrumented city</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62.5..125,100..900;1,62.5..125,100..900&family=Martian+Mono:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .doc { max-width: 860px; padding: 34px 40px 80px; }
+  .doc h2 { font-variation-settings: "wdth" 120; font-weight: 800; font-size: 20px; margin: 34px 0 10px; }
+  .doc h3 { font-variation-settings: "wdth" 116; font-weight: 700; font-size: 15px; margin: 22px 0 6px; text-transform: uppercase; letter-spacing: .05em; }
+  .doc p, .doc li { color: var(--dim); font-size: 14.5px; line-height: 1.65; margin-bottom: 10px; }
+  .doc ul { padding-left: 20px; }
+  .doc code { font-family: "Martian Mono", monospace; font-size: 11.5px; color: var(--ink); background: var(--panel); padding: 1px 5px; word-break: break-all; }
+  .doc table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 13px; }
+  .doc th, .doc td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); color: var(--dim); vertical-align: top; }
+  .doc th { color: var(--ink); font-variation-settings: "wdth" 112; text-transform: uppercase; font-size: 11px; letter-spacing: .08em; }
+  .doc td b { color: var(--ink); font-weight: 600; }
+  .back { display: inline-block; margin-bottom: 20px; font-size: 13px; }
+  .tablewrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+<main class="doc">
+  <a class="back" href="index.html">&larr; Back to the board</a>
+  <h1 style="font-size:clamp(30px,5vw,52px)">Methodology</h1>
+  <p style="margin-top:10px">This page documents every data source behind The instrumented city, how each number is computed, how often it refreshes and what to be careful about. The page was built with AI assistance in July 2026. There is no database and no server: your browser reads most feeds directly from the agencies, and a scheduled script fills in the rest.</p>
+
+  <h2>How data reaches the page</h2>
+  <p>Feeds fall into two groups:</p>
+  <ul>
+    <li><b>Direct feeds.</b> Sources that allow cross-origin requests are fetched by your browser, live, on a timer of one to five minutes per feed. Nothing passes through any intermediate server.</li>
+    <li><b>Snapshot feeds.</b> Sources that block cross-origin browser requests (the New York Independent System Operator, the National Data Buoy Center, the Metropolitan Transportation Authority, NYC Ferry, the traffic-camera directory and FloodNet) are fetched by a script that runs on GitHub Actions roughly every 15 minutes and writes <code>data/snapshot.json</code>. Tiles fed this way can be up to about 20 minutes behind; each shows its own "as of" time. GitHub's scheduler can also run late during busy periods, which shows up as amber (stale) status lights.</li>
+  </ul>
+  <p>Every tile carries a status light: green means the latest reading is inside that feed's expected freshness window, amber means the feed is reachable but the reading is older than expected and red means the feed could not be read at all. The masthead counts how many of the feeds are currently reporting.</p>
+
+  <h2>Source-by-source detail</h2>
+  <div class="tablewrap">
+  <table>
+    <tr><th>Tile</th><th>Source and endpoint</th><th>Refresh</th><th>Notes and caveats</th></tr>
+    <tr>
+      <td><b>Surface weather</b></td>
+      <td>National Weather Service observations API: <code>api.weather.gov/stations/KNYC|KLGA|KJFK/observations/latest</code></td>
+      <td>Browser, every 5 min; stations report roughly hourly</td>
+      <td>KNYC is the Central Park station. Airport sensors (Automated Surface Observing Systems) are the gold standard; the API occasionally returns null temperature fields, which the page skips.</td>
+    </tr>
+    <tr>
+      <td><b>Weather radar</b></td>
+      <td>NEXRAD base-reflectivity tiles composited by the Iowa Environmental Mesonet: <code>mesonet.agron.iastate.edu/cache/tile.py/.../nexrad-n0q-900913/</code>, over a CARTO dark basemap</td>
+      <td>Every 5 min</td>
+      <td>The radar covering the city is KOKX in Upton, Suffolk County. Tiles are a national composite; the panel crops to the region around the city. Transparent tiles mean no echoes.</td>
+    </tr>
+    <tr>
+      <td><b>Aircraft overhead</b></td>
+      <td>airplanes.live API: <code>api.airplanes.live/v2/point/40.7128/-74.0060/30</code></td>
+      <td>Browser, every 2 min</td>
+      <td>Community-run network of Automatic Dependent Surveillance-Broadcast receivers. Counts aircraft not reporting "ground" status within 30 nautical miles of City Hall. Helicopter count uses the transponder's self-reported category (A7, rotorcraft), which some helicopters leave unset — treat it as a floor.</td>
+    </tr>
+    <tr>
+      <td><b>Air quality</b></td>
+      <td>Open-Meteo air-quality API (Copernicus Atmosphere Monitoring Service model)</td>
+      <td>Browser, every 15 min; model updates hourly</td>
+      <td><b>This is the one tile that is not a sensor.</b> It is a model estimate for Lower Manhattan, shown because the region's regulatory monitors do not publish a key-free real-time feed. It is labeled MODEL on the board. Confidence: directionally reliable, not monitor-grade.</td>
+    </tr>
+    <tr>
+      <td><b>Harbor tides</b></td>
+      <td>NOAA Center for Operational Oceanographic Products and Services: stations 8518750 (the Battery) and 8516945 (Kings Point), <code>api.tidesandcurrents.noaa.gov</code></td>
+      <td>Browser, every 5 min; sensors report every 6 min</td>
+      <td>Heights are in feet above mean lower low water, the standard chart datum. Next high/low times come from NOAA's own harmonic predictions. The Battery gauge is one of the longest-running instruments in the city, in service since 1920.</td>
+    </tr>
+    <tr>
+      <td><b>Stream and tide gauges</b></td>
+      <td>United States Geological Survey instantaneous values service, queried by the five boroughs' county codes, parameter 00065 (gage height)</td>
+      <td>Browser, every 10 min; gauges report every 6 to 15 min</td>
+      <td>The set of gauges is discovered live from the county query, so new deployments appear automatically. All five current gauges measure stream stage on creeks and rivers, not harbor tide (NOAA covers that).</td>
+    </tr>
+    <tr>
+      <td><b>Wave buoy</b></td>
+      <td>National Data Buoy Center station 44065, <code>ndbc.noaa.gov/data/realtime2/44065.txt</code></td>
+      <td>Snapshot, every 15 min; buoy reports hourly</td>
+      <td>Moored at the New York Harbor entrance about 15 miles south of Breezy Point. "Significant wave height" is the average of the highest third of waves, the standard oceanographic measure.</td>
+    </tr>
+    <tr>
+      <td><b>Street flood sensors</b></td>
+      <td>FloodNet (a New York University and City University of New York project with city agencies), read through the FieldKit platform its dashboard runs on: project 174, sensor <code>wh.floodnet.depth</code></td>
+      <td>Snapshot, every 15 min</td>
+      <td>Ultrasonic sensors measure water depth over roadways at flood-prone spots. Only stations with a depth reading in the last 6 hours are counted. Depth values are treated as millimeters, matching FloodNet's published data schema; a sensor is counted as "wet" above one inch (25.4 millimeters). Because the unit is inferred from the schema rather than labeled in the feed, treat the wet-sensor count as a floor. Dry readings hover near zero with sensor noise.</td>
+    </tr>
+    <tr>
+      <td><b>Traffic speed sensors</b></td>
+      <td>NYC Department of Transportation real-time traffic speed detectors, via NYC Open Data dataset <code>i4gi-tjb9</code></td>
+      <td>Browser, every 5 min; sensors report every few minutes</td>
+      <td>These sensors sit on highways, bridges and tunnels — not local streets — so the average describes arterial traffic, not a crosstown block. Only readings from the last 40 minutes are counted. Borough averages are unweighted means across sensors.</td>
+    </tr>
+    <tr>
+      <td><b>Traffic cameras</b></td>
+      <td>NYC Department of Transportation camera network, <code>webcams.nyctmc.org</code></td>
+      <td>Camera list refreshed with the snapshot; images pulled live every 9 seconds as the panel rotates</td>
+      <td>The snapshot picks a geographic spread of online cameras. Images are typically a few seconds to a minute old at the source.</td>
+    </tr>
+    <tr>
+      <td><b>Citi Bike docks</b></td>
+      <td>Citi Bike general bikeshare feed specification: <code>gbfs.citibikenyc.com/gbfs/en/station_status.json</code></td>
+      <td>Browser, every 3 min; feed updates about every minute</td>
+      <td>Totals sum every station in the system, which includes Jersey City and Hoboken stations (a few percent of the system).</td>
+    </tr>
+    <tr>
+      <td><b>Subway trains reporting</b></td>
+      <td>Metropolitan Transportation Authority real-time subway feeds (eight General Transit Feed Specification real-time feeds covering all lines) and the subway-alerts feed</td>
+      <td>Snapshot, every 15 min</td>
+      <td>Counts trains transmitting a vehicle position. This is "trains the signal system is reporting," which can differ slightly from trains physically in motion; a position message can persist briefly after a trip ends. Alert count includes planned service changes currently in effect.</td>
+    </tr>
+    <tr>
+      <td><b>NYC Ferry vessels</b></td>
+      <td>NYC Ferry real-time vehicle-position feed</td>
+      <td>Snapshot, every 15 min</td>
+      <td>Counts boats transmitting positions; overnight the number drops to zero or near zero, which is real, not an outage.</td>
+    </tr>
+    <tr>
+      <td><b>Electric demand</b></td>
+      <td>New York Independent System Operator real-time actual load, <code>mis.nyiso.com/public/csv/pal/</code>, zone N.Y.C.</td>
+      <td>Snapshot, every 15 min; source updates about every 5 min</td>
+      <td>The N.Y.C. zone (load zone J) covers the five boroughs. The statewide figure sums all 11 zones at the same timestamp.</td>
+    </tr>
+    <tr>
+      <td><b>Fuel mix</b></td>
+      <td>New York Independent System Operator real-time fuel mix, <code>mis.nyiso.com/public/csv/rtfuelmix/</code></td>
+      <td>Snapshot, every 15 min; source updates about every 5 min</td>
+      <td>Statewide, not city-specific — the grid does not track electrons by borough. "Dual fuel" units burn gas or oil; the category is reported as the system operator labels it, without editorial regrouping.</td>
+    </tr>
+  </table>
+  </div>
+
+  <h2>What is deliberately not here</h2>
+  <ul>
+    <li><b>Feeds that require an API key</b> the page would have to expose in public code: MTA Bus Time, PurpleAir, AirNow, aircraft feeds beyond the community network and the state Mesonet weather-station network.</li>
+    <li><b>Feeds without a public real-time interface</b>, including the police department's ShotSpotter/SoundThinking gunshot sensors, the Department of Environmental Protection's noise and air monitors, Con Edison's grid telemetry (its outage map has no stable public feed) and the city's own traffic signal system.</li>
+    <li><b>Anything that identifies people.</b> Everything on the board measures water, air, vehicles in aggregate or infrastructure.</li>
+  </ul>
+
+  <h2>Confidence notes</h2>
+  <ul>
+    <li>Readings are relayed exactly as published, with unit conversions only (Celsius to Fahrenheit, meters to feet, kilometers per hour to miles per hour). High confidence in the relay; the sensors themselves carry the usual instrument error.</li>
+    <li>Derived numbers (averages, counts, percentage shares) are simple arithmetic over the latest readings, described on each tile. Medium-high confidence; the main risk is a source publishing a bad value, which this page does not attempt to detect beyond freshness checks.</li>
+    <li>The air-quality tile is a model, labeled as such. Treat it as context, not measurement.</li>
+    <li>This page is for curiosity and situational awareness, not safety-critical decisions.</li>
+  </ul>
+
+  <p style="margin-top:30px"><a href="index.html">&larr; Back to the board</a> &middot; <a href="https://github.com/joshgreenman1973/nyc-live-sensors">Source code</a></p>
+</main>
+</body>
+</html>

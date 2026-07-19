@@ -1,0 +1,40 @@
+name: Refresh sensor snapshot
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install protobuf bindings
+        run: npm install --no-save gtfs-realtime-bindings@1
+
+      - name: Build snapshot
+        run: node scripts/build-snapshot.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name "sensor-bot"
+          git config user.email "actions@github.com"
+          git add data/snapshot.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull --rebase origin main
+            git push
+          fi
