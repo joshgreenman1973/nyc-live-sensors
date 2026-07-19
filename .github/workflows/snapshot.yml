@@ -32,7 +32,7 @@ jobs:
         run: |
           git config user.name "sensor-bot"
           git config user.email "actions@github.com"
-          git add data/snapshot.json
+          git add data/snapshot.json data/stations.json
           if ! git diff --cached --quiet; then
             git commit -m "Snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
             git pull --rebase origin main

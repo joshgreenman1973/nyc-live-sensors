@@ -37,6 +37,14 @@
   </ul>
   <p>Every tile carries a status light: green means the latest reading is inside that feed's expected freshness window, amber means the feed is reachable but the reading is older than expected and red means the feed could not be read at all. The masthead counts how many of the feeds are currently reporting.</p>
 
+  <h2>The map</h2>
+  <p>The map plots every sensor that has a published location, colored by domain and toggleable by layer. Fixed instruments (tide gauges, the wave buoy, stream gauges, weather stations, flood sensors, cameras, bike docks) sit at their installed coordinates; moving things (aircraft, ferries) appear at their last transmitted position. Traffic sensors draw as their actual road segments, colored by the latest speed. Clicking a camera dot loads that camera's live frame.</p>
+  <ul>
+    <li>Camera and flood-sensor coordinates come from a <code>data/stations.json</code> file the snapshot script rewrites at most once a day (the hardware doesn't move; this keeps the every-15-minutes commits small). Aircraft refresh with their two-minute feed; ferry positions are up to about 15 minutes old and say so in their popup.</li>
+    <li>The traffic feed's coordinate strings are dirty — truncated pairs and dropped minus signs. Points outside a plausible New York box are discarded and lines are split where consecutive points jump implausibly far, so a small number of segments render partially.</li>
+    <li>Subway trains are counted on the board but not mapped: the public train feed reports positions by track segment and stop, not coordinates. The base map is CARTO's dark tiles over OpenStreetMap data.</li>
+  </ul>
+
   <h2>Source-by-source detail</h2>
   <div class="tablewrap">
   <table>

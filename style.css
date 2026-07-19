@@ -170,6 +170,59 @@ button.ai:hover { background: #93293a; }
 #ticker .t-dom-transit { color: var(--transit); }
 #ticker .t-dom-power { color: var(--power); }
 
+/* ---------- the map ---------- */
+#map-section { padding: 26px 40px 4px; }
+#map-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 12px; }
+.map-chip {
+  font-family: "Martian Mono", monospace;
+  font-size: 10.5px; font-weight: 500;
+  letter-spacing: .04em;
+  background: var(--panel);
+  color: var(--faint);
+  border: 1px solid var(--panel-edge);
+  padding: 6px 11px;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.map-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--chip); opacity: .35; }
+.map-chip.on { color: var(--ink); border-color: var(--faint); }
+.map-chip.on .dot { opacity: 1; box-shadow: 0 0 6px var(--chip); }
+.map-chip .n { color: var(--dim); }
+#map {
+  height: 560px;
+  border: 1px solid var(--panel-edge);
+  background: #05080b;
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+}
+#map-note {
+  font-family: "Martian Mono", monospace;
+  font-weight: 300; font-size: 10px;
+  color: var(--faint);
+  margin: 8px 0 0;
+  line-height: 1.5;
+}
+.leaflet-container { background: #05080b; font-family: "Archivo", sans-serif; }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: var(--navy); color: #e9eef5;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, .5);
+}
+.leaflet-popup-content { margin: 12px 14px; font-size: 12.5px; line-height: 1.5; }
+.mpop h5 {
+  font-variation-settings: "wdth" 116;
+  font-size: 11.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  margin: 0 0 5px;
+}
+.mpop b { font-family: "Martian Mono", monospace; font-weight: 500; font-size: 11.5px; }
+.mpop img.campop { display: block; width: 280px; max-width: 74vw; margin-top: 8px; background: #000; min-height: 120px; }
+.leaflet-bar a { background: var(--panel); color: var(--dim); border-color: var(--panel-edge); }
+.leaflet-bar a:hover { background: var(--panel-edge); color: var(--ink); }
+.leaflet-control-attribution { background: rgba(6, 9, 13, .7); color: var(--faint); font-size: 9px; }
+.leaflet-control-attribution a { color: var(--dim); }
+
 /* ---------- board ---------- */
 #board {
   display: grid;
@@ -359,6 +412,8 @@ footer p { margin-bottom: 8px; }
 
 @media (max-width: 760px) {
   #masthead { padding: 24px 18px 18px; }
+  #map-section { padding: 18px 14px 0; }
+  #map { height: 420px; }
   #board { padding: 18px 14px 40px; gap: 10px; }
   .mast-right { text-align: left; }
   .mast-nav { justify-content: flex-start; }

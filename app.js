@@ -124,7 +124,13 @@ let snapshot = null;
 async function loadSnapshot() {
   const bucket = Math.floor(Date.now() / 300000);
   snapshot = await getJSON(`data/snapshot.json?t=${bucket}`);
+  mapPush("floodnet"); mapPush("ferry");
 }
+
+/* ---------- shared state for the map ---------- */
+const STATE = {};       // latest parsed data per feed
+let stationsGeo = null; // data/stations.json — camera + flood-sensor locations
+function mapPush(id) { if (window.MAP?.ready) MAP.refresh(id); }
 
 /* =====================================================================
    FEED DEFINITIONS
@@ -164,6 +170,7 @@ const FEEDS = [
       });
       if (!rows.length) throw new Error("no observations");
       const dirTxt = d => d == null ? "" : ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"][Math.round(d / 22.5) % 16];
+      STATE.weather = rows; mapPush("weather");
       const others = rows.filter(r => r !== lead).map(r =>
         `<div class="r"><span>${r.station}</span><b>${Math.round(r.tempF)}°F</b></div>`).join("");
       setModule(f, stateFor(lead.time, 100),
@@ -208,6 +215,7 @@ const FEEDS = [
       const ac = (j.ac || []).filter(a => a.alt_baro !== "ground");
       const helis = ac.filter(a => a.category === "A7").length;
       const low = ac.filter(a => typeof a.alt_baro === "number" && a.alt_baro < 3000).length;
+      STATE.aircraft = ac; mapPush("aircraft");
       const now = new Date();
       setModule(f, "ok",
         `<div class="big">${fmtInt(ac.length)}</div>
@@ -264,6 +272,8 @@ const FEEDS = [
         const up = pred.predictions.map(p => ({ ...p, dt: parseETLocal(p.t) })).filter(p => p.dt > new Date())[0];
         if (up) next = `next ${up.type === "H" ? "high" : "low"} ${fmtTimeET(up.dt)} (${fmt1(parseFloat(up.v))} ft)`;
       }
+      STATE.battery = { lvl, next, tempF: wt?.data?.[0]?.v ? Math.round(parseFloat(wt.data[0].v)) : null, time: t };
+      mapPush("noaa");
       const temp = wt?.data?.[0]?.v ? `<div class="r"><span>Water temperature</span><b>${Math.round(parseFloat(wt.data[0].v))}°F</b></div>` : "";
       setModule(f, stateFor(t, 40),
         `<div class="big">${fmt1(lvl)}<span class="unit">ft</span></div>
@@ -283,6 +293,7 @@ const FEEDS = [
       const d = j?.data?.[0];
       if (!d) throw new Error("no data");
       const t = parseETLocal(d.t);
+      STATE.kingspoint = { lvl: parseFloat(d.v), time: t }; mapPush("noaa");
       setModule(f, stateFor(t, 40),
         `<div class="big">${fmt1(parseFloat(d.v))}<span class="unit">ft</span></div>
          <div class="big-label">above mean lower low water — the Sound often runs a beat apart from the harbor</div>`, t);
@@ -301,13 +312,16 @@ const FEEDS = [
       const sites = ts.map(s => {
         const vals = s.values?.[0]?.value || [];
         const last = vals[vals.length - 1];
+        const geo = s.sourceInfo.geoLocation?.geogLocation;
         return last ? {
           name: s.sourceInfo.siteName,
           val: parseFloat(last.value),
-          time: new Date(last.dateTime)
+          time: new Date(last.dateTime),
+          lat: geo?.latitude, lon: geo?.longitude
         } : null;
       }).filter(Boolean).filter(s => !isNaN(s.val));
       if (!sites.length) throw new Error("no gauges");
+      STATE.usgs = sites; mapPush("usgs");
       const newest = sites.reduce((a, b) => a.time > b.time ? a : b).time;
       const short = n => n.replace(/\b(AT|NEAR|NR)\b.*$/i, "").replace(/,?\s*NY.*/i, "").trim().toLowerCase()
         .replace(/\b\w/g, c => c.toUpperCase());
@@ -423,6 +437,7 @@ const FEEDS = [
         docks += s.num_docks_available || 0;
         if (s.is_renting) renting++;
       });
+      STATE.bikeStatus = st; mapPush("citibike");
       const t = new Date((j.last_updated || 0) * 1000);
       setModule(f, stateFor(t, 15),
         `<div class="big">${fmtInt(bikes)}</div>
@@ -536,6 +551,260 @@ function startCameraRotation(cams) {
   camTimer = setInterval(show, 9000);
 }
 
+/* =====================================================================
+   THE MAP — every sensor with a location, one Leaflet canvas.
+   Fixed instruments render as dots; live things (aircraft, ferries,
+   wet flood sensors) re-render as their feeds refresh.
+   ===================================================================== */
+
+const MAP = window.MAP = {
+  ready: false, map: null, layers: {},
+
+  DEFS: [
+    { id: "floodnet", label: "Flood sensors", color: "#53d7f0", on: true },
+    { id: "noaa",     label: "Tide gauges + buoy", color: "#53d7f0", on: true },
+    { id: "usgs",     label: "Stream gauges", color: "#8fe3f5", on: true },
+    { id: "weather",  label: "Weather stations", color: "#ffb454", on: true },
+    { id: "aircraft", label: "Aircraft", color: "#ffb454", on: true },
+    { id: "traffic",  label: "Traffic speed", color: "#ff6d3d", on: true },
+    { id: "cameras",  label: "Cameras", color: "#ff6d3d", on: true },
+    { id: "citibike", label: "Citi Bike docks", color: "#ef7fd4", on: false },
+    { id: "ferry",    label: "Ferries", color: "#ef7fd4", on: true }
+  ],
+
+  init() {
+    if (typeof L === "undefined" || !document.getElementById("map")) return;
+    this.map = L.map("map", {
+      center: [40.72, -73.94], zoom: 11, zoomSnap: 0.5,
+      renderer: L.canvas({ padding: 0.4 }),
+      attributionControl: false, scrollWheelZoom: false
+    });
+    L.control.attribution({ prefix: false })
+      .addAttribution('&copy; <a href="https://carto.com/attributions">CARTO</a> &copy; OpenStreetMap')
+      .addTo(this.map);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", { maxZoom: 19 }).addTo(this.map);
+
+    const chips = document.getElementById("map-chips");
+    for (const d of this.DEFS) {
+      this.layers[d.id] = { ...d, group: L.layerGroup(), count: null };
+      if (d.on) this.layers[d.id].group.addTo(this.map);
+      const b = document.createElement("button");
+      b.className = "map-chip" + (d.on ? " on" : "");
+      b.style.setProperty("--chip", d.color);
+      b.dataset.layer = d.id;
+      b.innerHTML = `<span class="dot"></span>${d.label}<span class="n"></span>`;
+      b.addEventListener("click", () => this.toggle(d.id, b));
+      chips.appendChild(b);
+      this.layers[d.id].chip = b;
+    }
+    this.ready = true;
+    for (const id of Object.keys(this.layers)) this.refresh(id);
+  },
+
+  toggle(id, btn) {
+    const l = this.layers[id];
+    l.on = !l.on;
+    btn.classList.toggle("on", l.on);
+    if (l.on) { l.group.addTo(this.map); this.refresh(id); }
+    else l.group.remove();
+  },
+
+  setCount(id, n) {
+    const l = this.layers[id];
+    if (l?.chip) l.chip.querySelector(".n").textContent = n == null ? "" : ` · ${fmtInt(n)}`;
+  },
+
+  dot(lat, lon, opts) {
+    return L.circleMarker([lat, lon], {
+      radius: 4, weight: 1, color: opts.color, fillColor: opts.fill || opts.color,
+      fillOpacity: opts.fillOpacity ?? 0.75, opacity: opts.opacity ?? 0.95, ...opts
+    });
+  },
+
+  pop(html) { return `<div class="mpop">${html}</div>`; },
+
+  refresh(id) {
+    if (!this.ready) return;
+    const l = this.layers[id];
+    if (!l || !l.on) return;
+    try { this["draw_" + id](l); } catch (e) { console.warn("map", id, e.message); }
+  },
+
+  /* ---- fixed water instruments: NOAA tide stations + wave buoy ---- */
+  draw_noaa(l) {
+    l.group.clearLayers();
+    const items = [
+      { lat: 40.7006, lon: -74.0142, name: "The Battery tide gauge",
+        body: () => STATE.battery ? `water level <b>${fmt1(STATE.battery.lvl)} ft</b>${STATE.battery.tempF ? ` · water ${STATE.battery.tempF}°F` : ""}${STATE.battery.next ? `<br>${STATE.battery.next}` : ""}` : "awaiting reading" },
+      { lat: 40.8103, lon: -73.7649, name: "Kings Point tide gauge",
+        body: () => STATE.kingspoint ? `water level <b>${fmt1(STATE.kingspoint.lvl)} ft</b>` : "awaiting reading" },
+      { lat: 40.369, lon: -73.703, name: "Buoy 44065 — harbor entrance",
+        body: () => {
+          const b = snapshot?.buoy;
+          return b?.waveHeightM != null ? `waves <b>${fmt1(mToFt(b.waveHeightM))} ft</b> every ${Math.round(b.domPeriodS ?? 0)} sec · water ${Math.round(cToF(b.waterTempC ?? 0))}°F` : "awaiting reading";
+        } }
+    ];
+    for (const it of items) {
+      const m = this.dot(it.lat, it.lon, { color: "#53d7f0", radius: 6 });
+      m.bindPopup(() => this.pop(`<h5>${it.name}</h5>${it.body()}`));
+      l.group.addLayer(m);
+    }
+    this.setCount("noaa", items.length);
+  },
+
+  /* ---- USGS stream gauges ---- */
+  draw_usgs(l) {
+    if (!STATE.usgs) return;
+    l.group.clearLayers();
+    for (const s of STATE.usgs) {
+      if (s.lat == null) continue;
+      const m = this.dot(s.lat, s.lon, { color: "#8fe3f5", radius: 5 });
+      m.bindPopup(this.pop(`<h5>${s.name.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}</h5>gauge height <b>${fmt1(s.val)} ft</b><br>as of ${fmtTimeET(s.time)}`));
+      l.group.addLayer(m);
+    }
+    this.setCount("usgs", STATE.usgs.length);
+  },
+
+  /* ---- FloodNet: all sensors dim, wet ones bright ---- */
+  draw_floodnet(l) {
+    if (!stationsGeo?.floodnet) return;
+    l.group.clearLayers();
+    const wet = new Map((snapshot?.floodnet?.wet || []).map(w => [w.id, w]));
+    for (const [lat, lon, name, sid] of stationsGeo.floodnet) {
+      const w = wet.get(sid);
+      const m = this.dot(lat, lon, w
+        ? { color: "#53d7f0", radius: 7, fillOpacity: 0.95 }
+        : { color: "#2e6b7d", radius: 2.5, weight: 0, fillOpacity: 0.55 });
+      m.bindPopup(this.pop(`<h5>${name}</h5>${w ? `<b>${fmt1(w.depthIn)} in of water on the street</b>` : "street flood sensor — currently dry"}`));
+      l.group.addLayer(m);
+    }
+    this.setCount("floodnet", stationsGeo.floodnet.length);
+  },
+
+  /* ---- weather stations ---- */
+  draw_weather(l) {
+    l.group.clearLayers();
+    const coords = { "Central Park": [40.7789, -73.9692], "LaGuardia": [40.7794, -73.8803], "Kennedy Airport": [40.6386, -73.7622] };
+    let n = 0;
+    for (const [name, [lat, lon]] of Object.entries(coords)) {
+      const r = STATE.weather?.find(x => x.station === name);
+      const m = this.dot(lat, lon, { color: "#ffb454", radius: 6 });
+      m.bindPopup(() => this.pop(`<h5>${name} weather station</h5>${r ? `<b>${Math.round(r.tempF)}°F</b>${r.desc ? ` · ${r.desc}` : ""}${r.wind != null ? ` · wind ${Math.round(r.wind)} mph` : ""}` : "awaiting observation"}`));
+      l.group.addLayer(m); n++;
+    }
+    this.setCount("weather", n);
+  },
+
+  /* ---- aircraft (live) ---- */
+  draw_aircraft(l) {
+    if (!STATE.aircraft) return;
+    l.group.clearLayers();
+    let n = 0;
+    for (const a of STATE.aircraft) {
+      if (a.lat == null || a.lon == null) continue;
+      const heli = a.category === "A7";
+      const m = this.dot(a.lat, a.lon, { color: heli ? "#ffe08a" : "#ffb454", radius: heli ? 5 : 3.5, fillOpacity: 0.9 });
+      const alt = typeof a.alt_baro === "number" ? `${fmtInt(a.alt_baro)} ft` : a.alt_baro || "—";
+      m.bindPopup(this.pop(`<h5>${(a.flight || a.r || "aircraft").trim()}${heli ? " · helicopter" : ""}</h5>altitude <b>${alt}</b>${a.gs ? ` · ${Math.round(a.gs)} kt` : ""}${a.t ? ` · ${a.t}` : ""}`));
+      l.group.addLayer(m); n++;
+    }
+    this.setCount("aircraft", n);
+  },
+
+  /* ---- traffic sensors as speed-colored road segments ---- */
+  trafficCache: { t: 0, rows: null },
+  async draw_traffic(l) {
+    if (Date.now() - this.trafficCache.t > 10 * 60000) {
+      this.trafficCache.t = Date.now(); // set before await so concurrent calls don't double-fetch
+      const j = await getJSON("https://data.cityofnewyork.us/resource/i4gi-tjb9.json?$select=id,speed,link_name,link_points,data_as_of&$order=data_as_of%20DESC&$limit=1500");
+      const seen = new Set();
+      this.trafficCache.rows = j.filter(r => {
+        if (seen.has(r.id)) return false;
+        seen.add(r.id); return true;
+      });
+    }
+    if (!this.trafficCache.rows) return;
+    l.group.clearLayers();
+    const ramp = s => s < 10 ? "#ff5d5d" : s < 20 ? "#ff8a4d" : s < 35 ? "#ffc14d" : "#57b890";
+    let n = 0;
+    for (const r of this.trafficCache.rows) {
+      const spd = parseFloat(r.speed);
+      if (isNaN(spd) || !r.link_points) continue;
+      // the feed's coordinate strings are dirty: truncated pairs, dropped
+      // minus signs. Keep only plausible NYC-area points and split the line
+      // wherever consecutive points jump implausibly far.
+      const pts = r.link_points.trim().split(/\s+/).map(p => {
+        const [la, lo] = p.split(",").map(Number);
+        return la > 40 && la < 41.6 && lo > -75.5 && lo < -71.5 ? [la, lo] : null;
+      }).filter(Boolean);
+      if (pts.length < 2) continue;
+      const segs = [[pts[0]]];
+      for (let i = 1; i < pts.length; i++) {
+        const [pa, po] = pts[i - 1], [ca, co] = pts[i];
+        if (Math.abs(ca - pa) > 0.03 || Math.abs(co - po) > 0.03) segs.push([pts[i]]);
+        else segs[segs.length - 1].push(pts[i]);
+      }
+      let drew = false;
+      for (const seg of segs) {
+        if (seg.length < 2) continue;
+        const line = L.polyline(seg, { color: ramp(spd), weight: 3, opacity: 0.75 });
+        line.bindPopup(this.pop(`<h5>${r.link_name || "road segment"}</h5><b>${fmt1(spd)} mph</b> in the latest transmission`));
+        l.group.addLayer(line); drew = true;
+      }
+      if (drew) n++;
+    }
+    this.setCount("traffic", n);
+  },
+
+  /* ---- traffic cameras: click for the live frame ---- */
+  draw_cameras(l) {
+    if (!stationsGeo?.cameras) return;
+    l.group.clearLayers();
+    for (const [lat, lon, name, cid] of stationsGeo.cameras) {
+      const m = this.dot(lat, lon, { color: "#ff6d3d", radius: 2.5, weight: 0, fillOpacity: 0.6 });
+      m.bindPopup(this.pop(`<h5>${name}</h5><img class="campop" alt="live camera frame" src="https://webcams.nyctmc.org/api/cameras/${cid}/image?t=${Math.floor(Date.now() / 30000)}">`), { minWidth: 290 });
+      l.group.addLayer(m);
+    }
+    this.setCount("cameras", stationsGeo.cameras.length);
+  },
+
+  /* ---- Citi Bike docks (off by default: 2,000+ dots) ---- */
+  bikeInfo: null,
+  async draw_citibike(l) {
+    if (!this.bikeInfo) {
+      const j = await getJSON("https://gbfs.citibikenyc.com/gbfs/en/station_information.json");
+      this.bikeInfo = new Map((j?.data?.stations || []).map(s => [s.station_id, s]));
+    }
+    if (!STATE.bikeStatus) return;
+    l.group.clearLayers();
+    let n = 0;
+    for (const s of STATE.bikeStatus) {
+      const info = this.bikeInfo.get(s.station_id);
+      if (!info) continue;
+      const bikes = s.num_bikes_available || 0;
+      const m = this.dot(info.lat, info.lon, {
+        color: bikes ? "#ef7fd4" : "#5a3550", radius: 2, weight: 0,
+        fillOpacity: bikes ? 0.7 : 0.45
+      });
+      m.bindPopup(this.pop(`<h5>${info.name}</h5><b>${bikes} bikes</b> (${s.num_ebikes_available || 0} electric) · ${s.num_docks_available || 0} open docks`));
+      l.group.addLayer(m); n++;
+    }
+    this.setCount("citibike", n);
+  },
+
+  /* ---- ferries (positions from the snapshot) ---- */
+  draw_ferry(l) {
+    l.group.clearLayers();
+    const boats = snapshot?.ferry?.positions || [];
+    for (const b of boats) {
+      const m = this.dot(b.lat, b.lon, { color: "#ef7fd4", radius: 6 });
+      m.bindPopup(this.pop(`<h5>NYC Ferry ${b.label}</h5>position as of the last snapshot (up to 15 min old)`));
+      l.group.addLayer(m);
+    }
+    this.setCount("ferry", boats.length);
+  }
+};
+
 /* ---------- sections + boot ---------- */
 
 const SECTIONS = [
@@ -567,9 +836,18 @@ async function runFeed(f) {
   }
 }
 
+async function loadStationsGeo() {
+  const bucket = Math.floor(Date.now() / 3600000);
+  stationsGeo = await getJSON(`data/stations.json?t=${bucket}`);
+  mapPush("floodnet"); mapPush("cameras");
+}
+
 async function boot() {
   build();
   try { await loadSnapshot(); } catch (e) { console.warn("snapshot", e.message); }
+  MAP.init();
+  loadStationsGeo().catch(e => console.warn("stations", e.message));
+  setInterval(() => loadStationsGeo().catch(() => {}), 3600 * 1000);
   FEEDS.forEach((f, i) => {
     setTimeout(() => {
       runFeed(f);

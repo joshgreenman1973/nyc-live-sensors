@@ -1,21 +1,21 @@
 {
- "generated": "2026-07-19T12:33:33.114Z",
+ "generated": "2026-07-19T12:45:28.718Z",
  "nyiso": {
-  "nycLoadMw": 5791.3223,
-  "isoLoadMw": 15390.015,
-  "asOf": "2026-07-19T12:20:00.000Z",
+  "nycLoadMw": 5835.258,
+  "isoLoadMw": 15371.429900000001,
+  "asOf": "2026-07-19T12:30:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3207
+    "mw": 3265
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3074
+    "mw": 3089
    },
    {
     "fuel": "Nuclear",
-    "mw": 3241
+    "mw": 3242
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,18 +23,18 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 551
+    "mw": 547
    },
    {
     "fuel": "Wind",
-    "mw": 743
+    "mw": 710
    },
    {
     "fuel": "Hydro",
-    "mw": 2124
+    "mw": 2099
    }
   ],
-  "fuelAsOf": "2026-07-19T12:15:00.000Z"
+  "fuelAsOf": "2026-07-19T12:30:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.8,
@@ -46,98 +46,191 @@
   "asOf": "2026-07-19T11:50:00.000Z"
  },
  "subway": {
-  "trains": 323,
+  "trains": 332,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 20,
-  "asOf": "2026-07-19T12:33:34.373Z"
+  "alerts": 21,
+  "asOf": "2026-07-19T12:45:30.024Z"
  },
  "ferry": {
-  "vessels": 15,
-  "asOf": "2026-07-19T12:33:34.540Z"
- },
- "cameras": {
-  "total": 956,
-  "list": [
+  "vessels": 18,
+  "positions": [
    {
-    "name": "Hutchhinson River Pkwy @ Waterbury Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/bfeb2434-fd55-4024-8172-f9602ea6ae06/image"
+    "lat": 40.70335,
+    "lon": -74.00536,
+    "label": "H101"
    },
    {
-    "name": "BB-51 North West Brooklyn Tower",
-    "url": "https://webcams.nyctmc.org/api/cameras/df5bc905-6296-4f6e-ae6e-20a39b56da43/image"
+    "lat": 40.70858,
+    "lon": -74.02679,
+    "label": "H103"
    },
    {
-    "name": "Van Dam St @ 48 Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/8645493f-d08c-4c0e-a572-b40f5fbeec56/image"
+    "lat": 40.75779,
+    "lon": -73.95033,
+    "label": "H106"
    },
    {
-    "name": "West street underpass entrance",
-    "url": "https://webcams.nyctmc.org/api/cameras/5efba010-6a58-4df5-ae2c-ef1eda48fad0/image"
+    "lat": 40.70302,
+    "lon": -73.97668,
+    "label": "H107"
    },
    {
-    "name": "C3-SIE-04A-WB_at_Richmond Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/ef24beea-023c-4377-86c9-f9c8836c961b/image"
+    "lat": 40.73519,
+    "lon": -73.96956,
+    "label": "H108"
    },
    {
-    "name": "C1-MDE-02-NB_at_Willis_Ave-Ex2",
-    "url": "https://webcams.nyctmc.org/api/cameras/a654976f-34a5-46d3-a57d-efe949153f41/image"
+    "lat": 40.62167,
+    "lon": -74.04484,
+    "label": "H109"
    },
    {
-    "name": "Flatbush Ave @ Kings Hwy",
-    "url": "https://webcams.nyctmc.org/api/cameras/fbaafcae-6f48-46ab-b6c7-b8919bcd5986/image"
+    "lat": 40.73163,
+    "lon": -73.96379,
+    "label": "H208"
    },
    {
-    "name": "Clearview Expy @ 26 Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/90775fd8-1c70-42f1-aee1-594db85be7ba/image"
+    "lat": 40.58392,
+    "lon": -73.83148,
+    "label": "SB402"
    },
    {
-    "name": "Canal Street @ Chrystie Street",
-    "url": "https://webcams.nyctmc.org/api/cameras/8cc75cbc-e050-4947-aee8-639f63fe4ca7/image"
+    "lat": 40.58417,
+    "lon": -73.83188,
+    "label": "H111"
    },
    {
-    "name": "Victory Blvd @ Morani St-131.26",
-    "url": "https://webcams.nyctmc.org/api/cameras/f51e9c5b-2698-4777-a6be-1e1994b334c2/image"
+    "lat": 40.8026,
+    "lon": -73.84288,
+    "label": "H115"
    },
    {
-    "name": "Grand Concourse @ E 149 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/62380b5a-8960-4c2b-9125-d7f088605a7f/image"
+    "lat": 40.70323,
+    "lon": -73.97655,
+    "label": "H113"
    },
    {
-    "name": "WBB-26 SIR @ Kent Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/9c0718c5-0ae9-4170-bea0-9b5d7d61e0c4/image"
+    "lat": 40.70389,
+    "lon": -73.97626,
+    "label": "H215"
    },
    {
-    "name": "Northern Blvd @ Parsons Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/40ffec9e-3d55-454f-927e-6a602869a451/image"
+    "lat": 40.70704,
+    "lon": -73.9902,
+    "label": "H091"
    },
    {
-    "name": "Rockefeller Plaza @ W 50 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/e38fd7b8-c074-4b6e-bc52-4dd932145239/image"
+    "lat": 40.7033,
+    "lon": -73.97717,
+    "label": "H401"
    },
    {
-    "name": "SIE @ Clove Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/2d1ed99a-c3d3-4616-a0d6-a9fe16f3e48c/image"
+    "lat": 40.70433,
+    "lon": -73.97656,
+    "label": "H301"
    },
    {
-    "name": "C1-MDE-11-NB_at_W.179th_St-Ex8",
-    "url": "https://webcams.nyctmc.org/api/cameras/b9ba6a87-0e0b-4c5a-ad6a-7ead399e0864/image"
+    "lat": 40.70312,
+    "lon": -74.00666,
+    "label": "H501"
    },
    {
-    "name": "Columbia St @ Degraw St",
-    "url": "https://webcams.nyctmc.org/api/cameras/d3ab8634-97be-4229-9aa3-c3637ff66ea9/image"
+    "lat": 40.70252,
+    "lon": -73.97632,
+    "label": "H122"
    },
    {
-    "name": "Northern Blvd @ 61 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/9c4194e4-adfb-4a35-a4ef-c8411459545b/image"
+    "lat": 40.68116,
+    "lon": -74.01331,
+    "label": "H123"
    }
   ],
-  "asOf": "2026-07-19T12:33:35.308Z"
+  "asOf": "2026-07-19T12:45:30.190Z"
+ },
+ "cameras": {
+  "total": 955,
+  "list": [
+   {
+    "name": "Hutchhinson River Pkwy @ Bruckner Expy",
+    "url": "https://webcams.nyctmc.org/api/cameras/c90f122a-2ea4-4614-b434-3599bcb04a19/image"
+   },
+   {
+    "name": "7 Ave @ Union St",
+    "url": "https://webcams.nyctmc.org/api/cameras/2064d8ab-597a-45d8-a3c9-5ab95a4e69e6/image"
+   },
+   {
+    "name": "LIE @ Oceania St",
+    "url": "https://webcams.nyctmc.org/api/cameras/fcd793fc-d600-40a6-949b-b168d96368fd/image"
+   },
+   {
+    "name": "7 Ave @ 43 St - 64.186 - PTZ",
+    "url": "https://webcams.nyctmc.org/api/cameras/bc2fd2da-1d56-46fa-a1ab-8674fac93877/image"
+   },
+   {
+    "name": "Amboy Rd @ Nelson Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/5920b7ab-9e05-429f-971a-b235f3ea8dd9/image"
+   },
+   {
+    "name": "Pelham Pkwy W/B @ Boston Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/b2924000-6eb1-4449-b201-01c0653b6c68/image"
+   },
+   {
+    "name": "Adams St @ Tillary St",
+    "url": "https://webcams.nyctmc.org/api/cameras/5bd248b9-1dab-4118-b4b2-d3ef3fbd7085/image"
+   },
+   {
+    "name": "QBB LL CM @ 11 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/282429c3-3f55-4fa6-bca2-b128262699d4/image"
+   },
+   {
+    "name": "2 Ave @ 72 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/5674d0ea-703a-43c3-bea7-2b372d1eb00b/image"
+   },
+   {
+    "name": "C3-SIE-06A-E_at_Crafton_Ave_Ex10",
+    "url": "https://webcams.nyctmc.org/api/cameras/cea3d6a8-b248-441a-8acd-188ffa5ea630/image"
+   },
+   {
+    "name": "C1-MDE-12-SB_at_Heath_Ave-Ex9",
+    "url": "https://webcams.nyctmc.org/api/cameras/1a626331-3c36-48bd-91a5-edd930c314c0/image"
+   },
+   {
+    "name": "BB-72 South Rdwy @ Front St",
+    "url": "https://webcams.nyctmc.org/api/cameras/0e8def41-11e2-45de-a8f6-b746b805b7c5/image"
+   },
+   {
+    "name": "Roosevelt Ave @ Broadway &  74 st",
+    "url": "https://webcams.nyctmc.org/api/cameras/9d7c4525-fba3-4ffe-ae79-f814f7dccf4e/image"
+   },
+   {
+    "name": "Water St @ John St",
+    "url": "https://webcams.nyctmc.org/api/cameras/ecdddb78-10be-47c6-ba27-e5d9da6b9a22/image"
+   },
+   {
+    "name": "Hylan Blvd @ Richmond Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/6e9a1a7e-63ad-4cab-b14a-1864040409fb/image"
+   },
+   {
+    "name": "C1-CBE-01_N_NB_at_Amsterdam_Ave-Ex-HRD",
+    "url": "https://webcams.nyctmc.org/api/cameras/749f7d56-21e8-4716-8efc-624723f5b9a8/image"
+   },
+   {
+    "name": "Sands St @ Pearl St",
+    "url": "https://webcams.nyctmc.org/api/cameras/82ff853c-50e3-403a-855b-5f17708a4f38/image"
+   },
+   {
+    "name": "Belt Pkwy @ Guy R Brewer Blvd",
+    "url": "https://webcams.nyctmc.org/api/cameras/f4633287-e3eb-463e-a73c-0917e6243c5b/image"
+   }
+  ],
+  "asOf": "2026-07-19T12:45:30.780Z"
  },
  "floodnet": {
   "sensors": 373,
   "flooding": 0,
   "wettest": null,
-  "asOf": "2026-07-19T12:28:48.000Z"
+  "wet": [],
+  "asOf": "2026-07-19T12:43:12.000Z"
  }
 }

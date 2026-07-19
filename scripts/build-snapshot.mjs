@@ -157,13 +157,24 @@ async function subway() {
 /* ---------- NYC Ferry vessel positions ---------- */
 async function ferry() {
   const feed = await fetchProto("http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/vehicleposition");
-  snapshot.ferry = { vessels: feed.entity.filter(e => e.vehicle).length, asOf: now() };
+  const boats = feed.entity.filter(e => e.vehicle?.position);
+  snapshot.ferry = {
+    vessels: feed.entity.filter(e => e.vehicle).length,
+    positions: boats.map(e => ({
+      lat: +e.vehicle.position.latitude.toFixed(5),
+      lon: +e.vehicle.position.longitude.toFixed(5),
+      label: e.vehicle.vehicle?.label || e.vehicle.vehicle?.id || "ferry"
+    })),
+    asOf: now()
+  };
 }
 
 /* ---------- DOT traffic cameras: a spread of online cameras ---------- */
+let allCameras = null; // stashed for the daily stations file
 async function cameras() {
   const list = await fetchJSON("https://webcams.nyctmc.org/api/cameras");
   const online = list.filter(c => String(c.isOnline).toLowerCase() === "true");
+  allCameras = online;
   // round-robin across boroughs/areas for geographic spread
   const byArea = {};
   online.forEach(c => (byArea[c.area || "other"] = byArea[c.area || "other"] || []).push(c));
@@ -189,6 +200,7 @@ async function cameras() {
    FloodNet's own dataviz runs on FieldKit; project 174 is "NYC FloodNet".
    We list the project's stations, then pull each recently-updated station's
    latest depth reading. */
+let fnStations = null; // stashed for the daily stations file
 async function floodnet() {
   const j = await fetchJSON("https://api.fieldkit.org/projects/174/stations");
   const stations = j.stations || [];
@@ -196,6 +208,7 @@ async function floodnet() {
   const cutoff = Date.now() - 48 * 3600 * 1000;
   const active = stations.filter(s => (s.updatedAt || 0) > cutoff);
   if (!active.length) throw new Error("no recently-updated FloodNet stations");
+  fnStations = active;
 
   /* Sensor 44 is wh.floodnet.depth; per FloodNet's published schema, depth is
      in millimeters. The tail endpoint returns the last few buckets per station. */
@@ -218,19 +231,48 @@ async function floodnet() {
     }
   }
   // only count stations whose latest depth bucket is from the last 6 hours
+  const locs = new Map(active.map(s => [s.id, s.location?.precise])); // [lon, lat]
   const cutoffRead = Date.now() - 6 * 3600 * 1000;
   let reporting = 0, flooding = 0, wettest = null, newestMs = 0;
+  const wet = [];
   for (const [id, r] of latest) {
     if (r.time < cutoffRead) continue;
     reporting++;
     newestMs = Math.max(newestMs, r.time);
     if (r.mm > 25.4) { // more than an inch of water
       flooding++;
+      const p = locs.get(id);
+      wet.push({ id, name: names.get(id) || "sensor", mm: r.mm, depthIn: r.mm / 25.4, lat: p?.[1], lon: p?.[0] });
       if (!wettest || r.mm > wettest.mm) wettest = { name: names.get(id) || "sensor", mm: r.mm, depthIn: r.mm / 25.4 };
     }
   }
   if (!reporting) throw new Error("FloodNet stations listed but no fresh depth readings");
-  snapshot.floodnet = { sensors: reporting, flooding, wettest, asOf: new Date(newestMs).toISOString() };
+  snapshot.floodnet = { sensors: reporting, flooding, wettest, wet, asOf: new Date(newestMs).toISOString() };
+}
+
+/* ---------- daily positions file for the map ----------
+   Camera and FloodNet sensor locations barely move, so they live in
+   data/stations.json, rewritten at most once a day to keep the
+   every-15-minutes commits small. */
+function stationsFile() {
+  const path = new URL("../data/stations.json", import.meta.url).pathname;
+  let prev = null;
+  if (existsSync(path)) { try { prev = JSON.parse(readFileSync(path, "utf8")); } catch {} }
+  if (prev?.generated && Date.now() - Date.parse(prev.generated) < 20 * 3600 * 1000) return;
+  if (!allCameras || !fnStations) { console.error("stations file skipped (source lists unavailable)"); return; }
+  const out = {
+    generated: now(),
+    // compact rows: [lat, lon, name, id]
+    cameras: allCameras
+      .filter(c => c.latitude && c.longitude)
+      .map(c => [+(+c.latitude).toFixed(5), +(+c.longitude).toFixed(5),
+        String(c.name || "").replace(/\s*-\s*quad.*$/i, "").trim(), c.id]),
+    floodnet: fnStations
+      .filter(s => s.location?.precise)
+      .map(s => [+s.location.precise[1].toFixed(5), +s.location.precise[0].toFixed(5), s.name, s.id])
+  };
+  writeFileSync(path, JSON.stringify(out));
+  console.log("wrote", path, `(${out.cameras.length} cameras, ${out.floodnet.length} flood sensors)`);
 }
 
 /* ---------- run everything, carry stale sections forward ---------- */
@@ -250,3 +292,4 @@ for (const [name, job] of Object.entries(jobs)) {
 mkdirSync(new URL("../data/", import.meta.url).pathname, { recursive: true });
 writeFileSync(OUT, JSON.stringify(snapshot, null, 1));
 console.log("wrote", OUT);
+stationsFile();

@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62.5..125,100..900;1,62.5..125,100..900&family=Martian+Mono:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='none' stroke='%2353d7f0' stroke-width='8'/><circle cx='50' cy='50' r='10' fill='%2353d7f0'/></svg>">
 </head>
@@ -42,6 +43,17 @@
 
 <div id="ticker-wrap" aria-hidden="true"><div id="ticker"></div></div>
 
+<section id="map-section">
+  <div class="section-head" data-domain="water" style="margin-top:0">
+    <h2 style="color:var(--ink)">The map</h2>
+    <div class="rule" style="background:var(--faint)"></div>
+    <span class="sub">every sensor with a location · toggle layers · click anything</span>
+  </div>
+  <div id="map-chips"></div>
+  <div id="map"></div>
+  <p id="map-note">Subway trains are counted on the board but not mapped — the public train feed reports positions by track segment, not coordinates. Weather radar is imagery, shown in its own panel below.</p>
+</section>
+
 <main id="board"></main>
 
 <footer>
@@ -49,6 +61,7 @@
   <p>A <a href="https://joshgreenman.com">Josh Greenman</a> experiment &middot; Built July 2026 &middot; <a href="https://github.com/joshgreenman1973/nyc-live-sensors">Source</a></p>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
