@@ -503,17 +503,30 @@ const FEEDS = [
 
   {
     id: "cameras", domain: "streets", title: "Traffic cameras", wide: true,
-    instrument: "A rotating eye from the city's network of about 950 traffic cameras",
+    instrument: "The city's network of about 950 traffic cameras — sit back for the tour, or click any dot on the little map to look through that lens",
     source: "NYC Department of Transportation traffic management center",
     every: 900, fromSnapshot: true,
     async run(f) {
       const cams = snapshot?.cameras;
       if (!cams?.list?.length) throw new Error("no camera list");
-      setModule(f, "ok",
-        `<div class="camframe"><img id="camimg" src="" alt="live traffic camera"><div class="scan"></div><div class="camlabel" id="camlabel"></div></div>`,
-        new Date(snapshot.generated));
-      startCameraRotation(cams);
-      report(f, true, `TRAFFIC CAMERAS <span class="t-val">${fmtInt(cams.total || cams.length)}</span> ONLINE`);
+      if (!document.getElementById("camwrap")) {
+        setModule(f, "ok",
+          `<div class="camwrap" id="camwrap">
+             <div class="camframe">
+               <img id="camimg" src="" alt="live traffic camera">
+               <div class="scan"></div>
+               <button id="camresume">&#9654; resume tour</button>
+               <div class="camlabel" id="camlabel"></div>
+             </div>
+             <div id="cammini" aria-label="every camera location — click one to view it"></div>
+           </div>`,
+          new Date(snapshot.generated));
+        startCameraRotation(cams);
+        buildCameraMiniMap();
+      } else {
+        setModule(f, "ok", null, new Date(snapshot.generated));
+      }
+      report(f, true, `TRAFFIC CAMERAS <span class="t-val">${fmtInt(cams.total || cams.list.length)}</span> ONLINE`);
     }
   },
 
@@ -805,22 +818,69 @@ function coopsDate() {
   return p[0] + p[1] + p[2];
 }
 
-/* ---------- camera rotation ---------- */
-let camTimer = null;
+/* ---------- camera tour + click-anywhere mini-map ---------- */
+let camTimer = null, camTouring = true, camMini = null, camSelDot = null;
+
+function showCamera(cam, manual) {
+  const img = $("#camimg"), lab = $("#camlabel"), btn = $("#camresume");
+  if (!img) return;
+  img.src = `${cam.url}?t=${Date.now()}`;
+  lab.textContent = cam.name;
+  if (manual) {
+    camTouring = false;
+    if (btn) btn.style.display = "block";
+  }
+}
+
 function startCameraRotation(cams) {
   clearInterval(camTimer);
   const list = cams.list || cams;
   let i = Math.floor(Math.random() * list.length);
-  const show = () => {
-    const c = list[i % list.length];
-    const img = $("#camimg"), lab = $("#camlabel");
-    if (!img) return clearInterval(camTimer);
-    img.src = `${c.url}?t=${Date.now()}`;
-    lab.textContent = c.name;
+  camTouring = true;
+  const tick = () => {
+    if (!$("#camimg")) return clearInterval(camTimer);
+    if (!camTouring) return;
+    showCamera(list[i % list.length], false);
     i++;
   };
-  show();
-  camTimer = setInterval(show, 9000);
+  tick();
+  camTimer = setInterval(tick, 9000);
+  const btn = $("#camresume");
+  if (btn) btn.addEventListener("click", () => {
+    btn.style.display = "none";
+    if (camSelDot) { camSelDot.setStyle({ radius: 3, fillOpacity: 0.55 }); camSelDot = null; }
+    camTouring = true;
+    tick();
+  });
+}
+
+function buildCameraMiniMap() {
+  if (typeof L === "undefined") return;
+  const tryBuild = () => {
+    const el = document.getElementById("cammini");
+    if (!el || camMini) return;
+    if (!stationsGeo?.cameras) { setTimeout(tryBuild, 1500); return; }
+    camMini = L.map(el, {
+      center: [40.69, -73.97], zoom: 9.5, zoomSnap: 0.5,
+      renderer: L.canvas({ padding: 0.3 }),
+      attributionControl: false, scrollWheelZoom: false
+    });
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", { maxZoom: 19 }).addTo(camMini);
+    window._camDots = [];
+    for (const [lat, lon, name, cid] of stationsGeo.cameras) {
+      const d = L.circleMarker([lat, lon], { radius: 3, weight: 0, fillColor: "#ff6d3d", fillOpacity: 0.55 });
+      d.on("click", () => {
+        if (camSelDot) camSelDot.setStyle({ radius: 3, fillOpacity: 0.55 });
+        d.setStyle({ radius: 6, fillOpacity: 1 });
+        camSelDot = d;
+        showCamera({ name, url: `https://webcams.nyctmc.org/api/cameras/${cid}/image` }, true);
+      });
+      d.addTo(camMini);
+      window._camDots.push(d);
+    }
+    setTimeout(() => camMini.invalidateSize(), 300);
+  };
+  tryBuild();
 }
 
 /* =====================================================================

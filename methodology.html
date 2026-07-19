@@ -118,8 +118,8 @@
     <tr>
       <td><b>Traffic cameras</b></td>
       <td>NYC Department of Transportation camera network, <code>webcams.nyctmc.org</code></td>
-      <td>Camera list refreshed with the snapshot; images pulled live every 9 seconds as the panel rotates</td>
-      <td>The snapshot picks a geographic spread of online cameras. Images are typically a few seconds to a minute old at the source.</td>
+      <td>Camera list refreshed with the snapshot; images pulled live every 9 seconds as the panel rotates, or on demand when a camera is clicked</td>
+      <td>The automatic tour cycles through a geographic spread of online cameras; the mini-map beside the frame plots all of them, and clicking any dot loads that camera's live image. Images are typically a few seconds to a minute old at the source. Camera locations refresh daily via <code>data/stations.json</code>.</td>
     </tr>
     <tr>
       <td><b>Citi Bike docks</b></td>
@@ -198,6 +198,7 @@
     <li><b>Raspberry Shake</b> (citizen seismographs): the network's public station service was unreachable when tested; the professional Lamont-Doherty network covers the same ground on the board.</li>
     <li><b>Weather Underground and Netatmo</b> (thousands of private weather stations in the city): both key-gated, and the airport-grade stations on the board are the better instruments anyway.</li>
     <li><b>SONYC</b> (the New York University noise-sensor project — the network that literally heard the city): its public data releases are historical archives, not a live feed.</li>
+    <li><b>Phone-derived foot traffic (Placer.ai, SafeGraph, Unacast and kin):</b> these firms build crowd estimates from de-identified location pings collected by mobile-app software, and sell them. A July 2026 check found no anonymous public interface — Placer.ai's API and "free tools" all sit behind accounts and contracts, and Google's per-place "popular times" busyness data has no official API at all. The closest public, sensor-based crowd measures are already on the board: subway trains and bus loads, dock telemetry and the bike and pedestrian counters.</li>
   </ul>
 
   <h2>What is deliberately not here, and why</h2>
