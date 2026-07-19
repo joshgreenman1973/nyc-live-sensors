@@ -76,11 +76,17 @@ a { color: #9fc6d8; }
 h1 {
   font-variation-settings: "wdth" 118;
   font-weight: 900;
-  font-size: clamp(38px, 6vw, 72px);
-  line-height: .95;
+  font-size: clamp(38px, 5vw, 62px);
+  line-height: .98;
   letter-spacing: -.015em;
   margin-bottom: 14px;
   text-wrap: balance;
+}
+h1 .h1-sub {
+  font-variation-settings: "wdth" 95;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--dim);
 }
 .dek { color: var(--dim); font-size: 15.5px; line-height: 1.55; max-width: 66ch; }
 

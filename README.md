@@ -1,4 +1,4 @@
-# The instrumented city
+# The city that sensors see (and hear and feel)
 
 A live dashboard of what New York City's public real-time sensors are reporting right now: tide gauges, weather stations, stream gauges, wave buoys, street flood sensors, traffic detectors, traffic cameras, weather radar, aircraft transponders, bike-dock telemetry, subway and ferry position feeds and the power grid.
 
