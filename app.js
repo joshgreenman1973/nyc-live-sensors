@@ -196,18 +196,24 @@ const FEEDS = [
         `https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/${z}/${c.x}/${c.y}.png?${bucket}`);
       const rad = radUrls.map(u => `<img src="${u}" alt="" onerror="this.style.display='none'">`).join("");
       setModule(f, "ok",
-        `<div class="tilebox">
+        `<div class="tilebox" id="radar-box">
            <div class="tilegrid">${base}</div>
            <div class="tilegrid overlay">${rad}</div>
            <div class="scan"></div>
+           <div class="sweep"></div>
+           <div class="clearmsg"><b>Sky clear</b><span>no precipitation echoes — the antenna keeps scanning</span></div>
            <div class="maplabel" id="radar-label">NEXRAD composite · greater New York · refreshes every 5 min</div>
          </div>`, new Date());
       report(f, true, `RADAR <span class="t-val">LIVE</span>`);
       // A rain-free radar renders fully transparent, which reads as broken —
-      // sample the tiles' pixels and say so when the sky is genuinely quiet.
+      // sample the tiles' pixels and, when the sky is genuinely quiet, show a
+      // scanning sweep + "sky clear" so the panel never looks dead.
       radarEchoCheck(radUrls).then(hasEchoes => {
-        const lab = $("#radar-label");
-        if (lab && hasEchoes === false) lab.textContent = "radar live — no precipitation echoes over the region right now";
+        const box = $("#radar-box"), lab = $("#radar-label");
+        if (hasEchoes === false && box) {
+          box.classList.add("clear");
+          if (lab) lab.textContent = "radar live · refreshes every 5 min";
+        }
       });
     }
   },

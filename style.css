@@ -386,6 +386,34 @@ button.ai:hover { background: #93293a; }
   background: repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px);
   pointer-events: none;
 }
+/* clear-sky state: rotating sweep + centered message so an echo-free radar
+   reads as "scanning", not "broken" */
+.tilebox .sweep, .tilebox .clearmsg { display: none; }
+.tilebox.clear .sweep {
+  display: block;
+  position: absolute; inset: -25%;
+  background: conic-gradient(rgba(83, 215, 240, .22), transparent 55deg, transparent 360deg);
+  animation: sweep 7s linear infinite;
+  pointer-events: none;
+}
+@keyframes sweep { to { transform: rotate(360deg); } }
+.tilebox.clear .clearmsg {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  text-align: center; pointer-events: none;
+  text-shadow: 0 1px 6px #000;
+}
+.tilebox.clear .clearmsg b {
+  font-family: "Martian Mono", monospace;
+  font-size: 15px; font-weight: 500; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--water);
+}
+.tilebox.clear .clearmsg span {
+  font-family: "Martian Mono", monospace;
+  font-size: 9.5px; color: var(--dim); max-width: 34ch; line-height: 1.5;
+}
+@media (prefers-reduced-motion: reduce) { .tilebox.clear .sweep { animation: none; } }
+
 .tilebox .maplabel {
   position: absolute; left: 8px; bottom: 6px;
   font-family: "Martian Mono", monospace;
