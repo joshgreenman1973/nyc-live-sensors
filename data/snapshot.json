@@ -1,114 +1,143 @@
 {
- "generated": "2026-07-19T04:09:52.039Z",
+ "generated": "2026-07-19T05:23:39.582Z",
  "nyiso": {
-  "nycLoadMw": 6663.029,
-  "isoLoadMw": 18804.4913,
-  "asOf": "2026-07-19T03:55:00.000Z",
-  "fuelMix": null,
-  "fuelAsOf": null
+  "nycLoadMw": 6389.708,
+  "isoLoadMw": 17790.0932,
+  "asOf": "2026-07-19T05:10:00.000Z",
+  "fuelMix": [
+   {
+    "fuel": "Dual Fuel",
+    "mw": 3922
+   },
+   {
+    "fuel": "Natural Gas",
+    "mw": 3617
+   },
+   {
+    "fuel": "Nuclear",
+    "mw": 3236
+   },
+   {
+    "fuel": "Other Fossil Fuels",
+    "mw": 0
+   },
+   {
+    "fuel": "Other Renewables",
+    "mw": 213
+   },
+   {
+    "fuel": "Wind",
+    "mw": 1331
+   },
+   {
+    "fuel": "Hydro",
+    "mw": 2224
+   }
+  ],
+  "fuelAsOf": "2026-07-19T05:05:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 1,
-  "domPeriodS": 5,
-  "waterTempC": 23.2,
-  "windMs": 10,
-  "airTempC": 24.5,
-  "pressureHpa": 1004.3,
-  "asOf": "2026-07-19T03:20:00.000Z"
+  "waveHeightM": 1.3,
+  "domPeriodS": 7,
+  "waterTempC": 23.3,
+  "windMs": 7,
+  "airTempC": 24.2,
+  "pressureHpa": 1004.4,
+  "asOf": "2026-07-19T04:50:00.000Z"
  },
  "subway": {
-  "trains": 260,
+  "trains": 219,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 17,
-  "asOf": "2026-07-19T04:09:53.006Z"
+  "alerts": 15,
+  "asOf": "2026-07-19T05:23:40.897Z"
  },
  "ferry": {
   "vessels": 0,
-  "asOf": "2026-07-19T04:09:53.080Z"
+  "asOf": "2026-07-19T05:23:41.107Z"
  },
  "cameras": {
-  "total": 957,
+  "total": 956,
   "list": [
    {
-    "name": "Southern Bl. @ Cross Bronx Expwy",
-    "url": "https://webcams.nyctmc.org/api/cameras/7305c9dc-a6c3-4eab-83df-fd42296efbea/image"
+    "name": "C1-BRP-01-SB_at_E.174th_St-Ex3",
+    "url": "https://webcams.nyctmc.org/api/cameras/8431fefb-2068-4c83-920a-a6db628e7ce6/image"
    },
    {
-    "name": "BQE @ Pearl St",
-    "url": "https://webcams.nyctmc.org/api/cameras/3576217a-82e8-4f2a-854f-3de97ef37362/image"
+    "name": "Atlantic Ave @ Clinton ST",
+    "url": "https://webcams.nyctmc.org/api/cameras/418ae598-7cdd-48ff-8aea-97fc3d312407/image"
    },
    {
-    "name": "Hempstead Ave @ Cross Island Pkwy (Quad)",
-    "url": "https://webcams.nyctmc.org/api/cameras/66bcf232-3abf-4afc-951c-469e9e6cfd70/image"
+    "name": "Northern Blvd @ 82 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/08c40d18-cacf-4139-aa64-ba8f8602af53/image"
    },
    {
-    "name": "Harlem River Dr @ Dyckman St /10 Av",
-    "url": "https://webcams.nyctmc.org/api/cameras/e610bc71-9bfb-4a92-928d-ad33cd1b9afd/image"
+    "name": "1 Ave @ E 120 Street",
+    "url": "https://webcams.nyctmc.org/api/cameras/91567cf3-e527-4bb7-a6a6-e95656af5ca8/image"
    },
    {
-    "name": "West Shore Expy @ Rossville Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/4bb3c648-45f8-4134-9ac8-fb56f2f851fa/image"
+    "name": "Father Capodanno Blvd @ Seaview Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/80b83728-4712-4ab6-aa2f-ae384eb1b91c/image"
    },
    {
-    "name": "C1-CBX-18-Med_at_Pennyfield_Av-TNB",
-    "url": "https://webcams.nyctmc.org/api/cameras/e51a2974-8ca2-4fe2-a90a-842685cbbcc9/image"
+    "name": "Bronx River Pkwy @ E Gun Hill RD",
+    "url": "https://webcams.nyctmc.org/api/cameras/42446823-2f5a-4db0-a99e-3766d0822485/image"
    },
    {
-    "name": "WBB-8 NIR Bklyn Anch./Kent Av",
-    "url": "https://webcams.nyctmc.org/api/cameras/d4add2b5-0a3c-43dd-ad8f-edc72b9ab2e5/image"
+    "name": "3 Ave @ 65 St - Ent. EB BQE/Gowanus",
+    "url": "https://webcams.nyctmc.org/api/cameras/be6b6830-b90d-40ab-98ab-9d67eb81e673/image"
    },
    {
-    "name": "Metropolitan Ave @ Fresh Pond Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/4ec4d8da-6dcb-444d-b33a-096a7d07bb51/image"
+    "name": "Grand Central Pkwy NSR @ 79 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/fa85ed07-ccc9-4dc7-97bd-fd55acc0a415/image"
    },
    {
     "name": "FDR Dr @ 101 St",
     "url": "https://webcams.nyctmc.org/api/cameras/6847c104-0117-4e3f-b30e-e1a859bc8107/image"
    },
    {
-    "name": "Amboy Rd @ Nelson Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/5920b7ab-9e05-429f-971a-b235f3ea8dd9/image"
+    "name": "West Shore Expy @ Bloomingdale Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/9b57d5a0-d4fb-47ab-8df5-1d093228189e/image"
    },
    {
-    "name": "C1-MDE-03-SB_at_E.138th_St-Ex3",
-    "url": "https://webcams.nyctmc.org/api/cameras/7c996b88-8ee6-4b0d-99c8-5764cf68f3bc/image"
+    "name": "NB Cross Brx Expy-Webster Av Exit ramp @ E 174 St & Cater Av",
+    "url": "https://webcams.nyctmc.org/api/cameras/15c0758b-5c9a-4841-8514-c04bc7320c70/image"
    },
    {
     "name": "Bushwick Ave @ De Kalb Ave",
     "url": "https://webcams.nyctmc.org/api/cameras/068461e2-c62f-4ce4-adac-5f9efe92af1d/image"
    },
    {
-    "name": "Jackie Robinson Pkwy @ Forest Pk Dr",
-    "url": "https://webcams.nyctmc.org/api/cameras/edb8b647-1abb-4e20-b0e6-e446c17ac9c0/image"
+    "name": "Northern Blvd @ Union St",
+    "url": "https://webcams.nyctmc.org/api/cameras/e6ba1d11-d27e-441f-b385-a8ae85a3fc74/image"
    },
    {
-    "name": "Broadway @ Morris St",
-    "url": "https://webcams.nyctmc.org/api/cameras/08328372-55a2-448a-b180-9b4bce0b8d9e/image"
+    "name": "FDR @ E 6 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/c75873dc-16d0-4e9c-b5b5-1c6ede0b0b63/image"
    },
    {
-    "name": "C3-WSE-05-NB_at_Arden_Ave-Ex4",
-    "url": "https://webcams.nyctmc.org/api/cameras/bc01e999-cfba-409b-9542-19c7e86cf410/image"
+    "name": "Staten Island Expy @ Forest Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/8246cf40-87f5-4f3a-b987-369e38a2d450/image"
    },
    {
-    "name": "Pelham Shore Rd @ City Island Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/09afb231-ef10-470f-bf54-0f44fc2dc18f/image"
+    "name": "C1-MDE-12-SB_at_Heath_Ave-Ex9",
+    "url": "https://webcams.nyctmc.org/api/cameras/1a626331-3c36-48bd-91a5-edd930c314c0/image"
    },
    {
-    "name": "Old Fulton St @ Prospect St",
-    "url": "https://webcams.nyctmc.org/api/cameras/7a0d9e49-875c-4c25-a92b-3d239de40d43/image"
+    "name": "C2-BQE-30B_W_at_Stewart Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/42e78c2b-3c70-47dc-8685-f1b5eca3deb5/image"
    },
    {
-    "name": "Long Island Expy @ East Hampton Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/5f91d1f5-bc11-44dd-a6a5-a36435ed680c/image"
+    "name": "Belt Pkwy @ Guy R Brewer Blvd",
+    "url": "https://webcams.nyctmc.org/api/cameras/f4633287-e3eb-463e-a73c-0917e6243c5b/image"
    }
   ],
-  "asOf": "2026-07-19T04:09:53.312Z"
+  "asOf": "2026-07-19T05:23:41.795Z"
  },
  "floodnet": {
   "sensors": 372,
   "flooding": 0,
   "wettest": null,
-  "asOf": "2026-07-19T04:04:48.000Z"
+  "asOf": "2026-07-19T05:16:48.000Z"
  }
 }
