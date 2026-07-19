@@ -442,6 +442,29 @@ const FEEDS = [
     }
   },
 
+  {
+    id: "ships", domain: "water", title: "Ships in the harbor", wide: false,
+    instrument: "Automatic Identification System transponders on every large vessel, heard by volunteer shore receivers around the harbor",
+    source: "aisstream.io volunteer network, via the harbor relay",
+    every: 300,
+    async run(f) {
+      const vessels = await listenAIS(25000);
+      if (!vessels.length) throw new Error("no AIS traffic heard");
+      STATE.ships = vessels; mapPush("ships");
+      const moving = vessels.filter(x => (x.sog ?? 0) > 0.5);
+      const fastest = [...moving].sort((a, b) => (b.sog ?? 0) - (a.sog ?? 0))[0];
+      const now = new Date();
+      setModule(f, "ok",
+        `<div class="big">${vessels.length}</div>
+         <div class="big-label">vessels transmitting on the water around the city</div>
+         <div class="rows">
+           <div class="r"><span>Underway right now</span><b>${moving.length}</b></div>
+           ${fastest?.name ? `<div class="r"><span>Fastest: ${fastest.name.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}</span><b>${fmt1(fastest.sog)} kt</b></div>` : ""}
+         </div>`, now);
+      report(f, true, `SHIPS TRANSMITTING <span class="t-val">${vessels.length}</span>`);
+    }
+  },
+
   /* ---------------- STREETS ---------------- */
   {
     id: "traffic", domain: "streets", title: "Traffic speed sensors", wide: false,
@@ -747,6 +770,30 @@ async function radarEchoCheck(urls) {
   } catch { return null; }
 }
 
+/* Listen to the harbor's Automatic Identification System relay for a spell
+   and return every vessel heard. The stream key lives inside the Cloudflare
+   Worker, so the page needs none. */
+function listenAIS(ms) {
+  return new Promise(resolve => {
+    const v = new Map();
+    let ws;
+    try { ws = new WebSocket("wss://nyc-harbor-ais-relay.josh-greenman.workers.dev"); }
+    catch { return resolve([]); }
+    const done = () => {
+      try { ws.close(); } catch {}
+      resolve([...v.values()].filter(o => o.lat != null));
+    };
+    const timer = setTimeout(done, ms);
+    ws.addEventListener("message", ev => {
+      let m; try { m = JSON.parse(ev.data); } catch { return; }
+      let o = v.get(m.mmsi); if (!o) { o = {}; v.set(m.mmsi, o); }
+      if (m.type === "pos") { o.lat = m.lat; o.lon = m.lon; o.sog = m.sog; if (m.name) o.name = m.name; }
+      else if (m.type === "static") { if (m.name) o.name = m.name; o.st = m.shipType; }
+    });
+    ws.addEventListener("error", () => { clearTimeout(timer); done(); });
+  });
+}
+
 function coopsDate() {
   const p = new Date().toLocaleDateString("en-CA", { timeZone: ET }).split("-");
   return p[0] + p[1] + p[2];
@@ -791,7 +838,8 @@ const MAP = window.MAP = {
     { id: "buses",    label: "Buses", color: "#c08ae8", on: true },
     { id: "citibike", label: "Citi Bike docks", color: "#ef7fd4", on: false },
     { id: "ferry",    label: "Ferries", color: "#ef7fd4", on: true },
-    { id: "quakes",   label: "Earthquakes", color: "#d2a06a", on: true }
+    { id: "ships",    label: "Ships", color: "#6fe0c8", on: true },
+    { id: "quakes",   label: "Quake epicenters, 30 days", color: "#d2a06a", on: true }
   ],
 
   init() {
@@ -1040,6 +1088,21 @@ const MAP = window.MAP = {
       l.group.addLayer(m); n++;
     }
     this.setCount("citibike", n);
+  },
+
+  /* ---- ships heard on the AIS relay ---- */
+  draw_ships(l) {
+    if (!STATE.ships) return;
+    l.group.clearLayers();
+    const TYPES = { 3: "fishing/towing", 5: "special craft", 6: "passenger vessel", 7: "cargo ship", 8: "tanker", 9: "other vessel" };
+    for (const s of STATE.ships) {
+      const moving = (s.sog ?? 0) > 0.5;
+      const m = this.dot(s.lat, s.lon, { color: "#6fe0c8", radius: moving ? 5 : 3, fillOpacity: moving ? 0.9 : 0.5 });
+      const kind = s.st != null ? TYPES[Math.floor(s.st / 10)] : null;
+      m.bindPopup(this.pop(`<h5>${s.name ? s.name.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : "Unnamed vessel"}</h5>${kind ? kind + " · " : ""}${s.sog != null ? `<b>${fmt1(s.sog)} kt</b>` : "speed unknown"}`));
+      l.group.addLayer(m);
+    }
+    this.setCount("ships", STATE.ships.length);
   },
 
   /* ---- earthquake epicenters, past 30 days ---- */

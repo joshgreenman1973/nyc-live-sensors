@@ -98,6 +98,12 @@
       <td>Moored at the New York Harbor entrance about 15 miles south of Breezy Point. "Significant wave height" is the average of the highest third of waves, the standard oceanographic measure.</td>
     </tr>
     <tr>
+      <td><b>Ships in the harbor</b></td>
+      <td>Automatic Identification System transponders, heard by aisstream.io's network of volunteer shore receivers and relayed through a small Cloudflare Worker (the same relay that powers the harbor-traffic project; the stream key stays inside the Worker)</td>
+      <td>Browser listens to the stream for about 25 seconds, every 5 min</td>
+      <td>Counts vessels heard during the listening window, so slow-transmitting anchored ships can be undercounted; large commercial vessels transmit every few seconds. "Underway" means faster than half a knot.</td>
+    </tr>
+    <tr>
       <td><b>Street flood sensors</b></td>
       <td>FloodNet (a New York University and City University of New York project with city agencies), read through the FieldKit platform its dashboard runs on: project 174, sensor <code>wh.floodnet.depth</code></td>
       <td>Snapshot, every 15 min</td>
@@ -183,6 +189,16 @@
     </tr>
   </table>
   </div>
+
+  <h2>Private sensor networks: what a sweep found</h2>
+  <p>Several tiles already come from privately run networks with public feeds: airplanes.live (volunteer aircraft-transponder receivers), aisstream.io (volunteer ship-transponder receivers), Citi Bike (Lyft's dock telemetry) and FloodNet (a university consortium). A July 2026 sweep of other private networks found:</p>
+  <ul>
+    <li><b>Sensor.Community</b> (citizen air-quality sensors, key-free and open): only 3 sensors currently report inside the five boroughs, one of them indoors — too sparse to summarize honestly. Worth rechecking as the network grows.</li>
+    <li><b>PurpleAir</b> (the largest citizen air-sensor network, with real density in the city): the API requires a key that cannot be published in page code. It could join the 15-minute snapshot if a key were added as a repository secret.</li>
+    <li><b>Raspberry Shake</b> (citizen seismographs): the network's public station service was unreachable when tested; the professional Lamont-Doherty network covers the same ground on the board.</li>
+    <li><b>Weather Underground and Netatmo</b> (thousands of private weather stations in the city): both key-gated, and the airport-grade stations on the board are the better instruments anyway.</li>
+    <li><b>SONYC</b> (the New York University noise-sensor project — the network that literally heard the city): its public data releases are historical archives, not a live feed.</li>
+  </ul>
 
   <h2>What is deliberately not here, and why</h2>
   <p>This board aims to include every public sensor network with a genuinely live, public interface. The notable ones that don't qualify, checked as of July 2026:</p>
