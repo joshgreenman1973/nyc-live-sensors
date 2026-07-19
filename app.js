@@ -254,6 +254,40 @@ const FEEDS = [
   },
 
   {
+    id: "polarsat", domain: "sky", title: "Low-orbit pass", wide: true,
+    instrument: "Visible Infrared Imaging Radiometer Suite aboard the NOAA-20 polar orbiter, 512 miles up — a true-color look at the city itself, about 375 meters per pixel, one early-afternoon pass a day. Some days you get the city; some days you get the clouds.",
+    source: "NASA Global Imagery Browse Services",
+    every: 3600,
+    async run(f) {
+      const etISO = off => {
+        const d = new Date(Date.now() - off * 86400000);
+        return d.toLocaleDateString("en-CA", { timeZone: ET });
+      };
+      const base = d => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/${d}/GoogleMapsCompatible_Level9/9`;
+      let useDate = null, isToday = false;
+      for (const off of [0, 1, 2]) {
+        const d = etISO(off);
+        try {
+          const r = await fetch(`${base(d)}/192/150.jpg`, { method: "GET" });
+          if (r.ok && (await r.blob()).size > 1000) { useDate = d; isToday = off === 0; break; }
+        } catch {}
+      }
+      if (!useDate) throw new Error("no recent pass imagery");
+      const cells = [191, 192, 193].map(y => [149, 150, 151].map(x => ({ x, y }))).flat();
+      const imgs = cells.map(c => `<img src="${base(useDate)}/${c.y}/${c.x}.jpg" alt="">`).join("");
+      const [, m, dd] = useDate.split("-");
+      const dateTxt = new Date(+useDate.slice(0, 4), +m - 1, +dd).toLocaleDateString("en-US", { month: "long", day: "numeric" });
+      setModule(f, "ok",
+        `<div class="tilebox">
+           <div class="tilegrid">${imgs}</div>
+           <div class="scan"></div>
+           <div class="maplabel">${isToday ? "today's" : dateTxt + "'s"} pass · NOAA-20 crosses the city around 1:30 p.m.; imagery lands a few hours later</div>
+         </div>`, new Date());
+      report(f, true, `LOW-ORBIT PASS <span class="t-val">${isToday ? "TODAY" : dateTxt.toUpperCase()}</span>`);
+    }
+  },
+
+  {
     id: "aircraft", domain: "sky", title: "Aircraft overhead", wide: false,
     instrument: "ADS-B transponder receivers — every aircraft within 30 nautical miles of City Hall",
     source: "airplanes.live community receiver network",
