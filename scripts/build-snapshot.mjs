@@ -154,6 +154,29 @@ async function subway() {
   snapshot.subway = { trains, feedsOk, feeds: suffixes.length, alerts, asOf: now() };
 }
 
+/* ---------- LIRR + Metro-North: commuter trains reporting ---------- */
+async function rail() {
+  const feeds = {
+    lirr: "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/lirr%2Fgtfs-lirr",
+    mnr: "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/mnr%2Fgtfs-mnr"
+  };
+  const out = {};
+  const nowSec = Date.now() / 1000;
+  for (const [k, url] of Object.entries(feeds)) {
+    try {
+      const f = await fetchProto(url);
+      // Only trust vehicle entities with a fresh timestamp — LIRR's feed keeps
+      // stale ghosts around. Fall back to active trip updates.
+      const freshVehicles = f.entity.filter(e =>
+        e.vehicle?.timestamp && Math.abs(nowSec - Number(e.vehicle.timestamp)) < 600).length;
+      const trips = f.entity.filter(e => e.tripUpdate).length;
+      out[k] = { trains: freshVehicles || trips, viaVehicles: freshVehicles > 0 };
+    } catch (e) { console.error(`rail ${k}:`, e.message); }
+  }
+  if (!Object.keys(out).length) throw new Error("both commuter feeds failed");
+  snapshot.rail = { ...out, asOf: now() };
+}
+
 /* ---------- NYC Ferry vessel positions ---------- */
 async function ferry() {
   const feed = await fetchProto("http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/vehicleposition");
@@ -276,8 +299,8 @@ function stationsFile() {
 }
 
 /* ---------- run everything, carry stale sections forward ---------- */
-const jobs = { nyiso, buoy, subway, ferry, cameras, floodnet };
-const carry = { nyiso: "nyiso", buoy: "buoy", subway: "subway", ferry: "ferry", cameras: "cameras", floodnet: "floodnet" };
+const jobs = { nyiso, buoy, subway, rail, ferry, cameras, floodnet };
+const carry = { nyiso: "nyiso", buoy: "buoy", subway: "subway", rail: "rail", ferry: "ferry", cameras: "cameras", floodnet: "floodnet" };
 
 for (const [name, job] of Object.entries(jobs)) {
   try {

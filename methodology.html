@@ -116,6 +116,36 @@
       <td>Totals sum every station in the system, which includes Jersey City and Hoboken stations (a few percent of the system).</td>
     </tr>
     <tr>
+      <td><b>Bridge clearance</b></td>
+      <td>NOAA Physical Oceanographic Real-Time System air-gap sensors: stations 8517986 (Verrazzano-Narrows) and 8519461 (Bayonne Bridge)</td>
+      <td>Browser, every 5 min; sensors report every 6 min</td>
+      <td>Microwave sensors under the bridge decks measure the actual air gap for ships, which rises and falls with the tide. These exist so ultra-large container ships know whether they fit.</td>
+    </tr>
+    <tr>
+      <td><b>Bike + walk counters</b></td>
+      <td>NYC Department of Transportation automated bicycle and pedestrian counters, via NYC Open Data datasets <code>ct66-47at</code> (counts) and <code>6up2-gnw8</code> (sensor locations)</td>
+      <td>Browser, every 15 min; counters bin in 15-minute intervals but reach the portal <b>hours</b> behind</td>
+      <td>The tile sums the trailing 24 hours and shows the newest bin's time. This is the least "live" feed on the board — the counters report continuously but the public copy lags a few hours, and the tile's amber light reflects that honestly.</td>
+    </tr>
+    <tr>
+      <td><b>Buses reporting</b></td>
+      <td>MTA Bus Time SIRI vehicle-monitoring feed, <code>bustime.mta.info</code></td>
+      <td>Browser, every 3 min; positions update continuously</td>
+      <td>Uses a public, per-key rate-limited Bus Time key (the same one published in the companion bus-tracker project). Counts vehicles transmitting a position; buses deadheading or with dead trackers are invisible.</td>
+    </tr>
+    <tr>
+      <td><b>Elevators + escalators</b></td>
+      <td>Metropolitan Transportation Authority current-outage feed for subway elevators and escalators</td>
+      <td>Browser, every 5 min</td>
+      <td>The feed lists equipment out of service right now, including planned maintenance. "On accessible routes" counts outages the MTA flags as affecting Americans with Disabilities Act accessibility.</td>
+    </tr>
+    <tr>
+      <td><b>Commuter trains</b></td>
+      <td>Long Island Rail Road and Metro-North real-time feeds (General Transit Feed Specification real-time)</td>
+      <td>Snapshot, every 15 min</td>
+      <td>Counts trains present in each railroad's feed; where a feed carries trip updates but not vehicle positions, active trips stand in for trains.</td>
+    </tr>
+    <tr>
       <td><b>Subway trains reporting</b></td>
       <td>Metropolitan Transportation Authority real-time subway feeds (eight General Transit Feed Specification real-time feeds covering all lines) and the subway-alerts feed</td>
       <td>Snapshot, every 15 min</td>
@@ -142,10 +172,14 @@
   </table>
   </div>
 
-  <h2>What is deliberately not here</h2>
+  <h2>What is deliberately not here, and why</h2>
+  <p>This board aims to include every public sensor network with a genuinely live, public interface. The notable ones that don't qualify, checked as of July 2026:</p>
   <ul>
-    <li><b>Feeds that require an API key</b> the page would have to expose in public code: MTA Bus Time, PurpleAir, AirNow, aircraft feeds beyond the community network and the state Mesonet weather-station network.</li>
-    <li><b>Feeds without a public real-time interface</b>, including the police department's ShotSpotter/SoundThinking gunshot sensors, the Department of Environmental Protection's noise and air monitors, Con Edison's grid telemetry (its outage map has no stable public feed) and the city's own traffic signal system.</li>
+    <li><b>Housing Preservation and Development heat sensors.</b> The city's Heat Sensors Program places hourly indoor-temperature sensors in 50 buildings with chronic heat violations — but the readings go to the agency, owners and tenants only. No public feed exists; only after-the-fact enforcement data reaches the open-data portal.</li>
+    <li><b>Department of Transportation street activity sensors.</b> The Numina-based sensors now at roughly 100 locations count pedestrians, cyclists and vehicles continuously. The city owns the data and says datasets "will be available via NYC Open Data," but as of this writing there is no public real-time interface — only press releases. When it lands, it belongs here.</li>
+    <li><b>Feeds requiring a private API key</b> in public page code: PurpleAir and AirNow air-quality monitors, the New York State Mesonet weather network, 511NY cameras and premium aircraft feeds. (Bus Time also requires a key, but a public rate-limited one already circulates, so buses made the board.)</li>
+    <li><b>Sensor networks with no public interface at all:</b> the police department's gunshot-detection microphones, the city's traffic-signal detection loops, Con Edison's grid telemetry (its outage map has no stable public feed) and the Department of Environmental Protection's noise and water-quality instruments (samples are published on a delay, not live).</li>
+    <li><b>PATH trains</b> publish next-arrival boards but not vehicle positions or a train count worth a tile.</li>
     <li><b>Anything that identifies people.</b> Everything on the board measures water, air, vehicles in aggregate or infrastructure.</li>
   </ul>
 

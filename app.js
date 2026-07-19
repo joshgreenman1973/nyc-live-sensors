@@ -192,16 +192,23 @@ const FEEDS = [
       const cells = ys.map(y => xs.map(x => ({ x, y }))).flat();
       const base = cells.map(c =>
         `<img src="https://a.basemaps.cartocdn.com/dark_all/${z}/${c.x}/${c.y}.png" alt="">`).join("");
-      const rad = cells.map(c =>
-        `<img src="https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/${z}/${c.x}/${c.y}.png?${bucket}" alt="" onerror="this.style.display='none'">`).join("");
+      const radUrls = cells.map(c =>
+        `https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/${z}/${c.x}/${c.y}.png?${bucket}`);
+      const rad = radUrls.map(u => `<img src="${u}" alt="" onerror="this.style.display='none'">`).join("");
       setModule(f, "ok",
         `<div class="tilebox">
            <div class="tilegrid">${base}</div>
            <div class="tilegrid overlay">${rad}</div>
            <div class="scan"></div>
-           <div class="maplabel">NEXRAD composite · greater New York · refreshes every 5 min</div>
+           <div class="maplabel" id="radar-label">NEXRAD composite · greater New York · refreshes every 5 min</div>
          </div>`, new Date());
       report(f, true, `RADAR <span class="t-val">LIVE</span>`);
+      // A rain-free radar renders fully transparent, which reads as broken —
+      // sample the tiles' pixels and say so when the sky is genuinely quiet.
+      radarEchoCheck(radUrls).then(hasEchoes => {
+        const lab = $("#radar-label");
+        if (lab && hasEchoes === false) lab.textContent = "radar live — no precipitation echoes over the region right now";
+      });
     }
   },
 
@@ -375,6 +382,31 @@ const FEEDS = [
     }
   },
 
+  {
+    id: "airgap", domain: "water", title: "Bridge clearance", wide: false,
+    instrument: "Microwave air-gap sensors under the Verrazzano and Bayonne bridge decks, measuring clearance for ships",
+    source: "NOAA Physical Oceanographic Real-Time System",
+    every: 300,
+    async run(f) {
+      const base = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=air_gap&date=latest&time_zone=lst_ldt&units=english&format=json";
+      const [vz, bay] = await Promise.all([
+        getJSON(`${base}&station=8517986`),
+        getJSON(`${base}&station=8519461`).catch(() => null)
+      ]);
+      const d = vz?.data?.[0];
+      if (!d) throw new Error("no air gap");
+      const t = parseETLocal(d.t);
+      const bd = bay?.data?.[0];
+      STATE.airgap = { vz: parseFloat(d.v), bay: bd ? parseFloat(bd.v) : null, time: t };
+      mapPush("noaa");
+      setModule(f, stateFor(t, 40),
+        `<div class="big">${fmt1(parseFloat(d.v))}<span class="unit">ft</span></div>
+         <div class="big-label">of air between the water and the Verrazzano-Narrows Bridge right now — it breathes with the tide</div>
+         <div class="rows">${bd ? `<div class="r"><span>Bayonne Bridge</span><b>${fmt1(parseFloat(bd.v))} ft</b></div>` : ""}</div>`, t);
+      report(f, true, `VERRAZZANO CLEARANCE <span class="t-val">${fmt1(parseFloat(d.v))} FT</span>`);
+    }
+  },
+
   /* ---------------- STREETS ---------------- */
   {
     id: "traffic", domain: "streets", title: "Traffic speed sensors", wide: false,
@@ -450,6 +482,40 @@ const FEEDS = [
     }
   },
 
+  {
+    id: "bikecounters", domain: "streets", title: "Bike + walk counters", wide: false,
+    instrument: "Automated counters embedded in bridges and bike lanes, tallying riders and walkers in 15-minute bins",
+    source: "NYC Department of Transportation, via NYC Open Data",
+    every: 900,
+    async run(f) {
+      const sinceET = new Date(Date.now() - 24 * 3600000).toLocaleString("sv-SE", { timeZone: ET }).replace(" ", "T");
+      const [byMode, bySensor] = await Promise.all([
+        getJSON(`https://data.cityofnewyork.us/resource/ct66-47at.json?$select=travelmode,sum(counts) as total,max(timestamp) as latest&$where=timestamp>'${sinceET}'&$group=travelmode`),
+        getJSON(`https://data.cityofnewyork.us/resource/ct66-47at.json?$select=sensor_id,sum(counts) as total&$where=timestamp>'${sinceET}' AND travelmode='bike'&$group=sensor_id`)
+      ]);
+      if (!byMode?.length) throw new Error("no counter data");
+      const bikes = byMode.find(r => r.travelmode === "bike");
+      const peds = byMode.find(r => (r.travelmode || "").startsWith("ped"));
+      const latest = new Date(Math.max(...byMode.map(r => parseETLocal(r.latest.replace("T", " ").slice(0, 16)).getTime())));
+      if (!this.sensorInfo) {
+        const info = await getJSON("https://data.cityofnewyork.us/resource/6up2-gnw8.json?$select=id,name,lat,lon&$limit=500");
+        this.sensorInfo = new Map(info.map(s => [s.id, s]));
+      }
+      STATE.bikeMap = bySensor.map(r => {
+        const s = this.sensorInfo.get(r.sensor_id);
+        return s?.lat ? { name: s.name, lat: +s.lat, lon: +s.lon, total: +r.total } : null;
+      }).filter(Boolean);
+      mapPush("bikecounters");
+      setModule(f, stateFor(latest, 10 * 60), // counts reach the open-data portal hours behind
+        `<div class="big">${fmtInt(Math.round(+(bikes?.total || 0)))}</div>
+         <div class="big-label">bike trips counted in the last 24 hours across ${fmtInt(bySensor.length)} automated counters — the portal runs a few hours behind the street</div>
+         <div class="rows">
+           ${peds ? `<div class="r"><span>Pedestrians counted</span><b>${fmtInt(Math.round(+peds.total))}</b></div>` : ""}
+         </div>`, latest);
+      report(f, true, `BIKES COUNTED (24H) <span class="t-val">${fmtInt(Math.round(+(bikes?.total || 0)))}</span>`);
+    }
+  },
+
   /* ---------------- TRANSIT ---------------- */
   {
     id: "subway", domain: "transit", title: "Subway trains reporting", wide: false,
@@ -467,6 +533,77 @@ const FEEDS = [
            ${s.alerts != null ? `<div class="r"><span>Active service alerts</span><b>${fmtInt(s.alerts)}</b></div>` : ""}
          </div>`, t);
       report(f, true, `SUBWAY TRAINS REPORTING <span class="t-val">${fmtInt(s.trains)}</span>`);
+    }
+  },
+
+  {
+    id: "buses", domain: "transit", title: "Buses reporting", wide: false,
+    instrument: "Satellite-positioning trackers on every bus in service, polled through the Bus Time feed",
+    source: "MTA Bus Time",
+    every: 180,
+    async run(f) {
+      // Public, rate-limited Bus Time key — the same one already published in
+      // the nyc-bus-tracker project.
+      const j = await getJSON("https://bustime.mta.info/api/siri/vehicle-monitoring-v2.json?key=5ecc401b-fc5b-4048-91bc-df104885f171&VehicleMonitoringDetailLevel=basic");
+      const va = j?.Siri?.ServiceDelivery?.VehicleMonitoringDelivery?.[0]?.VehicleActivity || [];
+      if (!va.length) throw new Error("no buses in feed");
+      const buses = va.map(v => {
+        const m = v.MonitoredVehicleJourney || {};
+        const line = Array.isArray(m.PublishedLineName) ? m.PublishedLineName[0] : m.PublishedLineName;
+        return { line, lat: m.VehicleLocation?.Latitude, lon: m.VehicleLocation?.Longitude, t: v.RecordedAtTime };
+      }).filter(b => b.lat != null && b.lon != null);
+      const routes = new Set(buses.map(b => b.line).filter(Boolean));
+      STATE.buses = buses; mapPush("buses");
+      const t = new Date();
+      setModule(f, "ok",
+        `<div class="big">${fmtInt(buses.length)}</div>
+         <div class="big-label">buses transmitting a position, across ${fmtInt(routes.size)} routes</div>`, t);
+      report(f, true, `BUSES REPORTING <span class="t-val">${fmtInt(buses.length)}</span>`);
+    }
+  },
+
+  {
+    id: "elevators", domain: "transit", title: "Elevators + escalators", wide: false,
+    instrument: "Status telemetry from the subway's elevator and escalator fleet — this feed lists what's broken right now",
+    source: "Metropolitan Transportation Authority equipment outage feed",
+    every: 300,
+    async run(f) {
+      const j = await getJSON("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fnyct_ene.json");
+      if (!Array.isArray(j)) throw new Error("bad outage feed");
+      const el = j.filter(o => o.equipmenttype === "EL").length;
+      const es = j.filter(o => o.equipmenttype === "ES").length;
+      const ada = j.filter(o => o.ADA === "Y").length;
+      const t = new Date();
+      setModule(f, "ok",
+        `<div class="big">${fmtInt(j.length)}</div>
+         <div class="big-label">subway elevators and escalators out of service right now</div>
+         <div class="rows">
+           <div class="r"><span>Elevators</span><b>${el}</b></div>
+           <div class="r"><span>Escalators</span><b>${es}</b></div>
+           <div class="r"><span>On accessible routes</span><b>${ada}</b></div>
+         </div>`, t);
+      report(f, true, `ELEVATORS/ESCALATORS OUT <span class="t-val">${fmtInt(j.length)}</span>`);
+    }
+  },
+
+  {
+    id: "rail", domain: "transit", title: "Commuter trains", wide: false,
+    instrument: "Train-position and trip messages from the Long Island Rail Road and Metro-North feeds",
+    source: "Metropolitan Transportation Authority, via snapshot",
+    every: 900, fromSnapshot: true,
+    async run(f) {
+      const r = snapshot?.rail;
+      if (!r || (!r.lirr && !r.mnr)) throw new Error("no rail data");
+      const t = new Date(r.asOf);
+      const total = (r.lirr?.trains || 0) + (r.mnr?.trains || 0);
+      setModule(f, stateFor(t, 40),
+        `<div class="big">${fmtInt(total)}</div>
+         <div class="big-label">commuter trains reporting on the region's two railroads</div>
+         <div class="rows">
+           ${r.lirr ? `<div class="r"><span>Long Island Rail Road</span><b>${fmtInt(r.lirr.trains)}</b></div>` : ""}
+           ${r.mnr ? `<div class="r"><span>Metro-North</span><b>${fmtInt(r.mnr.trains)}</b></div>` : ""}
+         </div>`, t);
+      report(f, true, `COMMUTER TRAINS <span class="t-val">${fmtInt(total)}</span>`);
     }
   },
 
@@ -528,6 +665,27 @@ const FEEDS = [
   }
 ];
 
+/* Returns true if any radar tile has visible echoes, false if all are
+   transparent, null if the check itself fails (tainted canvas, load error). */
+async function radarEchoCheck(urls) {
+  try {
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 32;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    for (const u of urls) {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      const ok = await new Promise(res => { img.onload = () => res(true); img.onerror = () => res(false); img.src = u; });
+      if (!ok) continue;
+      ctx.clearRect(0, 0, 32, 32);
+      ctx.drawImage(img, 0, 0, 32, 32);
+      const px = ctx.getImageData(0, 0, 32, 32).data;
+      for (let i = 3; i < px.length; i += 4) if (px[i] > 16) return true;
+    }
+    return false;
+  } catch { return null; }
+}
+
 function coopsDate() {
   const p = new Date().toLocaleDateString("en-CA", { timeZone: ET }).split("-");
   return p[0] + p[1] + p[2];
@@ -568,6 +726,8 @@ const MAP = window.MAP = {
     { id: "aircraft", label: "Aircraft", color: "#ffb454", on: true },
     { id: "traffic",  label: "Traffic speed", color: "#ff6d3d", on: true },
     { id: "cameras",  label: "Cameras", color: "#ff6d3d", on: true },
+    { id: "bikecounters", label: "Bike counters", color: "#ffa07a", on: true },
+    { id: "buses",    label: "Buses", color: "#c08ae8", on: true },
     { id: "citibike", label: "Citi Bike docks", color: "#ef7fd4", on: false },
     { id: "ferry",    label: "Ferries", color: "#ef7fd4", on: true }
   ],
@@ -642,7 +802,11 @@ const MAP = window.MAP = {
         body: () => {
           const b = snapshot?.buoy;
           return b?.waveHeightM != null ? `waves <b>${fmt1(mToFt(b.waveHeightM))} ft</b> every ${Math.round(b.domPeriodS ?? 0)} sec · water ${Math.round(cToF(b.waterTempC ?? 0))}°F` : "awaiting reading";
-        } }
+        } },
+      { lat: 40.6062, lon: -74.0448, name: "Verrazzano-Narrows air gap",
+        body: () => STATE.airgap ? `<b>${fmt1(STATE.airgap.vz)} ft</b> of clearance under the deck` : "awaiting reading" },
+      { lat: 40.642, lon: -74.1421, name: "Bayonne Bridge air gap",
+        body: () => STATE.airgap?.bay != null ? `<b>${fmt1(STATE.airgap.bay)} ft</b> of clearance under the deck` : "awaiting reading" }
     ];
     for (const it of items) {
       const m = this.dot(it.lat, it.lon, { color: "#53d7f0", radius: 6 });
@@ -768,6 +932,30 @@ const MAP = window.MAP = {
     this.setCount("cameras", stationsGeo.cameras.length);
   },
 
+  /* ---- automated bike + pedestrian counters ---- */
+  draw_bikecounters(l) {
+    if (!STATE.bikeMap) return;
+    l.group.clearLayers();
+    for (const s of STATE.bikeMap) {
+      const m = this.dot(s.lat, s.lon, { color: "#ffa07a", radius: 5 });
+      m.bindPopup(this.pop(`<h5>${s.name}</h5><b>${fmtInt(s.total)} bike trips</b> counted in the last 24 hours`));
+      l.group.addLayer(m);
+    }
+    this.setCount("bikecounters", STATE.bikeMap.length);
+  },
+
+  /* ---- buses (live positions) ---- */
+  draw_buses(l) {
+    if (!STATE.buses) return;
+    l.group.clearLayers();
+    for (const b of STATE.buses) {
+      const m = this.dot(b.lat, b.lon, { color: "#c08ae8", radius: 2, weight: 0, fillOpacity: 0.65 });
+      m.bindPopup(this.pop(`<h5>${b.line || "bus"}</h5>position as of ${b.t ? fmtTimeET(new Date(b.t)) : "the latest poll"}`));
+      l.group.addLayer(m);
+    }
+    this.setCount("buses", STATE.buses.length);
+  },
+
   /* ---- Citi Bike docks (off by default: 2,000+ dots) ---- */
   bikeInfo: null,
   async draw_citibike(l) {
@@ -810,8 +998,8 @@ const MAP = window.MAP = {
 const SECTIONS = [
   ["sky", "Sky", "radar · weather stations · transponders"],
   ["water", "Water", "tide gauges · stream gauges · buoys · flood sensors"],
-  ["streets", "Streets", "speed sensors · cameras · dock telemetry"],
-  ["transit", "Transit", "train + boat position feeds"],
+  ["streets", "Streets", "speed sensors · cameras · counters · dock telemetry"],
+  ["transit", "Transit", "trains · buses · boats · broken elevators"],
   ["power", "Power", "grid load + generation"]
 ];
 
