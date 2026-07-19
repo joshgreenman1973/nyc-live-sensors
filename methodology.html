@@ -62,6 +62,12 @@
       <td>The radar covering the city is KOKX in Upton, Suffolk County. Tiles are a national composite; the panel crops to the region around the city. Transparent tiles mean no echoes.</td>
     </tr>
     <tr>
+      <td><b>Satellite view</b></td>
+      <td>GOES-East (GOES-19) Advanced Baseline Imager, northeast-sector GeoColor composite from NOAA's image server, <code>cdn.star.nesdis.noaa.gov</code></td>
+      <td>Browser, every 5 min; the satellite scans about that often</td>
+      <td>A geostationary imager 22,236 miles over the equator. GeoColor is true color by day; at night it blends infrared cloud imagery with a static city-lights layer.</td>
+    </tr>
+    <tr>
       <td><b>Aircraft overhead</b></td>
       <td>airplanes.live API: <code>api.airplanes.live/v2/point/40.7128/-74.0060/30</code></td>
       <td>Browser, every 2 min</td>
@@ -158,6 +164,12 @@
       <td>Counts boats transmitting positions; overnight the number drops to zero or near zero, which is real, not an outage.</td>
     </tr>
     <tr>
+      <td><b>Seismographs</b></td>
+      <td>United States Geological Survey earthquake catalog, fed by the Lamont-Doherty cooperative seismographic network's stations around the region: <code>earthquake.usgs.gov/fdsnws/event/1/query</code></td>
+      <td>Browser, every 30 min</td>
+      <td>Counts cataloged earthquakes within 300 kilometers of City Hall over the trailing 30 days; epicenters appear on the map. Most months the honest answer is a small number of tiny magnitude-1-to-2 events — the tile exists to show the instruments are listening.</td>
+    </tr>
+    <tr>
       <td><b>Electric demand</b></td>
       <td>New York Independent System Operator real-time actual load, <code>mis.nyiso.com/public/csv/pal/</code>, zone N.Y.C.</td>
       <td>Snapshot, every 15 min; source updates about every 5 min</td>
@@ -177,7 +189,8 @@
   <ul>
     <li><b>Housing Preservation and Development heat sensors.</b> The city's Heat Sensors Program places hourly indoor-temperature sensors in 50 buildings with chronic heat violations — but the readings go to the agency, owners and tenants only. No public feed exists; only after-the-fact enforcement data reaches the open-data portal.</li>
     <li><b>Department of Transportation street activity sensors.</b> The Numina-based sensors now at roughly 100 locations count pedestrians, cyclists and vehicles continuously. The city owns the data and says datasets "will be available via NYC Open Data," but as of this writing there is no public real-time interface — only press releases. When it lands, it belongs here.</li>
-    <li><b>Feeds requiring a private API key</b> in public page code: PurpleAir and AirNow air-quality monitors, the New York State Mesonet weather network, 511NY cameras and premium aircraft feeds. (Bus Time also requires a key, but a public rate-limited one already circulates, so buses made the board.)</li>
+    <li><b>New York State's own networks are mostly key-gated.</b> The state Mesonet (126 research-grade weather stations, including several in the city) requires a data agreement, and 511NY (state roadway cameras and incident feeds) requires a registered key. Both could join the board's 15-minute snapshot if a key were added as a repository secret — the free 511NY registration is the lower bar. The state's real-time contributions here instead arrive through the grid operator (New York Independent System Operator) and the Metropolitan Transportation Authority.</li>
+    <li><b>Other feeds requiring a private API key</b> in public page code: PurpleAir and AirNow air-quality monitors and premium aircraft feeds. (Bus Time also requires a key, but a public rate-limited one already circulates, so buses made the board.)</li>
     <li><b>Sensor networks with no public interface at all:</b> the police department's gunshot-detection microphones, the city's traffic-signal detection loops, Con Edison's grid telemetry (its outage map has no stable public feed) and the Department of Environmental Protection's noise and water-quality instruments (samples are published on a delay, not live).</li>
     <li><b>PATH trains</b> publish next-arrival boards but not vehicle positions or a train count worth a tile.</li>
     <li><b>Anything that identifies people.</b> Everything on the board measures water, air, vehicles in aggregate or infrastructure.</li>

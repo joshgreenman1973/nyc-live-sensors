@@ -213,6 +213,41 @@ const FEEDS = [
   },
 
   {
+    id: "satellite", domain: "sky", title: "Satellite view", wide: true,
+    instrument: "Advanced Baseline Imager on the GOES-East geostationary weather satellite, 22,236 miles up — northeast sector",
+    source: "NOAA National Environmental Satellite, Data and Information Service",
+    every: 300,
+    async run(f) {
+      const bucket = Math.floor(Date.now() / 300000);
+      // GOES-East is GOES-19; fall back to the GOES-16 path if the CDN moves
+      const chain = [
+        `https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ne/GEOCOLOR/600x600.jpg?${bucket}`,
+        `https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ne/GEOCOLOR/latest.jpg?${bucket}`,
+        `https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/ne/GEOCOLOR/600x600.jpg?${bucket}`
+      ];
+      const url = await new Promise(res => {
+        let i = 0;
+        const tryNext = () => {
+          if (i >= chain.length) return res(null);
+          const img = new Image();
+          img.onload = () => res(chain[i]);
+          img.onerror = () => { i++; tryNext(); };
+          img.src = chain[i];
+        };
+        tryNext();
+      });
+      if (!url) throw new Error("no satellite frame");
+      setModule(f, "ok",
+        `<div class="tilebox">
+           <img src="${url}" alt="GOES-East satellite view of the northeast" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+           <div class="scan"></div>
+           <div class="maplabel">GOES-East GeoColor · northeast sector · new frame about every 5 min · night shows city lights</div>
+         </div>`, new Date());
+      report(f, true, `SATELLITE <span class="t-val">LIVE</span>`);
+    }
+  },
+
+  {
     id: "aircraft", domain: "sky", title: "Aircraft overhead", wide: false,
     instrument: "ADS-B transponder receivers — every aircraft within 30 nautical miles of City Hall",
     source: "airplanes.live community receiver network",
@@ -644,6 +679,32 @@ const FEEDS = [
   },
 
   {
+    id: "quakes", domain: "ground", title: "Seismographs", wide: false,
+    instrument: "The Lamont-Doherty cooperative seismographic network listens under the region; the United States Geological Survey catalogs what it hears",
+    source: "USGS earthquake catalog",
+    every: 1800,
+    async run(f) {
+      const start = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+      const j = await getJSON(`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=40.7128&longitude=-74.006&maxradiuskm=300&starttime=${start}`);
+      const feats = j?.features;
+      if (!Array.isArray(feats)) throw new Error("no catalog");
+      const quakes = feats.map(q => ({
+        mag: q.properties.mag, place: q.properties.place,
+        time: new Date(q.properties.time),
+        lat: q.geometry?.coordinates?.[1], lon: q.geometry?.coordinates?.[0]
+      })).filter(q => q.mag != null);
+      STATE.quakes = quakes; mapPush("quakes");
+      const strongest = [...quakes].sort((a, b) => b.mag - a.mag)[0];
+      const now = new Date();
+      setModule(f, "ok",
+        `<div class="big">${quakes.length}</div>
+         <div class="big-label">earthquakes detected within 300 kilometers in the past 30 days${quakes.length === 0 ? " — the ground is quiet" : ""}</div>
+         ${strongest ? `<div class="rows"><div class="r"><span>Strongest: ${strongest.place}</span><b>M${fmt1(strongest.mag)}</b></div></div>` : ""}`, now);
+      report(f, true, `QUAKES DETECTED (30D) <span class="t-val">${quakes.length}</span>`);
+    }
+  },
+
+  {
     id: "fuelmix", domain: "power", title: "What's making the power", wide: false,
     instrument: "Generation by fuel type across the state grid, updated about every 5 minutes at the source",
     source: "New York Independent System Operator, via snapshot",
@@ -729,7 +790,8 @@ const MAP = window.MAP = {
     { id: "bikecounters", label: "Bike counters", color: "#ffa07a", on: true },
     { id: "buses",    label: "Buses", color: "#c08ae8", on: true },
     { id: "citibike", label: "Citi Bike docks", color: "#ef7fd4", on: false },
-    { id: "ferry",    label: "Ferries", color: "#ef7fd4", on: true }
+    { id: "ferry",    label: "Ferries", color: "#ef7fd4", on: true },
+    { id: "quakes",   label: "Earthquakes", color: "#d2a06a", on: true }
   ],
 
   init() {
@@ -980,6 +1042,19 @@ const MAP = window.MAP = {
     this.setCount("citibike", n);
   },
 
+  /* ---- earthquake epicenters, past 30 days ---- */
+  draw_quakes(l) {
+    if (!STATE.quakes) return;
+    l.group.clearLayers();
+    for (const q of STATE.quakes) {
+      if (q.lat == null) continue;
+      const m = this.dot(q.lat, q.lon, { color: "#d2a06a", radius: 4 + Math.max(0, q.mag) * 2, fillOpacity: 0.5 });
+      m.bindPopup(this.pop(`<h5>M${fmt1(q.mag)} earthquake</h5>${q.place}<br>${q.time.toLocaleDateString("en-US", { month: "long", day: "numeric" })} at ${fmtTimeET(q.time)}`));
+      l.group.addLayer(m);
+    }
+    this.setCount("quakes", STATE.quakes.length);
+  },
+
   /* ---- ferries (positions from the snapshot) ---- */
   draw_ferry(l) {
     l.group.clearLayers();
@@ -1000,7 +1075,8 @@ const SECTIONS = [
   ["water", "Water", "tide gauges · stream gauges · buoys · flood sensors"],
   ["streets", "Streets", "speed sensors · cameras · counters · dock telemetry"],
   ["transit", "Transit", "trains · buses · boats · broken elevators"],
-  ["power", "Power", "grid load + generation"]
+  ["power", "Power", "grid load + generation"],
+  ["ground", "Ground", "seismographs"]
 ];
 
 function build() {
