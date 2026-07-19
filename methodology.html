@@ -182,6 +182,30 @@
       <td>Counts cataloged earthquakes within 300 kilometers of City Hall over the trailing 30 days; epicenters appear on the map. Most months the honest answer is a small number of tiny magnitude-1-to-2 events — the tile exists to show the instruments are listening.</td>
     </tr>
     <tr>
+      <td><b>Upstate reservoirs</b></td>
+      <td>Department of Environmental Protection daily reservoir-levels page (the agency's open-data version of this dataset stopped updating in October 2025, so the snapshot reads the public page itself)</td>
+      <td>Snapshot, hourly check; the page updates daily with a one-to-two-day lag</td>
+      <td>Percent of total system capacity, with the normal value for the date. Page scraping is inherently fragile; if the format changes the tile goes stale rather than guessing.</td>
+    </tr>
+    <tr>
+      <td><b>PATH trains</b></td>
+      <td>Port Authority of New York and New Jersey RidePATH arrivals feed: <code>panynj.gov/bin/portauthority/ridepath.json</code></td>
+      <td>Snapshot, every 15 min</td>
+      <td>The feed publishes upcoming arrivals per station rather than train positions, so the tile counts arrivals posted for the next 30 minutes — a service-level reading, not a train census. Snapshot timing means it can be up to 20 minutes behind.</td>
+    </tr>
+    <tr>
+      <td><b>Power outages</b></td>
+      <td>Con Edison outage-map data feed, summary file</td>
+      <td>Snapshot, every 15 min; the source updates every 15 to 30 min</td>
+      <td>Customers without power and separate outage events across Con Edison's roughly 3.6 million customers. The Rockaways are served by PSEG Long Island and are not included. On a normal day a few hundred customers are dark somewhere — zero would be the surprise.</td>
+    </tr>
+    <tr>
+      <td><b>Geomagnetic field</b></td>
+      <td>NOAA Space Weather Prediction Center: planetary K index from its worldwide ground-magnetometer network, plus the current storm scales — <code>services.swpc.noaa.gov</code></td>
+      <td>Browser, every 30 min; the index updates every 3 hours (estimated more often)</td>
+      <td>Not a New York City sensor, but the geomagnetic conditions it measures act on the city's grid, pipelines and satellite navigation. Kp below 3 is quiet; 5 or higher is a storm with a G-scale rating.</td>
+    </tr>
+    <tr>
       <td><b>Electric demand</b></td>
       <td>New York Independent System Operator real-time actual load, <code>mis.nyiso.com/public/csv/pal/</code>, zone N.Y.C.</td>
       <td>Snapshot, every 15 min; source updates about every 5 min</td>
@@ -204,6 +228,8 @@
     <li><b>Raspberry Shake</b> (citizen seismographs): the network's public station service was unreachable when tested; the professional Lamont-Doherty network covers the same ground on the board.</li>
     <li><b>Weather Underground and Netatmo</b> (thousands of private weather stations in the city): both key-gated, and the airport-grade stations on the board are the better instruments anyway.</li>
     <li><b>SONYC</b> (the New York University noise-sensor project — the network that literally heard the city): its public data releases are historical archives, not a live feed.</li>
+    <li><b>Blitzortung</b> (a volunteer network of lightning-detection receivers, including around New York): live strike maps on its own site, but the project restricts raw data to participating members — no public API to relay honestly.</li>
+    <li><b>BirdCast</b> (Cornell and Colorado State's reuse of the weather-radar network to count migrating birds): a live nightly migration dashboard in season, but no documented public API. Worth revisiting when fall migration starts in August.</li>
     <li><b>Phone-derived foot traffic (Placer.ai, SafeGraph, Unacast and kin):</b> these firms build crowd estimates from de-identified location pings collected by mobile-app software, and sell them. A July 2026 check found no anonymous public interface — Placer.ai's API and "free tools" all sit behind accounts and contracts, and Google's per-place "popular times" busyness data has no official API at all. The closest public, sensor-based crowd measures are already on the board: subway trains and bus loads, dock telemetry and the bike and pedestrian counters.</li>
   </ul>
 
@@ -216,6 +242,7 @@
     <li><b>Other feeds requiring a private API key</b> in public page code: PurpleAir and AirNow air-quality monitors and premium aircraft feeds. (Bus Time also requires a key, but a public rate-limited one already circulates, so buses made the board.)</li>
     <li><b>Gunshot-detection microphones (ShotSpotter/SoundThinking):</b> the police department publishes sensor activations at no latency whatsoever — not live, not delayed. A July 2026 check of the city's open-data portal found zero ShotSpotter datasets; the closest public data is the police department's historic shooting-incident file, which is compiled from reports, not from the sensors.</li>
     <li><b>Noise sensors, the board's biggest genuine gap:</b> a July 2026 check found no live public noise feed anywhere in the city — zero noise-sensor datasets on the open-data portal, the SONYC academic network dormant with historical archives only and the Department of Environmental Protection's meters used for enforcement rather than publishing. The one live-ish exception: the Port Authority's roughly 30 airport noise monitors around Kennedy, LaGuardia and Newark can be watched (on about a 20-minute delay) in its WebTrak viewer, but there is no documented public API behind it.</li>
+    <li><b>Groundwater wells:</b> the United States Geological Survey operates real-time monitoring wells on Long Island, but a July 2026 query found zero transmitting inside the five boroughs — the city's own wells report on a lag or not at all.</li>
     <li><b>Other sensor networks with no public interface:</b> the city's traffic-signal detection loops, Con Edison's grid telemetry (its outage map has no stable public feed) and the Department of Environmental Protection's water-quality instruments (samples are published on a delay, not live).</li>
     <li><b>PATH trains</b> publish next-arrival boards but not vehicle positions or a train count worth a tile.</li>
     <li><b>Anything that identifies people.</b> Everything on the board measures water, air, vehicles in aggregate or infrastructure.</li>

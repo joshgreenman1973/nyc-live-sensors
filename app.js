@@ -505,6 +505,25 @@ const FEEDS = [
     }
   },
 
+  {
+    id: "reservoirs", domain: "water", title: "Upstate reservoirs", wide: false,
+    instrument: "Level gauges on the 19 reservoirs and three controlled lakes that hold the city's drinking water, read daily",
+    source: "NYC Department of Environmental Protection, via snapshot",
+    every: 3600, fromSnapshot: true,
+    async run(f) {
+      const r = snapshot?.reservoirs;
+      if (!r || r.pctFull == null) throw new Error("no reservoir data");
+      const t = new Date(r.asOf);
+      setModule(f, "ok",
+        `<div class="big">${fmt1(r.pctFull)}<span class="unit">%</span></div>
+         <div class="big-label">full${r.pageDate ? ` as of ${r.pageDate}` : ""} — the system that supplies a billion gallons a day</div>
+         <div class="rows">
+           ${r.pctNormal != null ? `<div class="r"><span>Normal for this date</span><b>${fmt1(r.pctNormal)}%</b></div>` : ""}
+         </div>`, t);
+      report(f, true, `RESERVOIRS <span class="t-val">${fmt1(r.pctFull)}% FULL</span>`);
+    }
+  },
+
   /* ---------------- STREETS ---------------- */
   {
     id: "traffic", domain: "streets", title: "Traffic speed sensors", wide: false,
@@ -719,6 +738,25 @@ const FEEDS = [
   },
 
   {
+    id: "path", domain: "transit", title: "PATH trains", wide: false,
+    instrument: "Signal-system arrival predictions published for all 13 stations of the bi-state subway under the Hudson",
+    source: "Port Authority of New York and New Jersey, via snapshot",
+    every: 900, fromSnapshot: true,
+    async run(f) {
+      const p = snapshot?.path;
+      if (!p || p.arrivals == null) throw new Error("no PATH data");
+      const t = new Date(p.asOf);
+      setModule(f, stateFor(t, 40),
+        `<div class="big">${fmtInt(p.arrivals)}</div>
+         <div class="big-label">train arrivals posted for the next 30 minutes systemwide</div>
+         <div class="rows">
+           <div class="r"><span>Stations reporting</span><b>${p.stations} of 13</b></div>
+         </div>`, t);
+      report(f, true, `PATH ARRIVALS POSTED <span class="t-val">${fmtInt(p.arrivals)}</span>`);
+    }
+  },
+
+  {
     id: "ferry", domain: "transit", title: "NYC Ferry vessels", wide: false,
     instrument: "Boat-position messages from the ferry system's vehicle feed",
     source: "NYC Ferry real-time feed, via snapshot",
@@ -749,8 +787,60 @@ const FEEDS = [
          <div class="big-label">being drawn by New York City right now</div>
          <div class="rows">
            ${g.isoLoadMw != null ? `<div class="r"><span>New York State total</span><b>${fmtInt(Math.round(g.isoLoadMw))} MW</b></div>` : ""}
+           ${g.nycPriceMwh != null ? `<div class="r"><span>Real-time price, city zone</span><b>$${fmt1(g.nycPriceMwh)}/MWh</b></div>` : ""}
          </div>`, t);
       report(f, true, `NYC ELECTRIC LOAD <span class="t-val">${fmtInt(Math.round(g.nycLoadMw))} MW</span>`);
+    }
+  },
+
+  {
+    id: "coned", domain: "power", title: "Power outages", wide: false,
+    instrument: "Outage detection across Con Edison's distribution grid — how many of its 3.6 million customers are dark right now",
+    source: "Con Edison outage map data, via snapshot",
+    every: 900, fromSnapshot: true,
+    async run(f) {
+      const c = snapshot?.coned;
+      if (!c || c.customersOut == null) throw new Error("no outage data");
+      const t = new Date(c.asOf);
+      const pct = c.customersServed ? (c.customersOut / c.customersServed * 100) : null;
+      setModule(f, stateFor(t, 60),
+        `<div class="big">${fmtInt(c.customersOut)}</div>
+         <div class="big-label">customers without electricity${pct != null ? ` — ${pct < 0.1 ? "less than 0.1" : fmt1(pct)}% of the system` : ""}</div>
+         <div class="rows">
+           ${c.outages != null ? `<div class="r"><span>Separate outage events</span><b>${fmtInt(c.outages)}</b></div>` : ""}
+         </div>`, t);
+      report(f, true, `CUSTOMERS WITHOUT POWER <span class="t-val">${fmtInt(c.customersOut)}</span>`);
+    }
+  },
+
+  {
+    id: "geomag", domain: "ground", title: "Geomagnetic field", wide: false,
+    instrument: "A worldwide ring of ground magnetometers, distilled into the planetary K index — when it spikes, power grids and satellite navigation feel it",
+    source: "NOAA Space Weather Prediction Center",
+    every: 1800,
+    async run(f) {
+      const [kpj, scales] = await Promise.all([
+        getJSON("https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"),
+        getJSON("https://services.swpc.noaa.gov/products/noaa-scales.json").catch(() => null)
+      ]);
+      // the feed has shipped as both array-of-arrays (header first) and array-of-objects
+      const rows = Array.isArray(kpj[0]) ? kpj.slice(1) : kpj;
+      const last = rows[rows.length - 1];
+      if (!last) throw new Error("no Kp data");
+      const kp = parseFloat(Array.isArray(last) ? last[1] : last.Kp ?? last.kp_index);
+      const raw = String(Array.isArray(last) ? last[0] : last.time_tag);
+      const t = new Date(/[Zz]|[+-]\d\d:?\d\d$/.test(raw) ? raw : raw + "Z");
+      const cur = scales?.["0"];
+      const gTxt = cur?.G ? `G${cur.G.Scale} (${cur.G.Text})` : null;
+      const word = kp < 3 ? "quiet" : kp < 4 ? "unsettled" : kp < 5 ? "active" : "storm conditions";
+      setModule(f, stateFor(t, 240),
+        `<div class="big">${fmt1(kp)}<span class="unit">Kp</span></div>
+         <div class="big-label">${word} — the magnetic field over the region right now</div>
+         <div class="rows">
+           ${gTxt ? `<div class="r"><span>Geomagnetic storm scale</span><b>${gTxt}</b></div>` : ""}
+           ${cur?.R ? `<div class="r"><span>Radio blackout scale</span><b>R${cur.R.Scale} (${cur.R.Text})</b></div>` : ""}
+         </div>`, t);
+      report(f, true, `GEOMAGNETIC Kp <span class="t-val">${fmt1(kp)}</span> · ${word.toUpperCase()}`);
     }
   },
 
@@ -1235,11 +1325,11 @@ const MAP = window.MAP = {
 
 const SECTIONS = [
   ["sky", "Sky", "radar · weather stations · transponders"],
-  ["water", "Water", "tide gauges · stream gauges · buoys · flood sensors"],
+  ["water", "Water", "tide gauges · stream gauges · buoys · flood sensors · reservoirs"],
   ["streets", "Streets", "speed sensors · cameras · counters · dock telemetry"],
   ["transit", "Transit", "trains · buses · boats · broken elevators"],
-  ["power", "Power", "grid load + generation"],
-  ["ground", "Ground", "seismographs"]
+  ["power", "Power", "grid load · generation · outages"],
+  ["ground", "Ground", "seismographs · magnetometers"]
 ];
 
 function build() {

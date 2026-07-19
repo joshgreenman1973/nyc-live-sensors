@@ -77,11 +77,77 @@ async function nyiso() {
     fuelAsOf = etStampToISO(fLast);
   } catch (e) { console.error("fuelmix:", e.message); }
 
+  let nycPriceMwh = null, priceAsOf = null;
+  try {
+    const pr = parseCSV(await fetchText(`https://mis.nyiso.com/public/csv/realtime/${etDateStamp()}realtime_zone.csv`));
+    const ph = pr[0];
+    const pT = ph.indexOf("Time Stamp"), pN = ph.indexOf("Name"), pL = ph.indexOf("LBMP ($/MWHr)");
+    // the file blends actual prices with look-ahead projections — use the
+    // latest N.Y.C. row that is not in the future
+    const pnycRows = pr.slice(1).filter(r => r[pN] === "N.Y.C." && r[pL] !== "")
+      .map(r => ({ iso: etStampToISO(r[pT]), price: parseFloat(r[pL]) }))
+      .filter(r => Date.parse(r.iso) <= Date.now());
+    const pLatest = pnycRows[pnycRows.length - 1];
+    if (pLatest) { nycPriceMwh = pLatest.price; priceAsOf = pLatest.iso; }
+  } catch (e) { console.error("lbmp:", e.message); }
+
   snapshot.nyiso = {
     nycLoadMw: nyc ? parseFloat(nyc[iL]) : null,
     isoLoadMw: total || null,
     asOf: etStampToISO(lastStamp),
-    fuelMix, fuelAsOf
+    fuelMix, fuelAsOf,
+    nycPriceMwh, priceAsOf
+  };
+}
+
+/* ---------- Con Edison outages (summary only) ---------- */
+async function coned() {
+  const meta = await fetchJSON("https://outagemap.coned.com/resources/data/external/interval_generation_data/metadata.json");
+  const d = await fetchJSON(`https://outagemap.coned.com/resources/data/external/interval_generation_data/${meta.directory}/data.json`);
+  const s = d.summaryFileData || {};
+  if (s.total_cust_s == null) throw new Error("no outage summary");
+  snapshot.coned = {
+    customersOut: s.total_cust_a?.val ?? null,
+    customersServed: s.total_cust_s,
+    outages: s.total_outages ?? null,
+    asOf: s.date_generated ? new Date(s.date_generated).toISOString() : now()
+  };
+}
+
+/* ---------- PATH arrival board ---------- */
+async function path() {
+  const j = await fetchJSON("https://www.panynj.gov/bin/portauthority/ridepath.json");
+  const results = j.results || [];
+  if (!results.length) throw new Error("no PATH stations");
+  let arrivals = 0;
+  for (const st of results) for (const dest of st.destinations || []) for (const m of dest.messages || []) {
+    const s = parseFloat(m.secondsToArrival);
+    if (!isNaN(s) && s >= 0 && s <= 1800) arrivals++;
+  }
+  snapshot.path = { arrivals, stations: results.length, asOf: now() };
+}
+
+/* ---------- upstate reservoir levels (DEP page, updated daily) ---------- */
+async function reservoirs() {
+  const html = await fetchText("https://www.nyc.gov/site/dep/water/reservoir-levels.page", {
+    headers: { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36" }
+  });
+  // The number sits in its own table cell after the label cell; markup in
+  // between carries layout numbers, so require a decimal figure standing
+  // alone in a text node and sanity-check the range.
+  const grab = label => {
+    const m = html.match(new RegExp(label + String.raw`:[\s\S]{0,400}?>\s*(\d{1,3}\.\d)\s*<`, "i"));
+    const v = m ? parseFloat(m[1]) : null;
+    return v != null && v >= 25 && v <= 100 ? v : null;
+  };
+  const current = grab("Current"), normal = grab("Normal");
+  if (current == null) throw new Error("could not parse reservoir level");
+  const dm = html.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s+\d{4}/);
+  snapshot.reservoirs = {
+    pctFull: current,
+    pctNormal: normal,
+    pageDate: dm ? dm[0] : null,
+    asOf: now()
   };
 }
 
@@ -299,8 +365,8 @@ function stationsFile() {
 }
 
 /* ---------- run everything, carry stale sections forward ---------- */
-const jobs = { nyiso, buoy, subway, rail, ferry, cameras, floodnet };
-const carry = { nyiso: "nyiso", buoy: "buoy", subway: "subway", rail: "rail", ferry: "ferry", cameras: "cameras", floodnet: "floodnet" };
+const jobs = { nyiso, buoy, subway, rail, ferry, cameras, floodnet, coned, path, reservoirs };
+const carry = { nyiso: "nyiso", buoy: "buoy", subway: "subway", rail: "rail", ferry: "ferry", cameras: "cameras", floodnet: "floodnet", coned: "coned", path: "path", reservoirs: "reservoirs" };
 
 for (const [name, job] of Object.entries(jobs)) {
   try {
