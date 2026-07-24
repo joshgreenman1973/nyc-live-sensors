@@ -1,17 +1,17 @@
 {
- "generated": "2026-07-24T01:55:30.007Z",
+ "generated": "2026-07-24T03:05:14.327Z",
  "nyiso": {
-  "nycLoadMw": 6588.67,
-  "isoLoadMw": 19846.3443,
-  "asOf": "2026-07-24T01:40:00.000Z",
+  "nycLoadMw": 6265.6875,
+  "isoLoadMw": 18451.467099999998,
+  "asOf": "2026-07-24T02:50:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 5316
+    "mw": 4663
    },
    {
     "fuel": "Natural Gas",
-    "mw": 5088
+    "mw": 4586
    },
    {
     "fuel": "Nuclear",
@@ -23,36 +23,36 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 235
+    "mw": 233
    },
    {
     "fuel": "Wind",
-    "mw": 463
+    "mw": 507
    },
    {
     "fuel": "Hydro",
-    "mw": 3675
+    "mw": 2994
    }
   ],
-  "fuelAsOf": "2026-07-24T01:40:00.000Z",
-  "nycPriceMwh": 52.86,
-  "priceAsOf": "2026-07-24T01:55:00.000Z"
+  "fuelAsOf": "2026-07-24T02:50:00.000Z",
+  "nycPriceMwh": 38.82,
+  "priceAsOf": "2026-07-24T03:05:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.8,
   "domPeriodS": 8,
-  "waterTempC": 23.4,
+  "waterTempC": 23.3,
   "windMs": 3,
   "airTempC": 22.4,
-  "pressureHpa": 1022.4,
-  "asOf": "2026-07-24T01:20:00.000Z"
+  "pressureHpa": 1022.8,
+  "asOf": "2026-07-24T02:20:00.000Z"
  },
  "subway": {
-  "trains": 454,
+  "trains": 351,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 15,
-  "asOf": "2026-07-24T01:55:32.027Z"
+  "alerts": 10,
+  "asOf": "2026-07-24T03:05:16.063Z"
  },
  "rail": {
   "lirr": {
@@ -60,127 +60,116 @@
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 107,
+   "trains": 91,
    "viaVehicles": true
   },
-  "asOf": "2026-07-24T01:55:32.431Z"
+  "asOf": "2026-07-24T03:05:16.458Z"
  },
  "ferry": {
-  "vessels": 2,
-  "positions": [
-   {
-    "lat": 40.65495,
-    "lon": -74.02609,
-    "label": "H200"
-   },
-   {
-    "lat": 40.73117,
-    "lon": -73.96361,
-    "label": "H120"
-   }
-  ],
-  "asOf": "2026-07-24T01:55:32.592Z"
+  "vessels": 0,
+  "positions": [],
+  "asOf": "2026-07-24T03:05:16.620Z"
  },
  "cameras": {
   "total": 968,
   "list": [
    {
-    "name": "Major Deegan Expy @ Van Cortland Pk S",
-    "url": "https://webcams.nyctmc.org/api/cameras/b6cd1640-fdc3-4525-bbb4-f148699876df/image"
+    "name": "Hutchhinson River Pkwy @ Westchester Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/15fca74d-c3e9-42ee-8f32-5b708ef36477/image"
    },
    {
-    "name": "Furman St @ Joralemon St",
-    "url": "https://webcams.nyctmc.org/api/cameras/df527f8d-1d60-4c90-9b22-badbb87e469d/image"
+    "name": "Belt Pkwy @ Flatbush Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/9e3164a8-1c63-4790-bc24-f9d752f3ae41/image"
    },
    {
-    "name": "Cross Island Pkwy @ Braddock Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/c3169415-bb26-4cea-8a12-36afd3e37f18/image"
+    "name": "Metropolitan Ave @ Fresh Pond Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/4ec4d8da-6dcb-444d-b33a-096a7d07bb51/image"
    },
    {
-    "name": "Lexington Ave @ 57 ST",
-    "url": "https://webcams.nyctmc.org/api/cameras/180dcc87-d861-43e3-8898-9ad5ee1a26a9/image"
-   },
-   {
-    "name": "Father Capodanno Blvd @ Seaview Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/80b83728-4712-4ab6-aa2f-ae384eb1b91c/image"
-   },
-   {
-    "name": "WEBSTER AVE @ NEREID AVE",
-    "url": "https://webcams.nyctmc.org/api/cameras/6a841f4c-93ef-4f51-b38d-80e70053ff8d/image"
-   },
-   {
-    "name": "C2-BQE-11-WB_at_Furmn_St_UP-Ex28A",
-    "url": "https://webcams.nyctmc.org/api/cameras/03051d28-db9c-4527-97c7-0bb3f35e7cef/image"
-   },
-   {
-    "name": "Hempstead Ave @ Springfield Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/5bcf06f4-dbf0-4c7b-b6f3-241aea4e92c6/image"
-   },
-   {
-    "name": "FDR @ E 127 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/f78c30e5-2a4d-4a71-b5d4-482ba70d585f/image"
-   },
-   {
-    "name": "Hylan Blvd @ Nelson Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/7e13d5e6-bd1a-47af-ba28-39c50e2736c2/image"
-   },
-   {
-    "name": "Pelham Shore Rd @ City Island Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/09afb231-ef10-470f-bf54-0f44fc2dc18f/image"
-   },
-   {
-    "name": "Hicks St NB @ Sackett St",
-    "url": "https://webcams.nyctmc.org/api/cameras/2ade65cd-0d12-4c31-9a65-da75d9d62d4e/image"
-   },
-   {
-    "name": "C5-BQE-45-EB_at_GCP-Astoria_Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/7bac53fa-8296-40f8-9297-e7e67597a92c/image"
-   },
-   {
-    "name": "Rockefeller Plaza @ W 51 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/bff9cee2-1513-4af3-9838-ea7a35552049/image"
+    "name": "Grand St @ Allen St",
+    "url": "https://webcams.nyctmc.org/api/cameras/48cd1b5b-f361-4683-9d83-492d4789d7ea/image"
    },
    {
     "name": "Amboy Rd @ Annadale Rd",
     "url": "https://webcams.nyctmc.org/api/cameras/ebd920f9-8522-4ae7-af8f-b887256fdaa1/image"
    },
    {
-    "name": "C1-MDE-15-NB_at_Jerome_Ave-Ex13",
-    "url": "https://webcams.nyctmc.org/api/cameras/32bf4789-4142-4484-b110-88343799a40b/image"
+    "name": "C1-CBX-18-Med_at_Pennyfield_Av-TNB",
+    "url": "https://webcams.nyctmc.org/api/cameras/e51a2974-8ca2-4fe2-a90a-842685cbbcc9/image"
    },
    {
-    "name": "Metropolitan Ave @ Marcy Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/0ed1503d-23fc-4102-ada3-5d647a7b20cb/image"
+    "name": "BB-26 South Rdwy @ West of Manhattan Twr",
+    "url": "https://webcams.nyctmc.org/api/cameras/3fd80992-482b-4e88-ad7f-8c74690a8d37/image"
    },
    {
-    "name": "Northern Blvd @ Francis Lewis Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/a8b56a8b-1451-4290-9d8f-c770f80c855a/image"
+    "name": "Grand Ave @ Hamilton Pl",
+    "url": "https://webcams.nyctmc.org/api/cameras/b08600e6-7189-4104-a484-709dc81a3fa7/image"
+   },
+   {
+    "name": "Lexington Ave @ 72 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/65440c6b-ee6c-4406-8542-2992b6edf3f5/image"
+   },
+   {
+    "name": "C3-WSE-07-NB_at_Frsh_Kills_Crk-Ex5",
+    "url": "https://webcams.nyctmc.org/api/cameras/1222cb4f-2ed6-44f6-9550-29dd2cd6b839/image"
+   },
+   {
+    "name": "NB Cross Brx Expy-Webster Av Exit ramp @ E 174 St & Cater Av",
+    "url": "https://webcams.nyctmc.org/api/cameras/15c0758b-5c9a-4841-8514-c04bc7320c70/image"
+   },
+   {
+    "name": "MHB-29 Brklyn S URDWY @ Twr",
+    "url": "https://webcams.nyctmc.org/api/cameras/dd29dfed-4e13-43ae-935b-54660df1bcae/image"
+   },
+   {
+    "name": "College Point Blvd @ 35 Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/279720e5-7db3-4143-9608-531cfc50dc25/image"
+   },
+   {
+    "name": "Riverside Dr @ 79 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/36672d97-80d3-48f0-b3c4-6e6125069b90/image"
+   },
+   {
+    "name": "Victory Blvd @ Christopher/Lamberts La",
+    "url": "https://webcams.nyctmc.org/api/cameras/2d1a4d63-7755-4a4f-bce2-79a24bd212bc/image"
+   },
+   {
+    "name": "Major Deegan @ Triboro Bridge",
+    "url": "https://webcams.nyctmc.org/api/cameras/9cf2184a-e075-47c2-9d02-8e6edcdf28b8/image"
+   },
+   {
+    "name": "BB-65 North Rdwy @ Above Water St/Bklyn",
+    "url": "https://webcams.nyctmc.org/api/cameras/ed788fa2-c602-4676-b0fa-913d1a17a123/image"
+   },
+   {
+    "name": "C5-BQE-44-Med_at_31st_Ave-Ex41",
+    "url": "https://webcams.nyctmc.org/api/cameras/38a9cb68-6d0c-4171-a809-344c581dfcb0/image"
    }
   ],
-  "asOf": "2026-07-24T01:55:33.311Z"
+  "asOf": "2026-07-24T03:05:17.419Z"
  },
  "floodnet": {
-  "sensors": 388,
+  "sensors": 387,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-07-24T01:55:12.000Z"
+  "asOf": "2026-07-24T02:52:48.000Z"
  },
  "coned": {
-  "customersOut": 19,
+  "customersOut": 17,
   "customersServed": 3626606,
-  "outages": 18,
-  "asOf": "2026-07-24T01:50:00.000Z"
+  "outages": 16,
+  "asOf": "2026-07-24T03:05:00.000Z"
  },
  "path": {
-  "arrivals": 52,
+  "arrivals": 41,
   "stations": 13,
-  "asOf": "2026-07-24T01:57:12.171Z"
+  "asOf": "2026-07-24T03:06:55.361Z"
  },
  "reservoirs": {
   "pctFull": 87.3,
   "pctNormal": 91,
   "pageDate": null,
-  "asOf": "2026-07-24T01:57:12.483Z"
+  "asOf": "2026-07-24T03:06:55.639Z"
  }
 }
