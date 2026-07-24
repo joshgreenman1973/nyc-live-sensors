@@ -33,8 +33,21 @@ jobs:
           git config user.name "sensor-bot"
           git config user.email "actions@github.com"
           git add data/snapshot.json data/stations.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
-            git pull --rebase origin main
-            git push
+          if git diff --cached --quiet; then
+            echo "No change."
+            exit 0
           fi
+          git commit -m "Snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+          # GitHub has rejected a push with a bare "remote: Internal Server
+          # Error" — its problem, not ours, and gone by the next attempt. Rebase
+          # before each try in case an overlapping run landed first.
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push; then
+              exit 0
+            fi
+            echo "Push attempt $attempt failed; waiting $((attempt * 10))s."
+            sleep $((attempt * 10))
+          done
+          echo "::error::Push failed three times — snapshot not committed."
+          exit 1
