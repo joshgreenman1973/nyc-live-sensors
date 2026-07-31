@@ -1,17 +1,17 @@
 {
- "generated": "2026-07-31T01:35:51.684Z",
+ "generated": "2026-07-31T02:39:02.949Z",
  "nyiso": {
-  "nycLoadMw": 6738.811,
-  "isoLoadMw": 20840.8717,
-  "asOf": "2026-07-31T01:20:00.000Z",
+  "nycLoadMw": 6537.0283,
+  "isoLoadMw": 19762.638399999996,
+  "asOf": "2026-07-31T02:25:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 5308
+    "mw": 5243
    },
    {
     "fuel": "Natural Gas",
-    "mw": 6167
+    "mw": 6108
    },
    {
     "fuel": "Nuclear",
@@ -27,180 +27,149 @@
    },
    {
     "fuel": "Wind",
-    "mw": 212
+    "mw": 196
    },
    {
     "fuel": "Hydro",
-    "mw": 3451
+    "mw": 2736
    }
   ],
-  "fuelAsOf": "2026-07-31T01:20:00.000Z",
-  "nycPriceMwh": 57.89,
-  "priceAsOf": "2026-07-31T01:35:00.000Z"
+  "fuelAsOf": "2026-07-31T02:20:00.000Z",
+  "nycPriceMwh": 63.98,
+  "priceAsOf": "2026-07-31T02:35:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 0.9,
+  "waveHeightM": 0.8,
   "domPeriodS": 8,
   "waterTempC": 23.6,
-  "windMs": 1,
+  "windMs": 2,
   "airTempC": 22.2,
-  "pressureHpa": 1012.3,
-  "asOf": "2026-07-31T00:50:00.000Z"
+  "pressureHpa": 1012.6,
+  "asOf": "2026-07-31T01:50:00.000Z"
  },
  "subway": {
-  "trains": 504,
+  "trains": 415,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 14,
-  "asOf": "2026-07-31T01:35:53.655Z"
+  "alerts": 11,
+  "asOf": "2026-07-31T02:39:04.078Z"
  },
  "rail": {
   "lirr": {
-   "trains": 35,
+   "trains": 36,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 111,
+   "trains": 91,
    "viaVehicles": true
   },
-  "asOf": "2026-07-31T01:35:54.009Z"
+  "asOf": "2026-07-31T02:39:04.170Z"
  },
  "ferry": {
-  "vessels": 6,
-  "positions": [
-   {
-    "lat": 40.70379,
-    "lon": -73.99565,
-    "label": "H200"
-   },
-   {
-    "lat": 40.71303,
-    "lon": -74.01867,
-    "label": "H103"
-   },
-   {
-    "lat": 40.71222,
-    "lon": -73.97172,
-    "label": "H208"
-   },
-   {
-    "lat": 40.6847,
-    "lon": -74.01408,
-    "label": "H214"
-   },
-   {
-    "lat": 40.70874,
-    "lon": -73.97042,
-    "label": "H119"
-   },
-   {
-    "lat": 40.64609,
-    "lon": -74.07401,
-    "label": "H123"
-   }
-  ],
-  "asOf": "2026-07-31T01:35:54.185Z"
+  "vessels": 0,
+  "positions": [],
+  "asOf": "2026-07-31T02:39:04.355Z"
  },
  "cameras": {
-  "total": 971,
+  "total": 972,
   "list": [
-   {
-    "name": "C1-CBE-10-SB_at_Brx.Rvr_Pkwy-Ex4A",
-    "url": "https://webcams.nyctmc.org/api/cameras/efea49ae-8d39-4ebd-b2a9-9259361d4233/image"
-   },
-   {
-    "name": "Belt Pkwy @ Brookville Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/e676b48b-e3ff-4f8f-9388-7d1206094f83/image"
-   },
-   {
-    "name": "10 Ave @ 49 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/957fc40e-675c-4121-a3bc-ca3c0a246831/image"
-   },
-   {
-    "name": "Atlantic Ave @ Barclays Center",
-    "url": "https://webcams.nyctmc.org/api/cameras/053afe02-e1b3-4bea-9995-787e72c7fff4/image"
-   },
-   {
-    "name": "Hylan Blvd @ New Dorp Lane",
-    "url": "https://webcams.nyctmc.org/api/cameras/be732c0a-c4f8-4ae4-a751-1fc011f160e7/image"
-   },
-   {
-    "name": "Bruckner Expy @ Sheridian Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/e38f2549-cdbf-4d78-a0c6-d71e5421ac1e/image"
-   },
-   {
-    "name": "BQE E/B Ent. Ramp @ Broadway",
-    "url": "https://webcams.nyctmc.org/api/cameras/7033b4d2-13e5-4405-ab86-da33c12734c3/image"
-   },
-   {
-    "name": "Houston St @ Lafeyette St",
-    "url": "https://webcams.nyctmc.org/api/cameras/6fa8acf2-f5bf-4200-afde-1240868ca3e3/image"
-   },
-   {
-    "name": "Columbia St & BQE ENT and EXIT",
-    "url": "https://webcams.nyctmc.org/api/cameras/89177410-fe37-46fa-8021-5951e3d443c0/image"
-   },
-   {
-    "name": "Hylan Ave @ Page Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/01ffcaef-7c54-4f16-8668-bce6efbcfcb1/image"
-   },
    {
     "name": "Under Cliff Ave @ Boscobe Pl",
     "url": "https://webcams.nyctmc.org/api/cameras/9f118098-cee3-4964-8630-b932c94f70a3/image"
    },
    {
-    "name": "C5-LIE-22-WB_at_163rd_St-Ex25",
-    "url": "https://webcams.nyctmc.org/api/cameras/8ff75339-6269-457e-8fb0-55af56997c5b/image"
+    "name": "MADISON @ 34 ST",
+    "url": "https://webcams.nyctmc.org/api/cameras/a356e2c6-7d95-4d93-85c1-da3d05485d8c/image"
    },
    {
-    "name": "FDR @ 38 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/a409e9bd-6a0f-4cdc-81d8-290d5709dc74/image"
+    "name": "C5-BQE-44-Med_at_31st_Ave-Ex41",
+    "url": "https://webcams.nyctmc.org/api/cameras/38a9cb68-6d0c-4171-a809-344c581dfcb0/image"
    },
    {
-    "name": "C2-GE-06-WB_at_63rd_St",
-    "url": "https://webcams.nyctmc.org/api/cameras/10299e9d-efa0-4b1c-8b25-ce6e1657bc1b/image"
+    "name": "Columbia St @ Carroll St - 168.202",
+    "url": "https://webcams.nyctmc.org/api/cameras/c073c2d9-919f-4ba3-ad13-d331d378e12b/image"
    },
    {
-    "name": "Hylan Blvd @ Richmond Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/6e9a1a7e-63ad-4cab-b14a-1864040409fb/image"
+    "name": "Morningstar Rd @ Walker St",
+    "url": "https://webcams.nyctmc.org/api/cameras/710191bf-5753-49f7-a524-d0db75526600/image"
    },
    {
-    "name": "Grand Concourse @ E 149 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/62380b5a-8960-4c2b-9125-d7f088605a7f/image"
+    "name": "Pelham Pkwy W/B @ Boston Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/b2924000-6eb1-4449-b201-01c0653b6c68/image"
    },
    {
-    "name": "C5-BQE-37-EB_at_41st_Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/b5b12361-b5b6-483f-a76e-b6cf98e06694/image"
+    "name": "QBB UL CM @ York Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/975c7dd6-d6d7-4eaa-843d-fbe8eb7a1eb3/image"
    },
    {
-    "name": "6 Ave @ 39 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/34674be5-4791-47f1-b0b2-2db0ff619732/image"
+    "name": "Seagirt Blvd @ B 32 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/a01a8c98-d314-4eb4-b97c-4a4f80d71c4b/image"
+   },
+   {
+    "name": "Sands St @ Pearl St",
+    "url": "https://webcams.nyctmc.org/api/cameras/82ff853c-50e3-403a-855b-5f17708a4f38/image"
+   },
+   {
+    "name": "Veterans Rd @ Bloomingdale Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/4355c2af-b181-4cc2-98ef-cec3b1475c51/image"
+   },
+   {
+    "name": "C1-CBX-17-Med_at_E.Tremont_Ave-Ex10",
+    "url": "https://webcams.nyctmc.org/api/cameras/99098e73-0848-4c19-895e-f81651f76c39/image"
+   },
+   {
+    "name": "FDR @ Grand St",
+    "url": "https://webcams.nyctmc.org/api/cameras/24c402b2-915d-49f8-9529-f723a171c134/image"
+   },
+   {
+    "name": "S Conduit Ave @ 150 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/aa857aaf-dd05-46e7-9091-a6c8596a3fbf/image"
+   },
+   {
+    "name": "BB-72 South Rdwy @ Front St",
+    "url": "https://webcams.nyctmc.org/api/cameras/0e8def41-11e2-45de-a8f6-b746b805b7c5/image"
+   },
+   {
+    "name": "C3-SIE-05-WB_at_MLK-Int-Ex9",
+    "url": "https://webcams.nyctmc.org/api/cameras/a2d92e4b-f041-4bd4-9f13-3ece7451a752/image"
+   },
+   {
+    "name": "C1-MDE-02-NB_at_Willis_Ave-Ex2",
+    "url": "https://webcams.nyctmc.org/api/cameras/a654976f-34a5-46d3-a57d-efe949153f41/image"
+   },
+   {
+    "name": "Central Park West @ W 61 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/5caa3ace-277b-42db-97bd-585f29b0d49f/image"
+   },
+   {
+    "name": "Queens Blvd @ Jackson Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/5507fab3-3430-4747-a9ab-ed9f7b5ba959/image"
    }
   ],
-  "asOf": "2026-07-31T01:35:55.070Z"
+  "asOf": "2026-07-31T02:39:04.781Z"
  },
  "floodnet": {
   "sensors": 400,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-07-31T01:26:24.000Z"
+  "asOf": "2026-07-31T02:38:24.000Z"
  },
  "coned": {
-  "customersOut": 1219,
+  "customersOut": 890,
   "customersServed": 3626606,
   "outages": 11,
-  "asOf": "2026-07-31T01:35:00.000Z"
+  "asOf": "2026-07-31T02:35:00.000Z"
  },
  "path": {
-  "arrivals": 52,
+  "arrivals": 47,
   "stations": 13,
-  "asOf": "2026-07-31T01:37:42.956Z"
+  "asOf": "2026-07-31T02:40:46.108Z"
  },
  "reservoirs": {
   "pctFull": 90.7,
   "pctNormal": 90.6,
   "pageDate": "July 30, 2026",
-  "asOf": "2026-07-31T01:37:43.427Z"
+  "asOf": "2026-07-31T02:40:46.271Z"
  }
 }
