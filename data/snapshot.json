@@ -1,17 +1,17 @@
 {
- "generated": "2026-08-14T19:34:11.775Z",
+ "generated": "2026-08-14T19:58:23.095Z",
  "nyiso": {
-  "nycLoadMw": 8313.127,
-  "isoLoadMw": 22794.280700000003,
-  "asOf": "2026-08-14T19:20:00.000Z",
+  "nycLoadMw": 8344.038,
+  "isoLoadMw": 22733.446500000002,
+  "asOf": "2026-08-14T19:45:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 6819
+    "mw": 6818
    },
    {
     "fuel": "Natural Gas",
-    "mw": 5756
+    "mw": 5828
    },
    {
     "fuel": "Nuclear",
@@ -23,36 +23,36 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 537
+    "mw": 535
    },
    {
     "fuel": "Wind",
-    "mw": 222
+    "mw": 226
    },
    {
     "fuel": "Hydro",
-    "mw": 3716
+    "mw": 4005
    }
   ],
-  "fuelAsOf": "2026-08-14T19:15:00.000Z",
-  "nycPriceMwh": 61.31,
-  "priceAsOf": "2026-08-14T19:30:00.000Z"
+  "fuelAsOf": "2026-08-14T19:40:00.000Z",
+  "nycPriceMwh": 115.38,
+  "priceAsOf": "2026-08-14T19:55:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 0.5,
-  "domPeriodS": 11,
+  "waveHeightM": 0.4,
+  "domPeriodS": 12,
   "waterTempC": 24.3,
   "windMs": 3,
-  "airTempC": 25,
-  "pressureHpa": 1017.6,
-  "asOf": "2026-08-14T18:50:00.000Z"
+  "airTempC": 25.1,
+  "pressureHpa": 1017.4,
+  "asOf": "2026-08-14T19:20:00.000Z"
  },
  "subway": {
-  "trains": 692,
+  "trains": 713,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 9,
-  "asOf": "2026-08-14T19:34:13.161Z"
+  "alerts": 12,
+  "asOf": "2026-08-14T19:58:24.280Z"
  },
  "rail": {
   "lirr": {
@@ -60,212 +60,222 @@
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 288,
+   "trains": 291,
    "viaVehicles": true
   },
-  "asOf": "2026-08-14T19:34:13.378Z"
+  "asOf": "2026-08-14T19:58:24.398Z"
  },
  "ferry": {
-  "vessels": 19,
+  "vessels": 21,
   "positions": [
    {
-    "lat": 40.70889,
-    "lon": -73.97032,
+    "lat": 40.70303,
+    "lon": -74.00654,
     "label": "H201"
    },
    {
-    "lat": 40.63557,
-    "lon": -74.05394,
+    "lat": 40.70161,
+    "lon": -74.02598,
     "label": "H202"
    },
    {
-    "lat": 40.74437,
-    "lon": -73.97062,
+    "lat": 40.72095,
+    "lon": -73.96495,
     "label": "H102"
    },
    {
-    "lat": 40.74481,
-    "lon": -73.96986,
+    "lat": 40.70312,
+    "lon": -74.00555,
     "label": "H106"
    },
    {
-    "lat": 40.58414,
-    "lon": -73.83186,
+    "lat": 40.7045,
+    "lon": -73.97655,
+    "label": "H107"
+   },
+   {
+    "lat": 40.56722,
+    "lon": -73.98318,
     "label": "H109"
    },
    {
-    "lat": 40.62218,
-    "lon": -74.04614,
+    "lat": 40.57335,
+    "lon": -73.88636,
     "label": "H110"
    },
    {
-    "lat": 40.65222,
-    "lon": -74.0308,
+    "lat": 40.70316,
+    "lon": -74.00669,
     "label": "H204"
    },
    {
-    "lat": 40.76052,
-    "lon": -74.0089,
+    "lat": 40.65603,
+    "lon": -74.05907,
     "label": "H205"
    },
    {
-    "lat": 40.67509,
-    "lon": -74.02083,
+    "lat": 40.59381,
+    "lon": -74.03732,
     "label": "H114"
    },
    {
-    "lat": 40.70619,
-    "lon": -73.99013,
+    "lat": 40.75872,
+    "lon": -73.95689,
     "label": "H111"
    },
    {
-    "lat": 40.72593,
-    "lon": -73.96384,
+    "lat": 40.80205,
+    "lon": -73.85073,
     "label": "H112"
    },
    {
-    "lat": 40.75662,
-    "lon": -73.95267,
+    "lat": 40.7019,
+    "lon": -73.97361,
     "label": "H115"
    },
    {
-    "lat": 40.80258,
-    "lon": -73.85174,
+    "lat": 40.74644,
+    "lon": -73.96824,
     "label": "H113"
    },
    {
-    "lat": 40.6838,
-    "lon": -74.01237,
+    "lat": 40.70436,
+    "lon": -73.997,
     "label": "H119"
    },
    {
-    "lat": 40.71853,
-    "lon": -73.96772,
+    "lat": 40.75652,
+    "lon": -73.95235,
     "label": "H091"
    },
    {
-    "lat": 40.70224,
-    "lon": -74.0068,
+    "lat": 40.70367,
+    "lon": -73.99554,
     "label": "H120"
    },
    {
-    "lat": 40.70405,
-    "lon": -73.97678,
+    "lat": 40.70435,
+    "lon": -73.97657,
+    "label": "H301"
+   },
+   {
+    "lat": 40.70404,
+    "lon": -73.97679,
     "label": "H501"
    },
    {
-    "lat": 40.70689,
-    "lon": -73.98243,
+    "lat": 40.7377,
+    "lon": -73.96466,
     "label": "H121"
    },
    {
-    "lat": 40.70458,
-    "lon": -73.97646,
+    "lat": 40.70776,
+    "lon": -73.98569,
     "label": "H123"
    }
   ],
-  "asOf": "2026-08-14T19:34:13.602Z"
+  "asOf": "2026-08-14T19:58:24.448Z"
  },
  "cameras": {
   "total": 967,
   "list": [
    {
-    "name": "Allan St (1 Ave) @ Houston St (B)",
-    "url": "https://webcams.nyctmc.org/api/cameras/98c2de4e-fa0c-41d0-b1ea-6d1df833d792/image"
+    "name": "Lexington Ave @ 72 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/65440c6b-ee6c-4406-8542-2992b6edf3f5/image"
    },
    {
-    "name": "Queens Blvd @ 39 ST",
-    "url": "https://webcams.nyctmc.org/api/cameras/c361e170-2da7-4e96-9546-296e766b37ad/image"
+    "name": "Astoria Blvd S S/R @ 33 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/60793334-580b-4538-b947-7312e95039bf/image"
    },
    {
-    "name": "C1-CBE-05_S_SB_at_Walton_Ave-Ex2A",
-    "url": "https://webcams.nyctmc.org/api/cameras/d23ec5fd-f956-4283-975a-623514b001a3/image"
+    "name": "C1-MDE-12-SB_at_Heath_Ave-Ex9",
+    "url": "https://webcams.nyctmc.org/api/cameras/1a626331-3c36-48bd-91a5-edd930c314c0/image"
    },
    {
-    "name": "Atlantic Ave @ Bedford Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/2fe54994-17f6-499d-a3ab-8c6dc9dbda9e/image"
+    "name": "C2-GE-13-EB_at_Prospect_Expy-Ex24",
+    "url": "https://webcams.nyctmc.org/api/cameras/9b607ed0-dcb4-4cc3-8055-bbb23e5fe9d6/image"
    },
    {
-    "name": "Hylan Blvd @ Seaview Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/a67d1358-ca36-4f9a-a432-056361f7c904/image"
+    "name": "Hylan Blvd @ Arden Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/0f5e11ff-0ecc-4622-a32e-bb80a6b2c1c6/image"
    },
    {
-    "name": "Riverside Dr @ Washington Br ENT ramp",
-    "url": "https://webcams.nyctmc.org/api/cameras/a9b2501d-062f-43f8-9419-f89faa4f36ba/image"
+    "name": "Ave of Americas @ Central Park South",
+    "url": "https://webcams.nyctmc.org/api/cameras/332f161d-47cb-4c8a-b6b6-5ad48a55c978/image"
    },
    {
-    "name": "Metropolitan Ave @ Fresh Pond Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/4ec4d8da-6dcb-444d-b33a-096a7d07bb51/image"
+    "name": "Northern Blvd @ 114 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/39b42007-16d8-4302-8b8c-602bbb9e9683/image"
    },
    {
-    "name": "C1-MDE-06-NB_at_Macombs_Dam_Br-Ex5",
-    "url": "https://webcams.nyctmc.org/api/cameras/09cc9eed-0732-4199-a6ca-b3d0bbbad860/image"
+    "name": "Exterior St @ 3 Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/c145d543-b5f5-4dec-9bb8-7866eafdf054/image"
    },
    {
-    "name": "Wythe Ave @ Williamsburg st E",
-    "url": "https://webcams.nyctmc.org/api/cameras/45b87983-6659-4be7-a354-15d756664204/image"
-   },
-   {
-    "name": "C3-SIE-11-EB_at_Renwick_Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/bcb706e6-135a-4981-8a06-7545f6e05ddd/image"
-   },
-   {
-    "name": "Broadway @ Morris St",
-    "url": "https://webcams.nyctmc.org/api/cameras/08328372-55a2-448a-b180-9b4bce0b8d9e/image"
-   },
-   {
-    "name": "Astoria Blvd @ 82 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/7740c40a-5250-4692-9a1a-c4326dc7d508/image"
-   },
-   {
-    "name": "Major Deegan Expwy @ 230 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/041f8f94-fcf8-4860-9a5d-c81fb5c97501/image"
-   },
-   {
-    "name": "Belt Pkwy @ Flatbush Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/9e3164a8-1c63-4790-bc24-f9d752f3ae41/image"
+    "name": "Metropolitan Ave @ Grand St",
+    "url": "https://webcams.nyctmc.org/api/cameras/6d1bd95a-307b-4067-a31c-f28d48c578b1/image"
    },
    {
     "name": "C3-WSE-11-SB_at_Edwrd_Crry_Ave-Ex9",
     "url": "https://webcams.nyctmc.org/api/cameras/2f433a28-9a3f-4202-9b3b-a1dc7c6d1b1f/image"
    },
    {
-    "name": "MHB-19 Manh N URDW @ Anch",
-    "url": "https://webcams.nyctmc.org/api/cameras/9b648eba-3e4a-4c2c-9afc-e659c1083804/image"
+    "name": "6 Ave @ 58 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/a4c12003-9638-473d-bfe3-dddf509c80b8/image"
    },
    {
-    "name": "Hempstead Ave @ Springfield Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/5bcf06f4-dbf0-4c7b-b6f3-241aea4e92c6/image"
+    "name": "C5-VWE-28-SB_at_67th_Rd-Ex11",
+    "url": "https://webcams.nyctmc.org/api/cameras/401c14c4-516f-48af-ad5d-fc36ddcff149/image"
    },
    {
-    "name": "Bruckner Blvd E @ Castle Hill Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/420a58c7-3b5b-4a20-9f8d-d722d03f19ca/image"
+    "name": "C1-BRE-09-SB_at_Lasalle_Ave-Ex7C",
+    "url": "https://webcams.nyctmc.org/api/cameras/6eee8e60-805b-403c-9c82-bac9e60d9cd9/image"
+   },
+   {
+    "name": "Flatbush Ave @ Aviator Sports & Golf Club",
+    "url": "https://webcams.nyctmc.org/api/cameras/5ea363ef-b9d6-4863-967a-0b4ba9cb0bf5/image"
+   },
+   {
+    "name": "West Shore Expy @ South Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/a6b2c1c8-1124-4dec-aa22-c8d87f6835ec/image"
+   },
+   {
+    "name": "Worth Street @ Bowery",
+    "url": "https://webcams.nyctmc.org/api/cameras/cdfc2dbe-7ce3-4775-ab7a-8440a9828358/image"
+   },
+   {
+    "name": "Beach Channel Dr @ B 90 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/4b99e17b-d784-4ae3-a8f4-fb20e05895ee/image"
+   },
+   {
+    "name": "Henry Hudson Pkwy @ 232 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/97190ee9-e92c-46ef-a3fc-e8c75d416a9a/image"
    }
   ],
-  "asOf": "2026-08-14T19:34:14.264Z"
+  "asOf": "2026-08-14T19:58:24.580Z"
  },
  "floodnet": {
-  "sensors": 417,
+  "sensors": 416,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-08-14T19:26:24.000Z"
+  "asOf": "2026-08-14T19:55:12.000Z"
  },
  "coned": {
-  "customersOut": 98,
+  "customersOut": 95,
   "customersServed": 3626606,
-  "outages": 23,
-  "asOf": "2026-08-14T19:20:00.000Z"
+  "outages": 21,
+  "asOf": "2026-08-14T19:50:00.000Z"
  },
  "path": {
-  "arrivals": 50,
+  "arrivals": 52,
   "stations": 13,
-  "asOf": "2026-08-14T19:36:13.695Z"
+  "asOf": "2026-08-14T20:00:23.623Z"
  },
  "reservoirs": {
   "pctFull": 92.2,
   "pctNormal": 87.1,
   "pageDate": "August 14, 2026",
-  "asOf": "2026-08-14T19:36:14.240Z"
+  "asOf": "2026-08-14T20:00:23.674Z"
  }
 }
