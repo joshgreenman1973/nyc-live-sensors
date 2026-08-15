@@ -1,21 +1,21 @@
 {
- "generated": "2026-08-15T10:23:14.413Z",
+ "generated": "2026-08-15T10:38:28.478Z",
  "nyiso": {
-  "nycLoadMw": 5600.92,
-  "isoLoadMw": 15862.7701,
-  "asOf": "2026-08-15T10:10:00.000Z",
+  "nycLoadMw": 5602.8926,
+  "isoLoadMw": 15725.641800000001,
+  "asOf": "2026-08-15T10:25:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3522
+    "mw": 3617
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3729
+    "mw": 3765
    },
    {
     "fuel": "Nuclear",
-    "mw": 3170
+    "mw": 3171
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,20 +23,20 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 244
+    "mw": 233
    },
    {
     "fuel": "Wind",
-    "mw": 75
+    "mw": 87
    },
    {
     "fuel": "Hydro",
-    "mw": 1881
+    "mw": 1812
    }
   ],
-  "fuelAsOf": "2026-08-15T10:05:00.000Z",
-  "nycPriceMwh": 39.9,
-  "priceAsOf": "2026-08-15T10:20:00.000Z"
+  "fuelAsOf": "2026-08-15T10:20:00.000Z",
+  "nycPriceMwh": 38.19,
+  "priceAsOf": "2026-08-15T10:35:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.6,
@@ -48,54 +48,94 @@
   "asOf": "2026-08-15T09:50:00.000Z"
  },
  "subway": {
-  "trains": 324,
+  "trains": 335,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 20,
-  "asOf": "2026-08-15T10:23:15.757Z"
+  "alerts": 21,
+  "asOf": "2026-08-15T10:38:30.331Z"
  },
  "rail": {
   "lirr": {
-   "trains": 31,
+   "trains": 35,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 184,
+   "trains": 186,
    "viaVehicles": true
   },
-  "asOf": "2026-08-15T10:23:16.013Z"
+  "asOf": "2026-08-15T10:38:30.570Z"
  },
  "ferry": {
   "vessels": 0,
   "positions": [],
-  "asOf": "2026-08-15T10:23:16.236Z"
+  "asOf": "2026-08-15T10:38:30.745Z"
  },
  "cameras": {
   "total": 968,
   "list": [
    {
-    "name": "1 Ave @ 86 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/f3c6fe0c-75c8-4ce9-ad9a-5b7eb8e9087e/image"
+    "name": "Varick st @ Broome st",
+    "url": "https://webcams.nyctmc.org/api/cameras/58ca7f66-a60c-4b2d-9cb5-a68e8ac545ac/image"
    },
    {
-    "name": "Beach Channel Dr @ Beach 116 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/fee01ae5-3f35-4fe1-a236-417d43b64101/image"
+    "name": "C5-BQE-41-EB_at_31st_Ave-Ex43",
+    "url": "https://webcams.nyctmc.org/api/cameras/da689305-b159-4051-9d01-9881803adb4b/image"
    },
    {
-    "name": "Cross Bronx Expy @ Arthur Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/575d8f33-7923-4ec6-983e-82c58efd8110/image"
+    "name": "C1-BRE-06_W - WB_at_CBX-Hutch_Int-EX6A",
+    "url": "https://webcams.nyctmc.org/api/cameras/b221fdc4-ca81-41ae-875e-bf0341377758/image"
    },
    {
-    "name": "Flatbush Ave @ Marine Park",
-    "url": "https://webcams.nyctmc.org/api/cameras/b6558fc0-d62b-4b25-b7aa-6b592bde2c44/image"
+    "name": "Atlantic Ave @ Clinton ST",
+    "url": "https://webcams.nyctmc.org/api/cameras/418ae598-7cdd-48ff-8aea-97fc3d312407/image"
    },
    {
-    "name": "Father Capodanno Blvd @ Sands LN",
-    "url": "https://webcams.nyctmc.org/api/cameras/0ff541bf-1be1-4bbf-88c5-3a570541e7d2/image"
+    "name": "C3-WSE-06-NB_at_Muldoon_Ave-Ex5",
+    "url": "https://webcams.nyctmc.org/api/cameras/efc538d1-4711-4f6e-b81c-e555fc37d127/image"
    },
    {
-    "name": "5 Ave @ 66 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/81db80c2-13fe-4ae7-8b47-c08aa42d512f/image"
+    "name": "1 st Camera South Bound BPU-148.55",
+    "url": "https://webcams.nyctmc.org/api/cameras/8385d983-6782-4219-8aab-98f26b224f9d/image"
+   },
+   {
+    "name": "Main St @ LIE N S/R",
+    "url": "https://webcams.nyctmc.org/api/cameras/a6095c69-aef9-4a64-8091-9a2cb8645ee7/image"
+   },
+   {
+    "name": "Major Deegan @ Triboro Bridge",
+    "url": "https://webcams.nyctmc.org/api/cameras/9cf2184a-e075-47c2-9d02-8e6edcdf28b8/image"
+   },
+   {
+    "name": "MHB-33 Bklyn LRW @ Ex Ramp",
+    "url": "https://webcams.nyctmc.org/api/cameras/e4767b49-3611-4be2-895f-1fc03261653b/image"
+   },
+   {
+    "name": "C3-SIE-11-EB_at_Renwick_Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/bcb706e6-135a-4981-8a06-7545f6e05ddd/image"
+   },
+   {
+    "name": "West St @ Murray",
+    "url": "https://webcams.nyctmc.org/api/cameras/6be5adfc-1912-4811-9a04-01c8866280bb/image"
+   },
+   {
+    "name": "Long Island Expy @ Greenpoint Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/5e621a58-dade-4b9a-aef8-24b3038455a4/image"
+   },
+   {
+    "name": "NE Thruway @ Conner St",
+    "url": "https://webcams.nyctmc.org/api/cameras/1f92fccf-56b8-4f9f-bfd2-48e53984606e/image"
+   },
+   {
+    "name": "Ocean Pkwy @ Ave X",
+    "url": "https://webcams.nyctmc.org/api/cameras/64ed1f5d-ba90-4c12-afda-9a9c3e658efd/image"
+   },
+   {
+    "name": "Richmond Ave @ Amboy Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/f2029d59-52c0-44b9-8030-90e03f710f8f/image"
+   },
+   {
+    "name": "South Street @ Pike Street",
+    "url": "https://webcams.nyctmc.org/api/cameras/547cd268-58f9-4a84-a235-dbaa0432d79a/image"
    },
    {
     "name": "Cross Bay Blvd @ 157 Ave",
@@ -104,72 +144,32 @@
    {
     "name": "Soundview Ave @ Lafayette Ave",
     "url": "https://webcams.nyctmc.org/api/cameras/894dd92a-90a3-46d5-a996-4ddb2b6091cc/image"
-   },
-   {
-    "name": "Ocean Pkwy @ Surf Av @ Sea Breeze Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/856ef0b2-123d-4211-9619-1334fb7ac219/image"
-   },
-   {
-    "name": "Victory Blvd @ Loop Rd -131.42",
-    "url": "https://webcams.nyctmc.org/api/cameras/7add8765-182d-40e5-b196-a0e3c02ed787/image"
-   },
-   {
-    "name": "Central Park West @ 66 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/7e2400e3-cad2-407a-927b-d575a35048e3/image"
-   },
-   {
-    "name": "Woodhaven Blvd @ 101 Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/e6c39111-6d28-45bb-9698-509699e78b8f/image"
-   },
-   {
-    "name": "Pelham Pkwy @ Stillwell Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/6029af32-7e3c-412f-804e-b34166300799/image"
-   },
-   {
-    "name": "Sands St @ Pearl St",
-    "url": "https://webcams.nyctmc.org/api/cameras/82ff853c-50e3-403a-855b-5f17708a4f38/image"
-   },
-   {
-    "name": "Outerbridge Crossing @ Tyrellan Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/500b7258-e2ec-4717-8f99-a5497e158ae6/image"
-   },
-   {
-    "name": "1 Ave @ 62 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/aa85b894-336d-42bb-9801-0359e452f845/image"
-   },
-   {
-    "name": "College Point Blvd @ Roosevelt Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/fec1c88c-46b6-41bb-89ab-7dc7eeb2daaf/image"
-   },
-   {
-    "name": "NB Cross Brx Expy-Webster Av Exit ramp @ E 174 St & Cater Av",
-    "url": "https://webcams.nyctmc.org/api/cameras/15c0758b-5c9a-4841-8514-c04bc7320c70/image"
    }
   ],
-  "asOf": "2026-08-15T10:23:16.715Z"
+  "asOf": "2026-08-15T10:38:31.540Z"
  },
  "floodnet": {
   "sensors": 417,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-08-15T10:19:12.000Z"
+  "asOf": "2026-08-15T10:33:36.000Z"
  },
  "coned": {
-  "customersOut": 63,
+  "customersOut": 40,
   "customersServed": 3626606,
-  "outages": 5,
-  "asOf": "2026-08-15T10:20:00.000Z"
+  "outages": 6,
+  "asOf": "2026-08-15T10:35:00.000Z"
  },
  "path": {
-  "arrivals": 25,
+  "arrivals": 22,
   "stations": 13,
-  "asOf": "2026-08-15T10:25:13.084Z"
+  "asOf": "2026-08-15T10:40:31.860Z"
  },
  "reservoirs": {
   "pctFull": 92.2,
   "pctNormal": 87.1,
   "pageDate": "August 14, 2026",
-  "asOf": "2026-08-15T10:25:13.350Z"
+  "asOf": "2026-08-15T10:40:32.247Z"
  }
 }
