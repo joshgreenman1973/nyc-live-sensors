@@ -1,21 +1,21 @@
 {
- "generated": "2026-08-17T02:10:56.164Z",
+ "generated": "2026-08-17T02:40:27.910Z",
  "nyiso": {
-  "nycLoadMw": 6385.087,
-  "isoLoadMw": 19904.744000000002,
-  "asOf": "2026-08-17T01:55:00.000Z",
+  "nycLoadMw": 6226.5264,
+  "isoLoadMw": 19342.539999999997,
+  "asOf": "2026-08-17T02:25:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 4867
+    "mw": 4817
    },
    {
     "fuel": "Natural Gas",
-    "mw": 5137
+    "mw": 5113
    },
    {
     "fuel": "Nuclear",
-    "mw": 3168
+    "mw": 3166
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,174 +23,153 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 217
+    "mw": 225
    },
    {
     "fuel": "Wind",
-    "mw": 730
+    "mw": 734
    },
    {
     "fuel": "Hydro",
-    "mw": 2843
+    "mw": 2389
    }
   ],
-  "fuelAsOf": "2026-08-17T01:55:00.000Z",
-  "nycPriceMwh": 45.97,
-  "priceAsOf": "2026-08-17T02:10:00.000Z"
+  "fuelAsOf": "2026-08-17T02:25:00.000Z",
+  "nycPriceMwh": 37.33,
+  "priceAsOf": "2026-08-17T02:40:00.000Z"
  },
  "buoy": {
   "waveHeightM": 1,
   "domPeriodS": 5,
   "waterTempC": 23.7,
   "windMs": 10,
-  "airTempC": 22.4,
-  "pressureHpa": 1016,
-  "asOf": "2026-08-17T01:20:00.000Z"
+  "airTempC": 21.6,
+  "pressureHpa": 1015.7,
+  "asOf": "2026-08-17T01:50:00.000Z"
  },
  "subway": {
-  "trains": 334,
+  "trains": 311,
   "feedsOk": 8,
   "feeds": 8,
   "alerts": 19,
-  "asOf": "2026-08-17T02:10:57.405Z"
+  "asOf": "2026-08-17T02:40:29.979Z"
  },
  "rail": {
   "lirr": {
-   "trains": 41,
+   "trains": 35,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 89,
+   "trains": 87,
    "viaVehicles": true
   },
-  "asOf": "2026-08-17T02:10:57.575Z"
+  "asOf": "2026-08-17T02:40:30.227Z"
  },
  "ferry": {
-  "vessels": 4,
-  "positions": [
-   {
-    "lat": 40.70376,
-    "lon": -73.99552,
-    "label": "H107"
-   },
-   {
-    "lat": 40.67479,
-    "lon": -74.0218,
-    "label": "H108"
-   },
-   {
-    "lat": 40.69249,
-    "lon": -74.00233,
-    "label": "H204"
-   },
-   {
-    "lat": 40.75141,
-    "lon": -74.01618,
-    "label": "H205"
-   }
-  ],
-  "asOf": "2026-08-17T02:10:57.666Z"
+  "vessels": 0,
+  "positions": [],
+  "asOf": "2026-08-17T02:40:30.363Z"
  },
  "cameras": {
-  "total": 970,
+  "total": 971,
   "list": [
    {
-    "name": "5 Ave @ 84 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/f2a7f677-64db-4dd9-9810-82e4910c7799/image"
+    "name": "FDR Dr @ 96 Street",
+    "url": "https://webcams.nyctmc.org/api/cameras/155b2bff-5dd2-4109-bd10-e098376c8476/image"
    },
    {
-    "name": "College Point Blvd @ Sanford Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/bedbc19d-977d-40b6-ba48-01c5454bea69/image"
+    "name": "Hillside Ave @ Little Neck Pkwy",
+    "url": "https://webcams.nyctmc.org/api/cameras/300e0508-3c7e-4ac5-8527-b75bcf8292b8/image"
    },
    {
-    "name": "Boston Rd @ Gun hill Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/cbd86999-5bb1-4f2d-addd-dbf15fa3609d/image"
+    "name": "C1-MDE-12-SB_at_Heath_Ave-Ex9",
+    "url": "https://webcams.nyctmc.org/api/cameras/1a626331-3c36-48bd-91a5-edd930c314c0/image"
    },
    {
-    "name": "Gowanus Expy @ Gatling Pl @ 92 St - 4.34",
-    "url": "https://webcams.nyctmc.org/api/cameras/cf6d1124-f012-4678-9277-2dca8d18232b/image"
+    "name": "Sands St @ Brooklyn Bridge Ent",
+    "url": "https://webcams.nyctmc.org/api/cameras/60fbce69-38fa-42b2-9ae8-41aea66abddf/image"
    },
    {
     "name": "Hylan Blvd @ Richmond Ave",
     "url": "https://webcams.nyctmc.org/api/cameras/6e9a1a7e-63ad-4cab-b14a-1864040409fb/image"
    },
    {
-    "name": "3 Ave @ E 120 Street",
-    "url": "https://webcams.nyctmc.org/api/cameras/5ce5f31b-fce3-4f60-9534-5986c8b668eb/image"
+    "name": "5 AVE @ 50 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/482e6d35-2a67-4bbf-b36f-fdf7e031d607/image"
    },
    {
-    "name": "Astoria Blvd @ 82 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/7740c40a-5250-4692-9a1a-c4326dc7d508/image"
+    "name": "Cross Bay Blvd @ 20 Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/b995be5a-a469-4cf6-b2ee-197e8e9eecd9/image"
    },
    {
-    "name": "New Eng Thru @ Bartow",
-    "url": "https://webcams.nyctmc.org/api/cameras/4f806706-c888-4926-932c-f9f3f0255b60/image"
+    "name": "Boston Rd @ Claremont Pkwy @ Wilkins Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/1d5b7624-9334-4348-8119-4d0221988d24/image"
    },
    {
-    "name": "MHB-33 Bklyn LRW @ Ex Ramp",
-    "url": "https://webcams.nyctmc.org/api/cameras/e4767b49-3611-4be2-895f-1fc03261653b/image"
+    "name": "C2-GE-12_W_WB_at_26th St-Ex23",
+    "url": "https://webcams.nyctmc.org/api/cameras/a74c9c59-b6e1-4f7d-b260-7f54954e6e47/image"
    },
    {
-    "name": "Father Capodanno Blvd @ Midland Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/66533d67-7fe3-4250-b850-88c2fd7ec0e0/image"
+    "name": "C3-MLK-02-NB_at_Forest_Ave-Ex11",
+    "url": "https://webcams.nyctmc.org/api/cameras/4678c08d-9b89-4dd4-9fa0-234412822bb7/image"
    },
    {
-    "name": "Ft Washington @ 178 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/d8e022cc-c262-45ac-a939-8e86e20853fd/image"
+    "name": "Canal St @ Hudson St",
+    "url": "https://webcams.nyctmc.org/api/cameras/3a3cf44d-6c42-46fb-b774-1441a8582076/image"
    },
    {
-    "name": "Northern Blvd @ 68 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/2f504422-66f8-4ddc-805f-8744279a1a6e/image"
+    "name": "Northern Blvd @ Junction Blvd",
+    "url": "https://webcams.nyctmc.org/api/cameras/78292730-3cfe-4f84-a6f7-d438f684849a/image"
    },
    {
-    "name": "Fordham Rd @ Major Deegan Expy",
-    "url": "https://webcams.nyctmc.org/api/cameras/b591a4be-a1aa-4978-ab2c-be4a17eb190e/image"
+    "name": "Cross Bronx Expy @ Arthur Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/575d8f33-7923-4ec6-983e-82c58efd8110/image"
    },
    {
-    "name": "Belt Pkwy @ Cropsey Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/abb47d30-e011-47bc-ac00-622924bc5acd/image"
+    "name": "C2-BQE-10-WB_at_State_St_UP-Ex27",
+    "url": "https://webcams.nyctmc.org/api/cameras/82ccb93a-fe0d-4e92-8419-64336edf761e/image"
    },
    {
-    "name": "Richmond Ave @ Forest Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/34af619f-c745-4f09-a81c-e3635dd764c6/image"
+    "name": "Narrow Rd N @ Richmond Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/7d1db29e-90a9-4027-b1fc-6e6af4f4f0d9/image"
    },
    {
-    "name": "FDR @ E 127 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/f78c30e5-2a4d-4a71-b5d4-482ba70d585f/image"
+    "name": "Rockefeller Plaza @ W 49 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/09d9335c-097e-47ef-af1d-122eb3206f7c/image"
    },
    {
-    "name": "Cross Bay Blvd @ 107 Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/21fc45fc-30fb-4d6a-ae1b-7d2d2730dfca/image"
+    "name": "Woodhaven Blvd @ Union Tpke",
+    "url": "https://webcams.nyctmc.org/api/cameras/1b2c9e6b-8c35-47a2-aa60-fdd688cb61bf/image"
    },
    {
-    "name": "C1-CBX-18-Med_at_Pennyfield_Av-TNB",
-    "url": "https://webcams.nyctmc.org/api/cameras/e51a2974-8ca2-4fe2-a90a-842685cbbcc9/image"
+    "name": "E 138 st @ Major Deegan",
+    "url": "https://webcams.nyctmc.org/api/cameras/52ecb55e-c8aa-4784-85e1-fd7d38faf7e4/image"
    }
   ],
-  "asOf": "2026-08-17T02:10:58.020Z"
+  "asOf": "2026-08-17T02:40:31.165Z"
  },
  "floodnet": {
-  "sensors": 418,
+  "sensors": 419,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-08-17T02:09:36.000Z"
+  "asOf": "2026-08-17T02:38:24.000Z"
  },
  "coned": {
-  "customersOut": 190,
+  "customersOut": 188,
   "customersServed": 3626606,
-  "outages": 14,
-  "asOf": "2026-08-17T02:05:00.000Z"
+  "outages": 12,
+  "asOf": "2026-08-17T02:35:00.000Z"
  },
  "path": {
-  "arrivals": 38,
+  "arrivals": 39,
   "stations": 13,
-  "asOf": "2026-08-17T02:12:49.783Z"
+  "asOf": "2026-08-17T02:42:28.210Z"
  },
  "reservoirs": {
   "pctFull": 92.2,
   "pctNormal": 87.1,
   "pageDate": "August 14, 2026",
-  "asOf": "2026-08-17T02:12:49.930Z"
+  "asOf": "2026-08-17T02:42:28.497Z"
  }
 }
