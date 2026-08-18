@@ -1,17 +1,17 @@
 {
- "generated": "2026-08-18T08:45:00.656Z",
+ "generated": "2026-08-18T09:01:49.565Z",
  "nyiso": {
-  "nycLoadMw": 5861.615,
-  "isoLoadMw": 16583.2214,
-  "asOf": "2026-08-18T08:30:00.000Z",
+  "nycLoadMw": 5873.8916,
+  "isoLoadMw": 16659.7095,
+  "asOf": "2026-08-18T08:45:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3917
+    "mw": 3927
    },
    {
     "fuel": "Natural Gas",
-    "mw": 4790
+    "mw": 4813
    },
    {
     "fuel": "Nuclear",
@@ -23,20 +23,20 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 217
+    "mw": 218
    },
    {
     "fuel": "Wind",
-    "mw": 64
+    "mw": 63
    },
    {
     "fuel": "Hydro",
-    "mw": 1981
+    "mw": 2030
    }
   ],
-  "fuelAsOf": "2026-08-18T08:25:00.000Z",
-  "nycPriceMwh": 36.64,
-  "priceAsOf": "2026-08-18T08:45:00.000Z"
+  "fuelAsOf": "2026-08-18T08:45:00.000Z",
+  "nycPriceMwh": 34.64,
+  "priceAsOf": "2026-08-18T09:00:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.6,
@@ -48,105 +48,126 @@
   "asOf": "2026-08-18T07:20:00.000Z"
  },
  "subway": {
-  "trains": 252,
+  "trains": 283,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 16,
-  "asOf": "2026-08-18T08:45:02.254Z"
+  "alerts": 5,
+  "asOf": "2026-08-18T09:01:50.818Z"
  },
  "rail": {
   "lirr": {
-   "trains": 19,
+   "trains": 25,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 260,
+   "trains": 268,
    "viaVehicles": true
   },
-  "asOf": "2026-08-18T08:45:02.721Z"
+  "asOf": "2026-08-18T09:01:51.057Z"
  },
  "ferry": {
-  "vessels": 0,
-  "positions": [],
-  "asOf": "2026-08-18T08:45:02.886Z"
- },
- "cameras": {
-  "total": 969,
-  "list": [
+  "vessels": 4,
+  "positions": [
    {
-    "name": "6 Ave @ 39 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/34674be5-4791-47f1-b0b2-2db0ff619732/image"
+    "lat": 40.70374,
+    "lon": -73.97701,
+    "label": "H114"
    },
    {
-    "name": "Woodhaven Blvd @ Metropolitan Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/9750737e-90f5-4681-9fef-a396f9992540/image"
+    "lat": 40.56499,
+    "lon": -73.9604,
+    "label": "H115"
    },
    {
-    "name": "Henry Hudson Pkwy @ 232 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/97190ee9-e92c-46ef-a3fc-e8c75d416a9a/image"
+    "lat": 40.6853,
+    "lon": -74.01569,
+    "label": "H091"
    },
    {
-    "name": "Old Fulton @ Vine St @ Hicks St",
-    "url": "https://webcams.nyctmc.org/api/cameras/4d84b5d0-c9da-4916-8b0d-4f3d573d3509/image"
-   },
-   {
-    "name": "Richmond Ave @ Forest Hills Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/e4800abb-4eac-414e-b47e-5dd773bf0b90/image"
-   },
-   {
-    "name": "6 Ave @ 49 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/1dddf912-4718-4b2a-94dd-1f793a9ed22c/image"
-   },
-   {
-    "name": "C5-GCP-12_WB_at_69th_Rd-Ex11",
-    "url": "https://webcams.nyctmc.org/api/cameras/21add4fd-bf30-404e-a2ff-18b16688fe0d/image"
-   },
-   {
-    "name": "NB Cross Brx Expy-Webster Av Exit ramp @ E 174 St & Cater Av",
-    "url": "https://webcams.nyctmc.org/api/cameras/15c0758b-5c9a-4841-8514-c04bc7320c70/image"
-   },
-   {
-    "name": "Cadman Plz E/Washington St @ Prospect St",
-    "url": "https://webcams.nyctmc.org/api/cameras/08c57946-9560-49b9-97a5-43dc5b74fd86/image"
-   },
-   {
-    "name": "Hylan Ave @ Page Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/01ffcaef-7c54-4f16-8668-bce6efbcfcb1/image"
-   },
-   {
-    "name": "6 Ave @ 34 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/f06979b2-3497-4330-9882-a06c8a442b7c/image"
-   },
-   {
-    "name": "Hillside Ave @ Little Neck Pkwy",
-    "url": "https://webcams.nyctmc.org/api/cameras/300e0508-3c7e-4ac5-8527-b75bcf8292b8/image"
-   },
-   {
-    "name": "C1-TNE-01-SB_at_Otis-Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/f1acca9b-0030-49c5-b589-33ab6ac24657/image"
-   },
-   {
-    "name": "Old Fulton St @ Prospect St",
-    "url": "https://webcams.nyctmc.org/api/cameras/7a0d9e49-875c-4c25-a92b-3d239de40d43/image"
-   },
-   {
-    "name": "SIE @ Richmond Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/1389ca99-0d3f-4c27-bc45-b0aa238ea7d2/image"
-   },
-   {
-    "name": "3 Ave @ E 86 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/10c5f42d-6b32-4533-9c35-5715af4e4c76/image"
-   },
-   {
-    "name": "Main St @ Sanford Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/33ea5ed1-0d62-4f44-9fda-fda5c2327eed/image"
-   },
-   {
-    "name": "New Eng Thru @ Bartow",
-    "url": "https://webcams.nyctmc.org/api/cameras/4f806706-c888-4926-932c-f9f3f0255b60/image"
+    "lat": 40.80027,
+    "lon": -73.85072,
+    "label": "H301"
    }
   ],
-  "asOf": "2026-08-18T08:45:03.749Z"
+  "asOf": "2026-08-18T09:01:51.219Z"
+ },
+ "cameras": {
+  "total": 968,
+  "list": [
+   {
+    "name": "12 Ave @ 57 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/3095997f-dd41-4e71-a810-9290576c17a6/image"
+   },
+   {
+    "name": "Woodhaven Blvd @ Myrtle Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/ed670675-55d7-43e9-ac88-29f1290b843b/image"
+   },
+   {
+    "name": "C1-MDE-09-SB_at_Depot_Pl-Ex7-CBX",
+    "url": "https://webcams.nyctmc.org/api/cameras/c8b15922-4262-459a-85d5-17442ec9c54f/image"
+   },
+   {
+    "name": "Flushing Ave @ Williamsburg W St",
+    "url": "https://webcams.nyctmc.org/api/cameras/2e0d5197-6073-411f-9d1a-326b30841679/image"
+   },
+   {
+    "name": "Drumgoogle Rd E @ Vernon Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/29aaea67-bf67-4d6f-b572-f810f48f5b48/image"
+   },
+   {
+    "name": "5 Ave @ 35 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/aacb43bf-ed37-44c6-a2fe-8449a7851306/image"
+   },
+   {
+    "name": "C5-LIE-15-WB_at_Queens_Blvd-Ex19",
+    "url": "https://webcams.nyctmc.org/api/cameras/ae1960ee-1f34-4774-88f5-b195b9c2a505/image"
+   },
+   {
+    "name": "C1-MDE-04-SB_at_Grand_Concrse-Ex3",
+    "url": "https://webcams.nyctmc.org/api/cameras/bed364f9-5249-4285-9b03-70b91ce75baf/image"
+   },
+   {
+    "name": "Coney Island Ave @ Kings Hwy",
+    "url": "https://webcams.nyctmc.org/api/cameras/899dfa1e-a2c5-490a-b8ba-480493634846/image"
+   },
+   {
+    "name": "Outerbridge Crossing @ Tyrellan Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/500b7258-e2ec-4717-8f99-a5497e158ae6/image"
+   },
+   {
+    "name": "10 Ave @ 49 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/957fc40e-675c-4121-a3bc-ca3c0a246831/image"
+   },
+   {
+    "name": "Woodhaven Blvd @ Jamaica Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/6dd4b946-8704-4690-aa87-017a19e778c5/image"
+   },
+   {
+    "name": "East Gun Hill RD @ Allerton Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/c914c9ae-00b2-4b77-abb9-0a85f903e34e/image"
+   },
+   {
+    "name": "Tillary St EB @ Jay St",
+    "url": "https://webcams.nyctmc.org/api/cameras/ae67eb8d-0aed-4204-b7a1-3621ed9eef65/image"
+   },
+   {
+    "name": "SIE @ Clove Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/2d1ed99a-c3d3-4616-a0d6-a9fe16f3e48c/image"
+   },
+   {
+    "name": "2 Ave @ E 14 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/02d7db8e-481d-477e-9cdb-a2b6c6ec1ca3/image"
+   },
+   {
+    "name": "Rockaway Blvd @ Division St",
+    "url": "https://webcams.nyctmc.org/api/cameras/523499eb-29b7-4ab9-a2a7-4b7f7836f311/image"
+   },
+   {
+    "name": "Boston Rd @ Gun hill Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/cbd86999-5bb1-4f2d-addd-dbf15fa3609d/image"
+   }
+  ],
+  "asOf": "2026-08-18T09:01:51.734Z"
  },
  "floodnet": {
   "sensors": 416,
@@ -174,23 +195,23 @@
     "lon": -73.972696
    }
   ],
-  "asOf": "2026-08-18T08:38:24.000Z"
+  "asOf": "2026-08-18T08:52:48.000Z"
  },
  "coned": {
   "customersOut": 31,
   "customersServed": 3626606,
   "outages": 9,
-  "asOf": "2026-08-18T08:35:00.000Z"
+  "asOf": "2026-08-18T08:50:00.000Z"
  },
  "path": {
-  "arrivals": 22,
+  "arrivals": 26,
   "stations": 13,
-  "asOf": "2026-08-18T08:47:00.698Z"
+  "asOf": "2026-08-18T09:03:46.579Z"
  },
  "reservoirs": {
   "pctFull": 91.6,
   "pctNormal": 86.8,
   "pageDate": "August 17, 2026",
-  "asOf": "2026-08-18T08:47:00.928Z"
+  "asOf": "2026-08-18T09:03:46.845Z"
  }
 }
