@@ -1,17 +1,17 @@
 {
- "generated": "2026-08-22T02:10:05.870Z",
+ "generated": "2026-08-22T02:37:50.152Z",
  "nyiso": {
-  "nycLoadMw": 6466.6543,
-  "isoLoadMw": 19179.279099999996,
-  "asOf": "2026-08-22T01:55:00.000Z",
+  "nycLoadMw": 6303.1787,
+  "isoLoadMw": 18697.6259,
+  "asOf": "2026-08-22T02:20:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 4401
+    "mw": 4284
    },
    {
     "fuel": "Natural Gas",
-    "mw": 5156
+    "mw": 5251
    },
    {
     "fuel": "Nuclear",
@@ -23,52 +23,52 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 214
+    "mw": 212
    },
    {
     "fuel": "Wind",
-    "mw": 263
+    "mw": 292
    },
    {
     "fuel": "Hydro",
-    "mw": 3120
+    "mw": 2516
    }
   ],
-  "fuelAsOf": "2026-08-22T01:55:00.000Z",
-  "nycPriceMwh": 36.42,
-  "priceAsOf": "2026-08-22T02:10:00.000Z"
+  "fuelAsOf": "2026-08-22T02:20:00.000Z",
+  "nycPriceMwh": 34.7,
+  "priceAsOf": "2026-08-22T02:35:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 0.9,
-  "domPeriodS": 7,
+  "waveHeightM": 0.8,
+  "domPeriodS": 6,
   "waterTempC": 22.8,
-  "windMs": 6,
-  "airTempC": 21.7,
-  "pressureHpa": 1018.2,
-  "asOf": "2026-08-22T01:20:00.000Z"
+  "windMs": 5,
+  "airTempC": 21.6,
+  "pressureHpa": 1018.3,
+  "asOf": "2026-08-22T01:50:00.000Z"
  },
  "subway": {
-  "trains": 460,
+  "trains": 410,
   "feedsOk": 8,
   "feeds": 8,
   "alerts": 8,
-  "asOf": "2026-08-22T02:10:07.739Z"
+  "asOf": "2026-08-22T02:37:52.008Z"
  },
  "rail": {
   "lirr": {
-   "trains": 38,
+   "trains": 42,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 114,
+   "trains": 104,
    "viaVehicles": true
   },
-  "asOf": "2026-08-22T02:10:08.169Z"
+  "asOf": "2026-08-22T02:37:52.356Z"
  },
  "ferry": {
   "vessels": 0,
   "positions": [],
-  "asOf": "2026-08-22T02:10:08.334Z"
+  "asOf": "2026-08-22T02:37:52.559Z"
  },
  "cameras": {
   "total": 964,
@@ -150,39 +150,47 @@
  },
  "floodnet": {
   "sensors": 421,
-  "flooding": 1,
+  "flooding": 2,
   "wettest": {
    "name": "M - E 108th St/1st Ave",
-   "mm": 26.968503937007874,
-   "depthIn": 1.061752123504247
+   "mm": 37.952755905511815,
+   "depthIn": 1.494202988405977
   },
   "wet": [
    {
+    "id": 876,
+    "name": "BK - Halsey St/ Throop Ave",
+    "mm": 27.440944881889767,
+    "depthIn": 1.0803521607043216,
+    "lat": 40.68287403677318,
+    "lon": -73.94103149039914
+   },
+   {
     "id": 462,
     "name": "M - E 108th St/1st Ave",
-    "mm": 26.968503937007874,
-    "depthIn": 1.061752123504247,
+    "mm": 37.952755905511815,
+    "depthIn": 1.494202988405977,
     "lat": 40.790943,
     "lon": -73.939451
    }
   ],
-  "asOf": "2026-08-22T02:09:36.000Z"
+  "asOf": "2026-08-22T02:38:24.000Z"
  },
  "coned": {
-  "customersOut": 86,
+  "customersOut": 93,
   "customersServed": 3626606,
-  "outages": 44,
-  "asOf": "2026-08-22T02:05:00.000Z"
+  "outages": 43,
+  "asOf": "2026-08-22T02:35:00.000Z"
  },
  "path": {
-  "arrivals": 52,
+  "arrivals": 47,
   "stations": 13,
-  "asOf": "2026-08-22T02:12:08.691Z"
+  "asOf": "2026-08-22T02:40:01.638Z"
  },
  "reservoirs": {
   "pctFull": 91,
   "pctNormal": 87.3,
   "pageDate": "August 21, 2026",
-  "asOf": "2026-08-22T02:12:09.023Z"
+  "asOf": "2026-08-22T02:40:01.972Z"
  }
 }
