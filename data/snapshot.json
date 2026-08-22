@@ -1,146 +1,175 @@
 {
- "generated": "2026-08-22T04:12:35.926Z",
+ "generated": "2026-08-22T04:27:54.184Z",
  "nyiso": {
-  "nycLoadMw": 5865.0107,
-  "isoLoadMw": 16947.3203,
-  "asOf": "2026-08-22T03:55:00.000Z",
-  "fuelMix": null,
-  "fuelAsOf": null,
-  "nycPriceMwh": 36.39,
-  "priceAsOf": "2026-08-22T04:10:00.000Z"
+  "nycLoadMw": 5811.277,
+  "isoLoadMw": 16763.3889,
+  "asOf": "2026-08-22T04:15:00.000Z",
+  "fuelMix": [
+   {
+    "fuel": "Dual Fuel",
+    "mw": 3150
+   },
+   {
+    "fuel": "Natural Gas",
+    "mw": 4936
+   },
+   {
+    "fuel": "Nuclear",
+    "mw": 3150
+   },
+   {
+    "fuel": "Other Fossil Fuels",
+    "mw": 0
+   },
+   {
+    "fuel": "Other Renewables",
+    "mw": 224
+   },
+   {
+    "fuel": "Wind",
+    "mw": 462
+   },
+   {
+    "fuel": "Hydro",
+    "mw": 1971
+   }
+  ],
+  "fuelAsOf": "2026-08-22T04:10:00.000Z",
+  "nycPriceMwh": 36.43,
+  "priceAsOf": "2026-08-22T04:25:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.8,
   "domPeriodS": 7,
-  "waterTempC": 22.9,
+  "waterTempC": 23,
   "windMs": 2,
-  "airTempC": 21.3,
+  "airTempC": 21.4,
   "pressureHpa": 1018.6,
-  "asOf": "2026-08-22T03:20:00.000Z"
+  "asOf": "2026-08-22T03:50:00.000Z"
  },
  "subway": {
-  "trains": 282,
+  "trains": 279,
   "feedsOk": 8,
   "feeds": 8,
   "alerts": 13,
-  "asOf": "2026-08-22T04:12:37.045Z"
+  "asOf": "2026-08-22T04:27:57.403Z"
  },
  "rail": {
   "lirr": {
-   "trains": 37,
+   "trains": 35,
    "viaVehicles": true
   },
   "mnr": {
    "trains": 68,
    "viaVehicles": true
   },
-  "asOf": "2026-08-22T04:12:37.129Z"
+  "asOf": "2026-08-22T04:27:57.482Z"
  },
  "ferry": {
   "vessels": 0,
   "positions": [],
-  "asOf": "2026-08-22T04:12:37.201Z"
+  "asOf": "2026-08-22T04:27:57.605Z"
  },
  "cameras": {
-  "total": 963,
+  "total": 965,
   "list": [
    {
-    "name": "FDR @ 38 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/a409e9bd-6a0f-4cdc-81d8-290d5709dc74/image"
+    "name": "Brooklyn Bridge @ Centre Street",
+    "url": "https://webcams.nyctmc.org/api/cameras/e0ac368d-414a-4606-bea5-236e94a2d5b5/image"
    },
    {
-    "name": "C5-GCP-12_WB_at_69th_Rd-Ex11",
-    "url": "https://webcams.nyctmc.org/api/cameras/21add4fd-bf30-404e-a2ff-18b16688fe0d/image"
+    "name": "Seagirt Blvd @ B 9 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/f2326b69-830d-4d1b-9cbc-a678823315c5/image"
    },
    {
-    "name": "Flatbush Ave and Atlantic Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/fa287d30-44a9-48ef-90d6-5ab0a54eab15/image"
+    "name": "Sands St @ Brooklyn Bridge Ent",
+    "url": "https://webcams.nyctmc.org/api/cameras/60fbce69-38fa-42b2-9ae8-41aea66abddf/image"
    },
    {
-    "name": "CBX @ Morris Ave & 174th ST",
-    "url": "https://webcams.nyctmc.org/api/cameras/572b1058-c33a-4de2-8f35-0f3e9e92bc33/image"
+    "name": "Grand Concourse @ Moshulu Pkwy",
+    "url": "https://webcams.nyctmc.org/api/cameras/83d034f2-584b-4dab-9e3d-d70a59995dc5/image"
    },
    {
-    "name": "Amboy Rd @ Annadale Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/ebd920f9-8522-4ae7-af8f-b887256fdaa1/image"
+    "name": "Father Capodanno Blvd @ Midland Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/66533d67-7fe3-4250-b850-88c2fd7ec0e0/image"
    },
    {
-    "name": "Harlem River Dr @ 150 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/dfc5bbff-683c-483d-bed5-8ff2b7c4781b/image"
+    "name": "7 Ave @ 36 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/b0cbb042-de0a-449f-b5d1-49f68a9bf2ae/image"
    },
    {
-    "name": "Flushing Ave @ 61 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/8c13c3b4-b227-4278-9beb-e58314c042d5/image"
+    "name": "Grand Ave @ LIE",
+    "url": "https://webcams.nyctmc.org/api/cameras/7c92c63b-2786-4600-9108-62cea2806345/image"
    },
    {
-    "name": "BB-72 South Rdwy @ Front St",
-    "url": "https://webcams.nyctmc.org/api/cameras/0e8def41-11e2-45de-a8f6-b746b805b7c5/image"
+    "name": "C2-BQE-13_WB_at_Middagh_St-Ex28A",
+    "url": "https://webcams.nyctmc.org/api/cameras/7efa7790-bbec-4118-bae4-ddb390d0eaa8/image"
    },
    {
-    "name": "Major Deegan @ Triboro Bridge",
-    "url": "https://webcams.nyctmc.org/api/cameras/9cf2184a-e075-47c2-9d02-8e6edcdf28b8/image"
+    "name": "NB Cross Brx Expy-Webster Av Exit ramp @ E 174 St & Cater Av",
+    "url": "https://webcams.nyctmc.org/api/cameras/15c0758b-5c9a-4841-8514-c04bc7320c70/image"
    },
    {
-    "name": "Outerbridge Crossing @ Tyrellan Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/500b7258-e2ec-4717-8f99-a5497e158ae6/image"
+    "name": "Hylan Ave @ Page Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/01ffcaef-7c54-4f16-8668-bce6efbcfcb1/image"
    },
    {
-    "name": "Lenox Ave @ 135 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/f6799b6f-b7f9-451b-8c7a-eacc9e8c36a8/image"
+    "name": "5 AVE @ 50 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/482e6d35-2a67-4bbf-b36f-fdf7e031d607/image"
    },
    {
-    "name": "Jackie Robinson Pkwy @ Metropolitan Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/8ff9080c-6ba7-483b-be58-3a77c73546d8/image"
+    "name": "College Point Blvd @ Sanford Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/bedbc19d-977d-40b6-ba48-01c5454bea69/image"
    },
    {
-    "name": "Atlantic Ave @ BQE",
-    "url": "https://webcams.nyctmc.org/api/cameras/dd374f35-08c9-482d-ae36-ce8e7c0cfb54/image"
+    "name": "Wythe Ave @ Williamsburg st E",
+    "url": "https://webcams.nyctmc.org/api/cameras/45b87983-6659-4be7-a354-15d756664204/image"
    },
    {
-    "name": "Hutchhinson River Pkwy @ Bruckner Expy",
-    "url": "https://webcams.nyctmc.org/api/cameras/c90f122a-2ea4-4614-b434-3599bcb04a19/image"
+    "name": "Bronx River Pkwy @ East Gun Hill RD (NB)",
+    "url": "https://webcams.nyctmc.org/api/cameras/36ff050c-ba9c-4920-beaf-ea3b02f2cde5/image"
    },
    {
-    "name": "C3-WSE-04-SB_at_Rossville_Ave-Ex4",
-    "url": "https://webcams.nyctmc.org/api/cameras/1ede87de-aba2-45bb-a792-cadf59eb792e/image"
+    "name": "Hylan Blvd @ Arden Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/0f5e11ff-0ecc-4622-a32e-bb80a6b2c1c6/image"
    },
    {
-    "name": "Rockefeller Plz @ 48 St (between 5 Ave and 6 Ave)",
-    "url": "https://webcams.nyctmc.org/api/cameras/62ecb539-5e6c-40ff-a771-ea77153cc4ed/image"
+    "name": "2 Ave @ 72 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/5674d0ea-703a-43c3-bea7-2b372d1eb00b/image"
    },
    {
-    "name": "College Point Blvd @ Roosevelt Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/fec1c88c-46b6-41bb-89ab-7dc7eeb2daaf/image"
+    "name": "Hempstead Ave @ Cross Island Pkwy (PTZ)",
+    "url": "https://webcams.nyctmc.org/api/cameras/81c2390a-2dc5-4a44-9fc3-9870b360032e/image"
    },
    {
-    "name": "Atlantic Ave @ Hicks Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/8820f260-11c9-49dd-8839-0ff47707b6f2/image"
+    "name": "BB-15 North Rdwy @ Manhattan Anchorage",
+    "url": "https://webcams.nyctmc.org/api/cameras/5c2b7782-2fb8-486f-89d2-0c16b6eac70c/image"
    }
   ],
-  "asOf": "2026-08-22T04:12:37.354Z"
+  "asOf": "2026-08-22T04:27:57.819Z"
  },
  "floodnet": {
   "sensors": 421,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-08-22T04:04:48.000Z"
+  "asOf": "2026-08-22T04:19:12.000Z"
  },
  "coned": {
-  "customersOut": 153,
+  "customersOut": 117,
   "customersServed": 3626606,
-  "outages": 38,
-  "asOf": "2026-08-22T04:05:00.000Z"
+  "outages": 36,
+  "asOf": "2026-08-22T04:20:00.000Z"
  },
  "path": {
-  "arrivals": 31,
+  "arrivals": 30,
   "stations": 13,
-  "asOf": "2026-08-22T04:14:30.824Z"
+  "asOf": "2026-08-22T04:29:50.896Z"
  },
  "reservoirs": {
   "pctFull": 91,
   "pctNormal": 87.3,
   "pageDate": "August 21, 2026",
-  "asOf": "2026-08-22T04:14:30.974Z"
+  "asOf": "2026-08-22T04:29:51.040Z"
  }
 }
