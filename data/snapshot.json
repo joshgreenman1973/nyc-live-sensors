@@ -1,21 +1,21 @@
 {
- "generated": "2026-08-30T11:07:02.799Z",
+ "generated": "2026-08-30T11:19:46.967Z",
  "nyiso": {
-  "nycLoadMw": 4922.824,
-  "isoLoadMw": 14439.705399999999,
-  "asOf": "2026-08-30T10:45:00.000Z",
+  "nycLoadMw": 4954.518,
+  "isoLoadMw": 14459.3076,
+  "asOf": "2026-08-30T11:05:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3498
+    "mw": 3497
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3047
+    "mw": 2994
    },
    {
     "fuel": "Nuclear",
-    "mw": 3124
+    "mw": 3126
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,20 +23,20 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 232
+    "mw": 249
    },
    {
     "fuel": "Wind",
-    "mw": 888
+    "mw": 896
    },
    {
     "fuel": "Hydro",
-    "mw": 2153
+    "mw": 2135
    }
   ],
-  "fuelAsOf": "2026-08-30T10:45:00.000Z",
-  "nycPriceMwh": 27.06,
-  "priceAsOf": "2026-08-30T11:05:00.000Z"
+  "fuelAsOf": "2026-08-30T11:00:00.000Z",
+  "nycPriceMwh": 26.32,
+  "priceAsOf": "2026-08-30T11:15:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.5,
@@ -48,112 +48,118 @@
   "asOf": "2026-08-30T10:20:00.000Z"
  },
  "subway": {
-  "trains": 305,
+  "trains": 316,
   "feedsOk": 8,
   "feeds": 8,
   "alerts": 22,
-  "asOf": "2026-08-30T11:07:04.569Z"
+  "asOf": "2026-08-30T11:19:48.494Z"
  },
  "rail": {
   "lirr": {
-   "trains": 34,
+   "trains": 39,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 177,
+   "trains": 178,
    "viaVehicles": true
   },
-  "asOf": "2026-08-30T11:07:04.898Z"
+  "asOf": "2026-08-30T11:19:49.160Z"
  },
  "ferry": {
-  "vessels": 0,
-  "positions": [],
-  "asOf": "2026-08-30T11:07:05.055Z"
+  "vessels": 1,
+  "positions": [
+   {
+    "lat": 40.70298,
+    "lon": -73.97422,
+    "label": "H301"
+   }
+  ],
+  "asOf": "2026-08-30T11:19:49.343Z"
  },
  "cameras": {
-  "total": 970,
+  "total": 969,
   "list": [
    {
-    "name": "YORK AVENUE @ EAST 60 STREET",
-    "url": "https://webcams.nyctmc.org/api/cameras/9f6b60c8-b940-4eec-a3c5-4b60d24c751b/image"
+    "name": "Lexington Ave @ E 128 Street",
+    "url": "https://webcams.nyctmc.org/api/cameras/9c6dae83-0258-489e-a9cd-83396cf8dad7/image"
    },
    {
-    "name": "C1-BRE-09-SB_at_Lasalle_Ave-Ex7C",
-    "url": "https://webcams.nyctmc.org/api/cameras/6eee8e60-805b-403c-9c82-bac9e60d9cd9/image"
+    "name": "Major Deegan Expy @ Van Cortland Pk S",
+    "url": "https://webcams.nyctmc.org/api/cameras/b6cd1640-fdc3-4525-bbb4-f148699876df/image"
    },
    {
-    "name": "Crescent st @ 39 Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/97ace0b4-fcd2-4c3a-8c05-dbf73639ead3/image"
-   },
-   {
-    "name": "McGuinness Blvd @ Greenpoint Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/4b601090-d552-4c2c-804f-1360305f3dd5/image"
-   },
-   {
-    "name": "C3-WSE-11-SB_at_Edwrd_Crry_Ave-Ex9",
-    "url": "https://webcams.nyctmc.org/api/cameras/2f433a28-9a3f-4202-9b3b-a1dc7c6d1b1f/image"
-   },
-   {
-    "name": "FDR Dr @ Brooklyn Bridge",
-    "url": "https://webcams.nyctmc.org/api/cameras/ecba28cb-ac70-4d25-abcb-6506111ea120/image"
-   },
-   {
-    "name": "SEDGWICK AVE @ CEDAR AVE",
-    "url": "https://webcams.nyctmc.org/api/cameras/d7d6c994-492d-4f3a-895e-745596825fb4/image"
-   },
-   {
-    "name": "Woodhaven Blvd @ Union Tpke",
-    "url": "https://webcams.nyctmc.org/api/cameras/1b2c9e6b-8c35-47a2-aa60-fdd688cb61bf/image"
-   },
-   {
-    "name": "Prospect Pkwy @ 3 Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/91c033b3-ecfd-4fb9-b27d-d256eb720789/image"
-   },
-   {
-    "name": "Father Capodanno Blvd @ Midland Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/66533d67-7fe3-4250-b850-88c2fd7ec0e0/image"
-   },
-   {
-    "name": "West Side HWY BPU Entrance -148.54",
-    "url": "https://webcams.nyctmc.org/api/cameras/35a808cf-7e4d-4ca5-891d-36ac48518662/image"
-   },
-   {
-    "name": "C1-MDE-01-Cntr_at_E.135th_St-Ex1",
-    "url": "https://webcams.nyctmc.org/api/cameras/351d3d12-fd9e-4e4c-b279-cd8f3f1f194c/image"
-   },
-   {
-    "name": "Hillside Ave @ Little Neck Pkwy",
-    "url": "https://webcams.nyctmc.org/api/cameras/300e0508-3c7e-4ac5-8527-b75bcf8292b8/image"
+    "name": "Woodhaven Blvd @ Jamaica Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/6dd4b946-8704-4690-aa87-017a19e778c5/image"
    },
    {
     "name": "Sands St @ Brooklyn Bridge Ent",
     "url": "https://webcams.nyctmc.org/api/cameras/60fbce69-38fa-42b2-9ae8-41aea66abddf/image"
    },
    {
-    "name": "Richmond Ave @ Amboy Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/f2029d59-52c0-44b9-8030-90e03f710f8f/image"
+    "name": "Richmond Ave @ North Access Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/0537e9a6-3e6f-480c-9c6e-bb3ad15356ae/image"
    },
    {
-    "name": "Varick St @ Beach St",
-    "url": "https://webcams.nyctmc.org/api/cameras/56b99f9c-1f5c-47e2-8c85-d34de045a4ce/image"
+    "name": "12 Ave @ 34 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/3809d95f-f99e-4eca-9121-9c7db73f8cbd/image"
    },
    {
-    "name": "Grand Concourse @ Moshulu Pkwy",
-    "url": "https://webcams.nyctmc.org/api/cameras/83d034f2-584b-4dab-9e3d-d70a59995dc5/image"
+    "name": "Pelham Shore Rd @ City Island Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/09afb231-ef10-470f-bf54-0f44fc2dc18f/image"
    },
    {
-    "name": "Cross Island Pkwy @ 113 Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/7bbbaf2a-ca8d-4fa7-bcc9-bac5ac78d0b9/image"
+    "name": "College Point Blvd @ Roosevelt Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/fec1c88c-46b6-41bb-89ab-7dc7eeb2daaf/image"
+   },
+   {
+    "name": "Furman St @ Atlantic Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/95f77270-6143-4522-b55e-a3ef8cc48e18/image"
+   },
+   {
+    "name": "C3-SIE-06A-E_at_Crafton_Ave_Ex10",
+    "url": "https://webcams.nyctmc.org/api/cameras/cea3d6a8-b248-441a-8acd-188ffa5ea630/image"
+   },
+   {
+    "name": "Park Ave @ 53 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/9e3e26ae-d49f-4f64-ba99-113b779c25a2/image"
+   },
+   {
+    "name": "C1-TNE-01-SB_at_Otis-Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/f1acca9b-0030-49c5-b589-33ab6ac24657/image"
+   },
+   {
+    "name": "Rockaway Blvd @ Baisley Blvd",
+    "url": "https://webcams.nyctmc.org/api/cameras/37bb364c-7288-4481-a17d-0ba244d30baa/image"
+   },
+   {
+    "name": "Flatbush Ave @ Concord St",
+    "url": "https://webcams.nyctmc.org/api/cameras/5361a6ea-95fe-44e1-99f8-dc7d6964a427/image"
+   },
+   {
+    "name": "C3-KWV-02-NB_at_Bloomngdale_Rd-Ex2",
+    "url": "https://webcams.nyctmc.org/api/cameras/2e70dd1f-b21f-4215-bc22-237a1d79eb71/image"
+   },
+   {
+    "name": "2 Ave @ 23 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/786650de-d254-47dc-aa8a-de9a4c231a2a/image"
+   },
+   {
+    "name": "C1-BRE-06_W - WB_at_CBX-Hutch_Int-EX6A",
+    "url": "https://webcams.nyctmc.org/api/cameras/b221fdc4-ca81-41ae-875e-bf0341377758/image"
+   },
+   {
+    "name": "Qns Blvd @ QnCnt Mall",
+    "url": "https://webcams.nyctmc.org/api/cameras/52f3d48e-3bb4-4c83-bec2-1fb664d56501/image"
    }
   ],
-  "asOf": "2026-08-30T11:07:05.607Z"
+  "asOf": "2026-08-30T11:19:49.993Z"
  },
  "floodnet": {
-  "sensors": 413,
+  "sensors": 414,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-08-30T11:02:24.000Z"
+  "asOf": "2026-08-30T11:16:48.000Z"
  },
  "coned": {
   "customersOut": 169,
@@ -162,14 +168,14 @@
   "asOf": "2026-08-30T11:05:00.000Z"
  },
  "path": {
-  "arrivals": 19,
+  "arrivals": 20,
   "stations": 13,
-  "asOf": "2026-08-30T11:08:59.230Z"
+  "asOf": "2026-08-30T11:21:45.584Z"
  },
  "reservoirs": {
   "pctFull": 89.3,
   "pctNormal": 85.3,
   "pageDate": "August 28, 2026",
-  "asOf": "2026-08-30T11:08:59.515Z"
+  "asOf": "2026-08-30T11:21:45.904Z"
  }
 }
