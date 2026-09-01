@@ -191,7 +191,7 @@ const FEEDS = [
       const bucket = Math.floor(Date.now() / 300000);
       const cells = ys.map(y => xs.map(x => ({ x, y }))).flat();
       const base = cells.map(c =>
-        `<img src="https://a.basemaps.cartocdn.com/dark_all/${z}/${c.x}/${c.y}.png" alt="">`).join("");
+        `<img src="https://a.basemaps.cartocdn.com/dark_all/${z}/${c.x}/${c.y}.png?key=cb1_2r82_1_ae4e70b6166057bc41b89638" alt="">`).join("");
       const radUrls = cells.map(c =>
         `https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/${z}/${c.x}/${c.y}.png?${bucket}`);
       const rad = radUrls.map(u => `<img src="${u}" alt="" onerror="this.style.display='none'">`).join("");
@@ -989,7 +989,7 @@ function buildCameraMiniMap() {
       renderer: L.canvas({ padding: 0.3 }),
       attributionControl: false, scrollWheelZoom: false
     });
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", { maxZoom: 19 }).addTo(camMini);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=cb1_2r82_1_ae4e70b6166057bc41b89638", { maxZoom: 19 }).addTo(camMini);
     window._camDots = [];
     for (const [lat, lon, name, cid] of stationsGeo.cameras) {
       const d = L.circleMarker([lat, lon], { radius: 3, weight: 0, fillColor: "#ff6d3d", fillOpacity: 0.55 });
@@ -1042,7 +1042,7 @@ const MAP = window.MAP = {
     L.control.attribution({ prefix: false })
       .addAttribution('&copy; <a href="https://carto.com/attributions">CARTO</a> &copy; OpenStreetMap')
       .addTo(this.map);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", { maxZoom: 19 }).addTo(this.map);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=cb1_2r82_1_ae4e70b6166057bc41b89638", { maxZoom: 19 }).addTo(this.map);
 
     const chips = document.getElementById("map-chips");
     for (const d of this.DEFS) {
