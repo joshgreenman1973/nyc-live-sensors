@@ -1,17 +1,17 @@
 {
- "generated": "2026-09-02T03:11:23.645Z",
+ "generated": "2026-09-02T03:30:41.732Z",
  "nyiso": {
-  "nycLoadMw": 6350.3755,
-  "isoLoadMw": 19244.2667,
-  "asOf": "2026-09-02T02:55:00.000Z",
+  "nycLoadMw": 6201.949,
+  "isoLoadMw": 18828.975,
+  "asOf": "2026-09-02T03:15:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 5191
+    "mw": 4916
    },
    {
     "fuel": "Natural Gas",
-    "mw": 5093
+    "mw": 5219
    },
    {
     "fuel": "Nuclear",
@@ -23,166 +23,153 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 245
+    "mw": 228
    },
    {
     "fuel": "Wind",
-    "mw": 346
+    "mw": 315
    },
    {
     "fuel": "Hydro",
-    "mw": 2757
+    "mw": 2597
    }
   ],
-  "fuelAsOf": "2026-09-02T02:55:00.000Z",
-  "nycPriceMwh": 49,
-  "priceAsOf": "2026-09-02T03:10:00.000Z"
+  "fuelAsOf": "2026-09-02T03:15:00.000Z",
+  "nycPriceMwh": 42.65,
+  "priceAsOf": "2026-09-02T03:30:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 0.9,
+  "waveHeightM": 1,
   "domPeriodS": 4,
   "waterTempC": 23.3,
-  "windMs": 11,
-  "airTempC": 21.8,
-  "pressureHpa": 1016.5,
-  "asOf": "2026-09-02T02:20:00.000Z"
+  "windMs": 10,
+  "airTempC": 21.9,
+  "pressureHpa": 1017,
+  "asOf": "2026-09-02T02:50:00.000Z"
  },
  "subway": {
-  "trains": 346,
+  "trains": 327,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 12,
-  "asOf": "2026-09-02T03:11:24.887Z"
+  "alerts": 13,
+  "asOf": "2026-09-02T03:30:42.783Z"
  },
  "rail": {
   "lirr": {
-   "trains": 40,
+   "trains": 44,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 84,
+   "trains": 88,
    "viaVehicles": true
   },
-  "asOf": "2026-09-02T03:11:24.978Z"
+  "asOf": "2026-09-02T03:30:42.948Z"
  },
  "ferry": {
   "vessels": 0,
   "positions": [],
-  "asOf": "2026-09-02T03:11:25.096Z"
+  "asOf": "2026-09-02T03:30:43.070Z"
  },
  "cameras": {
   "total": 973,
   "list": [
    {
-    "name": "Broadway @ 6 Ave / 33 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/8ee72946-49e0-4f49-991d-4f52b1206ed7/image"
+    "name": "FDR Dr @ 90 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/874223a4-dc80-4764-8d91-1590cd3737d4/image"
    },
    {
-    "name": "Major Deegan Expy @ Van Cortland Pk S",
-    "url": "https://webcams.nyctmc.org/api/cameras/b6cd1640-fdc3-4525-bbb4-f148699876df/image"
+    "name": "C1-MDE-03-SB_at_E.138th_St-Ex3",
+    "url": "https://webcams.nyctmc.org/api/cameras/7c996b88-8ee6-4b0d-99c8-5764cf68f3bc/image"
    },
    {
-    "name": "Belt Pkwy @ 158 Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/20503e73-1829-4275-a645-5be6a02fd7cd/image"
+    "name": "Beach Channel Dr @ Beach 69 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/3cede892-0c4e-47ac-9a1a-1c837e9753c4/image"
    },
    {
-    "name": "Furman St @ Joralemon St",
-    "url": "https://webcams.nyctmc.org/api/cameras/df527f8d-1d60-4c90-9b22-badbb87e469d/image"
+    "name": "C2-PE-05-Ctr_at_7th_Ave-Ex4",
+    "url": "https://webcams.nyctmc.org/api/cameras/d401c83b-2f78-49dd-8974-14c819a992b2/image"
    },
    {
-    "name": "C3-WSE-01-NB_at_Englewood_Ave-Ex2",
-    "url": "https://webcams.nyctmc.org/api/cameras/3869bbbf-b9ce-4157-a6e6-9040f1540827/image"
-   },
-   {
-    "name": "West Street @ Intrepid",
-    "url": "https://webcams.nyctmc.org/api/cameras/2be7f4d2-3a72-45ba-95ad-b526643ef248/image"
-   },
-   {
-    "name": "NE Thruway @ Conner St",
-    "url": "https://webcams.nyctmc.org/api/cameras/1f92fccf-56b8-4f9f-bfd2-48e53984606e/image"
-   },
-   {
-    "name": "C5-VWE-25-NB_at_GCP-Intr.-Ex14",
-    "url": "https://webcams.nyctmc.org/api/cameras/1a64aa06-3f40-4f0e-b752-09ec44415ac0/image"
-   },
-   {
-    "name": "7 Ave @ 9 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/089d8066-4e5e-4549-9496-a5f4ffb56ef5/image"
-   },
-   {
-    "name": "Richmond Ave @ Arthur Kill Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/7980448b-0d57-49ad-8b87-50174e5d3065/image"
-   },
-   {
-    "name": "Broadway @ 38 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/83655dbc-7902-4fdb-926c-15fee4396b83/image"
-   },
-   {
-    "name": "Bruckner Blvd E / White Plains Rd- Camera 2",
-    "url": "https://webcams.nyctmc.org/api/cameras/0f657445-4729-4c98-8f3a-9591c1879b92/image"
-   },
-   {
-    "name": "Queens Blvd @ 48 St - 52.130",
-    "url": "https://webcams.nyctmc.org/api/cameras/49a571bf-f15e-4726-9937-aadde6c837ba/image"
-   },
-   {
-    "name": "7 Ave @ 18 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/40961631-fb83-4f48-8ffb-3385448d4e5f/image"
-   },
-   {
-    "name": "Hylan Blvd @ Bay St",
-    "url": "https://webcams.nyctmc.org/api/cameras/80976618-bbf8-4e7a-8a9d-095f3594244c/image"
+    "name": "Father Capodanno Blvd @ Ocean Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/70c286f0-78bc-43e4-9284-63ea2843c769/image"
    },
    {
     "name": "5 Ave @ 86 St",
     "url": "https://webcams.nyctmc.org/api/cameras/06ea08ec-5cd8-4bd6-9535-502acf651abc/image"
    },
    {
-    "name": "Southern Bl. @ Cross Bronx Expwy",
-    "url": "https://webcams.nyctmc.org/api/cameras/7305c9dc-a6c3-4eab-83df-fd42296efbea/image"
+    "name": "C1-MDE-04-SB_at_Grand_Concrse-Ex3",
+    "url": "https://webcams.nyctmc.org/api/cameras/bed364f9-5249-4285-9b03-70b91ce75baf/image"
    },
    {
-    "name": "BQE @ Queens Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/d872e1a0-8c5f-47da-9469-bf40a3673ade/image"
+    "name": "Belt Pkwy @ 130 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/ac1d2a7e-8e7e-4dd7-9e4e-d43f531f04af/image"
+   },
+   {
+    "name": "McGuinness Blvd @ Greenpoint Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/4b601090-d552-4c2c-804f-1360305f3dd5/image"
+   },
+   {
+    "name": "Victory Blvd @ Bay St",
+    "url": "https://webcams.nyctmc.org/api/cameras/36d22d6d-bffd-4466-8a9c-9c78a1bb9021/image"
+   },
+   {
+    "name": "RT. 9A @ N. Moore St",
+    "url": "https://webcams.nyctmc.org/api/cameras/63930c04-926c-4730-821e-95b486513843/image"
+   },
+   {
+    "name": "New Eng Thru @ Bartow",
+    "url": "https://webcams.nyctmc.org/api/cameras/4f806706-c888-4926-932c-f9f3f0255b60/image"
+   },
+   {
+    "name": "Grand Ave @ LIE",
+    "url": "https://webcams.nyctmc.org/api/cameras/7c92c63b-2786-4600-9108-62cea2806345/image"
+   },
+   {
+    "name": "Sands St @ BQE Ent",
+    "url": "https://webcams.nyctmc.org/api/cameras/7b84a612-a340-49ae-b3e8-1c558049cb3c/image"
+   },
+   {
+    "name": "C3-SIE-09-EB_at_ Manor_Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/5ec4ce2f-d86d-4899-b464-436fdcde72eb/image"
+   },
+   {
+    "name": "1 Ave @ 84 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/330e2a88-3cea-4ce5-b1a2-ae8440de9b1a/image"
+   },
+   {
+    "name": "C1-BRE-10-NB_at_Middle_Twn_Rd-Ex7C",
+    "url": "https://webcams.nyctmc.org/api/cameras/e38e3af7-19e6-4c8d-aa05-a21c8d5a7b29/image"
+   },
+   {
+    "name": "Astoria Blvd @ 94 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/ae88c4d8-5638-4f90-bbdb-e15999936d31/image"
    }
   ],
-  "asOf": "2026-09-02T03:11:25.311Z"
+  "asOf": "2026-09-02T03:30:43.623Z"
  },
  "floodnet": {
-  "sensors": 413,
-  "flooding": 1,
-  "wettest": {
-   "name": "M - E 108th St/1st Ave",
-   "mm": 28.858267716535433,
-   "depthIn": 1.1361522723045447
-  },
-  "wet": [
-   {
-    "id": 462,
-    "name": "M - E 108th St/1st Ave",
-    "mm": 28.858267716535433,
-    "depthIn": 1.1361522723045447,
-    "lat": 40.790943,
-    "lon": -73.939451
-   }
-  ],
-  "asOf": "2026-09-02T03:07:12.000Z"
+  "sensors": 412,
+  "flooding": 0,
+  "wettest": null,
+  "wet": [],
+  "asOf": "2026-09-02T03:21:36.000Z"
  },
  "coned": {
-  "customersOut": 157,
+  "customersOut": 221,
   "customersServed": 3626606,
-  "outages": 15,
-  "asOf": "2026-09-02T03:05:00.000Z"
+  "outages": 16,
+  "asOf": "2026-09-02T03:20:00.000Z"
  },
  "path": {
-  "arrivals": 36,
+  "arrivals": 33,
   "stations": 13,
-  "asOf": "2026-09-02T03:13:13.646Z"
+  "asOf": "2026-09-02T03:32:32.787Z"
  },
  "reservoirs": {
   "pctFull": 88.5,
   "pctNormal": 83.8,
   "pageDate": "September 1, 2026",
-  "asOf": "2026-09-02T03:13:13.773Z"
+  "asOf": "2026-09-02T03:32:33.063Z"
  }
 }
