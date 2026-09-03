@@ -1,21 +1,21 @@
 {
- "generated": "2026-09-03T01:58:19.168Z",
+ "generated": "2026-09-03T03:06:07.142Z",
  "nyiso": {
-  "nycLoadMw": 6187.574,
-  "isoLoadMw": 19252.5329,
-  "asOf": "2026-09-03T01:45:00.000Z",
+  "nycLoadMw": 5956.5503,
+  "isoLoadMw": 18216.1539,
+  "asOf": "2026-09-03T02:50:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 5447
+    "mw": 5117
    },
    {
     "fuel": "Natural Gas",
-    "mw": 5301
+    "mw": 5235
    },
    {
     "fuel": "Nuclear",
-    "mw": 3091
+    "mw": 3093
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,164 +23,153 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 214
+    "mw": 250
    },
    {
     "fuel": "Wind",
-    "mw": 1144
+    "mw": 851
    },
    {
     "fuel": "Hydro",
-    "mw": 3145
+    "mw": 2744
    }
   ],
-  "fuelAsOf": "2026-09-03T01:40:00.000Z",
-  "nycPriceMwh": 37.47,
-  "priceAsOf": "2026-09-03T01:55:00.000Z"
+  "fuelAsOf": "2026-09-03T02:50:00.000Z",
+  "nycPriceMwh": 48.72,
+  "priceAsOf": "2026-09-03T03:05:00.000Z"
  },
  "buoy": {
   "waveHeightM": 1.2,
-  "domPeriodS": 6,
-  "waterTempC": 22.7,
-  "windMs": 5,
-  "airTempC": 22.1,
-  "pressureHpa": 1018.9,
-  "asOf": "2026-09-03T01:20:00.000Z"
+  "domPeriodS": 7,
+  "waterTempC": 22.4,
+  "windMs": 4,
+  "airTempC": 22.2,
+  "pressureHpa": 1018.5,
+  "asOf": "2026-09-03T02:20:00.000Z"
  },
  "subway": {
-  "trains": 450,
+  "trains": 355,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 13,
-  "asOf": "2026-09-03T01:58:20.358Z"
+  "alerts": 10,
+  "asOf": "2026-09-03T03:06:08.494Z"
  },
  "rail": {
   "lirr": {
-   "trains": 35,
+   "trains": 38,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 103,
+   "trains": 90,
    "viaVehicles": true
   },
-  "asOf": "2026-09-03T01:58:20.559Z"
+  "asOf": "2026-09-03T03:06:08.699Z"
  },
  "ferry": {
-  "vessels": 2,
-  "positions": [
-   {
-    "lat": 40.68393,
-    "lon": -74.01422,
-    "label": "H205"
-   },
-   {
-    "lat": 40.74186,
-    "lon": -73.96143,
-    "label": "H122"
-   }
-  ],
-  "asOf": "2026-09-03T01:58:20.659Z"
+  "vessels": 0,
+  "positions": [],
+  "asOf": "2026-09-03T03:06:08.886Z"
  },
  "cameras": {
   "total": 973,
   "list": [
    {
-    "name": "QBB UL Entrance @ Thomson Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/b963b25c-9fcf-4a12-b502-c57468510315/image"
+    "name": "Amsterdam @ 72 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/0bcfbc92-d455-4f62-846a-32afbefa3b4b/image"
    },
    {
-    "name": "C1-CBX-18-Med_at_Pennyfield_Av-TNB",
-    "url": "https://webcams.nyctmc.org/api/cameras/e51a2974-8ca2-4fe2-a90a-842685cbbcc9/image"
+    "name": "Crotona Pkwy @ Cross Bronx Expwy",
+    "url": "https://webcams.nyctmc.org/api/cameras/4053642d-dd92-4045-ac55-069110659563/image"
    },
    {
-    "name": "Astoria Blvd @ 94 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/ae88c4d8-5638-4f90-bbdb-e15999936d31/image"
+    "name": "Myrtle Ave @ 79 Lane - 73.74",
+    "url": "https://webcams.nyctmc.org/api/cameras/3c1e0011-7dbc-4bc9-af2d-e9347754bf91/image"
    },
    {
-    "name": "C2-BQE-12-WB_at_Furmn_St_LL-Ex28A",
-    "url": "https://webcams.nyctmc.org/api/cameras/5f1847a6-f7fa-4663-afb8-bcbcb93f0c69/image"
+    "name": "C2-BQE-16-WB_at_Sands_St-Ex29A",
+    "url": "https://webcams.nyctmc.org/api/cameras/4be502c3-830e-40d3-8c39-1047d50adc9c/image"
    },
    {
-    "name": "Hylan Blvd @ Guyon Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/907af141-b289-47d3-9f41-edc7667cff7e/image"
+    "name": "C3-MLK-01-SB_at_Watchogue_Rd-Ex10",
+    "url": "https://webcams.nyctmc.org/api/cameras/8df73045-61fd-4394-b21a-dfa3f440d6e7/image"
    },
    {
-    "name": "Hudson St @ Laight St",
-    "url": "https://webcams.nyctmc.org/api/cameras/24101bcf-29a7-4417-b77d-1f0368dc212d/image"
+    "name": "Central Park West @ 77 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/90c74649-458d-4b5f-8f58-9ab77f03f4ad/image"
    },
    {
-    "name": "Boston Rd @ Gun hill Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/cbd86999-5bb1-4f2d-addd-dbf15fa3609d/image"
+    "name": "C1-MDE-12-SB_at_Heath_Ave-Ex9",
+    "url": "https://webcams.nyctmc.org/api/cameras/1a626331-3c36-48bd-91a5-edd930c314c0/image"
    },
    {
-    "name": "Metropolitan Ave @ Fresh Pond Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/4ec4d8da-6dcb-444d-b33a-096a7d07bb51/image"
+    "name": "GCP @ Astoria Blvd @ 49 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/138a0bcb-15af-46a4-baf0-8724016c73fa/image"
    },
    {
-    "name": "7 Ave @ 9 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/089d8066-4e5e-4549-9496-a5f4ffb56ef5/image"
+    "name": "C2-BQE-25-WB_at_S.5th_St-Ex32",
+    "url": "https://webcams.nyctmc.org/api/cameras/c79840eb-e25e-41cc-8a54-f8eaa6e29463/image"
    },
    {
-    "name": "C3-MLK-02-NB_at_Forest_Ave-Ex11",
-    "url": "https://webcams.nyctmc.org/api/cameras/4678c08d-9b89-4dd4-9fa0-234412822bb7/image"
+    "name": "Father Capodanno Blvd @ Sands LN",
+    "url": "https://webcams.nyctmc.org/api/cameras/0ff541bf-1be1-4bbf-88c5-3a570541e7d2/image"
    },
    {
-    "name": "2 Ave @ 72 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/5674d0ea-703a-43c3-bea7-2b372d1eb00b/image"
+    "name": "Lexington Ave @ 42 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/1546f761-039c-4b5c-af5e-75c83c9f603f/image"
    },
    {
-    "name": "Soundview Ave @ Lafayette Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/894dd92a-90a3-46d5-a996-4ddb2b6091cc/image"
+    "name": "Grand Concourse @ 161 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/a95f7916-24ee-4d7e-bc71-6f9f1e009f23/image"
    },
    {
-    "name": "Queens Blvd @ 48 St - 52.130",
-    "url": "https://webcams.nyctmc.org/api/cameras/49a571bf-f15e-4726-9937-aadde6c837ba/image"
+    "name": "Beach Channel Dr @ B Mott Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/eca4e591-4ac8-471c-8e76-4710b52e6f9b/image"
    },
    {
-    "name": "Atlantic Ave @ Barclays Center",
-    "url": "https://webcams.nyctmc.org/api/cameras/053afe02-e1b3-4bea-9995-787e72c7fff4/image"
+    "name": "C2-BQE-22-WB_at_Lee_Ave-Ex31",
+    "url": "https://webcams.nyctmc.org/api/cameras/b18d0e36-c053-435d-921e-813ab5f65a0a/image"
    },
    {
-    "name": "C3-WSE-12-NB_at_Bloomfield_Ave_Ex9",
-    "url": "https://webcams.nyctmc.org/api/cameras/6cc9b754-096d-4c5c-94b7-64f6b69523d5/image"
+    "name": "Drumgoole Rd E @ Arden Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/52b1ec32-8603-41e1-af1f-b1e1e33752cb/image"
    },
    {
-    "name": "6 Ave @ 23 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/fcc24aa5-4da0-48f2-aa43-e70e4677517c/image"
+    "name": "West St @ West Houston St",
+    "url": "https://webcams.nyctmc.org/api/cameras/67a4769b-dfb2-4a0d-9605-114df107646c/image"
    },
    {
-    "name": "CBX @ Morris Ave & 174th ST",
-    "url": "https://webcams.nyctmc.org/api/cameras/572b1058-c33a-4de2-8f35-0f3e9e92bc33/image"
+    "name": "3rd Av. @ E 156 St.",
+    "url": "https://webcams.nyctmc.org/api/cameras/11ce0ee6-349b-4120-a66e-6299d28915f5/image"
    },
    {
-    "name": "GCP @ LGA 94 St Exit",
-    "url": "https://webcams.nyctmc.org/api/cameras/9fa5b0dd-e955-449e-97e1-9c53ad9c23a8/image"
+    "name": "Cross Bay Blvd @ 157 Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/6041c9a9-4414-4442-9acd-a723eccd9277/image"
    }
   ],
-  "asOf": "2026-09-03T01:58:21.133Z"
+  "asOf": "2026-09-03T03:06:09.396Z"
  },
  "floodnet": {
   "sensors": 410,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-09-03T01:55:12.000Z"
+  "asOf": "2026-09-03T03:07:12.000Z"
  },
  "coned": {
-  "customersOut": 143,
+  "customersOut": 144,
   "customersServed": 3626606,
-  "outages": 10,
-  "asOf": "2026-09-03T01:50:00.000Z"
+  "outages": 11,
+  "asOf": "2026-09-03T03:05:00.000Z"
  },
  "path": {
-  "arrivals": 52,
+  "arrivals": 38,
   "stations": 13,
-  "asOf": "2026-09-03T02:00:10.170Z"
+  "asOf": "2026-09-03T03:08:02.516Z"
  },
  "reservoirs": {
   "pctFull": 88.4,
   "pctNormal": 83.5,
   "pageDate": "September 2, 2026",
-  "asOf": "2026-09-03T02:00:10.377Z"
+  "asOf": "2026-09-03T03:08:02.765Z"
  }
 }
