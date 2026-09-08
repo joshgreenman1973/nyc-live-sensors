@@ -1,29 +1,58 @@
 {
- "generated": "2026-09-08T04:10:17.528Z",
+ "generated": "2026-09-08T04:28:08.480Z",
  "nyiso": {
-  "nycLoadMw": 5600.8574,
-  "isoLoadMw": 15911.413000000002,
-  "asOf": "2026-09-08T03:55:00.000Z",
-  "fuelMix": null,
-  "fuelAsOf": null,
+  "nycLoadMw": 5546.1426,
+  "isoLoadMw": 15711.4369,
+  "asOf": "2026-09-08T04:15:00.000Z",
+  "fuelMix": [
+   {
+    "fuel": "Dual Fuel",
+    "mw": 3740
+   },
+   {
+    "fuel": "Natural Gas",
+    "mw": 3530
+   },
+   {
+    "fuel": "Nuclear",
+    "mw": 3101
+   },
+   {
+    "fuel": "Other Fossil Fuels",
+    "mw": 0
+   },
+   {
+    "fuel": "Other Renewables",
+    "mw": 237
+   },
+   {
+    "fuel": "Wind",
+    "mw": 342
+   },
+   {
+    "fuel": "Hydro",
+    "mw": 2308
+   }
+  ],
+  "fuelAsOf": "2026-09-08T04:10:00.000Z",
   "nycPriceMwh": 38.85,
-  "priceAsOf": "2026-09-08T04:10:00.000Z"
+  "priceAsOf": "2026-09-08T04:25:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.5,
   "domPeriodS": 11,
   "waterTempC": 23.2,
-  "windMs": 5,
-  "airTempC": 23,
-  "pressureHpa": 1022.5,
-  "asOf": "2026-09-08T03:20:00.000Z"
+  "windMs": 4,
+  "airTempC": 23.1,
+  "pressureHpa": 1022.3,
+  "asOf": "2026-09-08T03:50:00.000Z"
  },
  "subway": {
-  "trains": 256,
+  "trains": 247,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 16,
-  "asOf": "2026-09-08T04:10:18.694Z"
+  "alerts": 17,
+  "asOf": "2026-09-08T04:28:10.140Z"
  },
  "rail": {
   "lirr": {
@@ -31,116 +60,116 @@
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 106,
+   "trains": 117,
    "viaVehicles": true
   },
-  "asOf": "2026-09-08T04:10:18.915Z"
+  "asOf": "2026-09-08T04:28:10.557Z"
  },
  "ferry": {
   "vessels": 0,
   "positions": [],
-  "asOf": "2026-09-08T04:10:19.095Z"
+  "asOf": "2026-09-08T04:28:10.760Z"
  },
  "cameras": {
-  "total": 964,
+  "total": 963,
   "list": [
    {
-    "name": "11 Ave @ W 40 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/a69c70f4-cedf-440c-83f7-743e7a158d09/image"
+    "name": "FDR Dr @ Old Slip",
+    "url": "https://webcams.nyctmc.org/api/cameras/3309fba1-cc5f-483a-92bc-7d85951f1558/image"
    },
    {
-    "name": "Boston Rd @ Claremont Pkwy @ Wilkins Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/1d5b7624-9334-4348-8119-4d0221988d24/image"
+    "name": "C1-CBX-18-Med_at_Pennyfield_Av-TNB",
+    "url": "https://webcams.nyctmc.org/api/cameras/e51a2974-8ca2-4fe2-a90a-842685cbbcc9/image"
    },
    {
-    "name": "BB-22 BQE @ Old Fulton St",
-    "url": "https://webcams.nyctmc.org/api/cameras/64862ed3-03e3-4452-9e59-189dbeec4a4f/image"
+    "name": "Stillwell Ave @ 86 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/f75d3433-3ee8-4406-b747-ca47098debd9/image"
    },
    {
-    "name": "Northern Blvd @ Honeywell Bridge",
-    "url": "https://webcams.nyctmc.org/api/cameras/9b4553f1-6aa3-46eb-8905-ecbfecb83ce3/image"
+    "name": "Farmers Blvd @ 147 Ave @ 175 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/fbe41159-b7cd-4b91-a365-5656bae67ae7/image"
    },
    {
-    "name": "West Shore Expy @ Arden Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/23cb2c44-1a40-4950-a914-ee7f1390553c/image"
+    "name": "Hylan Blvd @ Nelson Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/7e13d5e6-bd1a-47af-ba28-39c50e2736c2/image"
    },
    {
-    "name": "WBB - NOR - 3 @ Kent Ave North",
-    "url": "https://webcams.nyctmc.org/api/cameras/f9e26c16-1cd9-495d-a988-bd80666c28bb/image"
+    "name": "9 Ave @ 57 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/37e2a4b6-2fbd-42f5-9d2d-130b664783f2/image"
    },
    {
     "name": "Bruckner Blvd E @ Castle Hill Ave",
     "url": "https://webcams.nyctmc.org/api/cameras/420a58c7-3b5b-4a20-9f8d-d722d03f19ca/image"
    },
    {
-    "name": "7 Ave @ Union St",
-    "url": "https://webcams.nyctmc.org/api/cameras/2064d8ab-597a-45d8-a3c9-5ab95a4e69e6/image"
+    "name": "Belt Pkwy @ Bay 8 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/260fc63c-773a-45e3-a04b-9f05c3184a44/image"
    },
    {
-    "name": "Long Island Expy @ QMT @ Pulaski Br",
-    "url": "https://webcams.nyctmc.org/api/cameras/67f77766-bd19-4082-adeb-88d59866c490/image"
+    "name": "Belt Pkwy @ 125 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/0bb2c096-0377-41f7-a451-56944aa8dae2/image"
    },
    {
-    "name": "C3-MLK-01-SB_at_Watchogue_Rd-Ex10",
-    "url": "https://webcams.nyctmc.org/api/cameras/8df73045-61fd-4394-b21a-dfa3f440d6e7/image"
+    "name": "Victory Blvd @ Loop Rd -131.42",
+    "url": "https://webcams.nyctmc.org/api/cameras/7add8765-182d-40e5-b196-a0e3c02ed787/image"
    },
    {
-    "name": "FDR Dr @ Old Slip",
-    "url": "https://webcams.nyctmc.org/api/cameras/3309fba1-cc5f-483a-92bc-7d85951f1558/image"
+    "name": "FDR @ Grand St",
+    "url": "https://webcams.nyctmc.org/api/cameras/24c402b2-915d-49f8-9529-f723a171c134/image"
    },
    {
-    "name": "Pelham Shore Rd @ City Island Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/09afb231-ef10-470f-bf54-0f44fc2dc18f/image"
+    "name": "PELHAM PKWY @ WILLIAMSBRIDGE RD",
+    "url": "https://webcams.nyctmc.org/api/cameras/4284c61f-eb9c-419d-99e4-48a7ef681e62/image"
    },
    {
-    "name": "BB-16 South Rdwy @ Manhattan Anchorage",
-    "url": "https://webcams.nyctmc.org/api/cameras/d560faa5-0f60-4ac4-ae1e-b4af096d9adc/image"
+    "name": "4 Ave @ 38 st - 179.90",
+    "url": "https://webcams.nyctmc.org/api/cameras/5cc1f365-af4a-48be-8819-8f12e18725a3/image"
    },
    {
-    "name": "Northern Blvd @ 51 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/36d14f1c-b6fb-474c-9703-ecfd101ead72/image"
+    "name": "Queens Blvd @ 39 ST",
+    "url": "https://webcams.nyctmc.org/api/cameras/c361e170-2da7-4e96-9546-296e766b37ad/image"
    },
    {
-    "name": "Father Capodanno Blvd @ Midland Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/66533d67-7fe3-4250-b850-88c2fd7ec0e0/image"
+    "name": "Morningstar Rd @ Walker St",
+    "url": "https://webcams.nyctmc.org/api/cameras/710191bf-5753-49f7-a524-d0db75526600/image"
    },
    {
-    "name": "Madison Ave @ 42 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/d1363c77-e061-4414-be82-e6d749254859/image"
+    "name": "Canal St @ Greenwich St ( Holland Tunnel )",
+    "url": "https://webcams.nyctmc.org/api/cameras/25ad72fe-e74c-49af-b4c0-34c9eac14655/image"
    },
    {
-    "name": "C1-MDE-15-NB_at_Jerome_Ave-Ex13",
-    "url": "https://webcams.nyctmc.org/api/cameras/32bf4789-4142-4484-b110-88343799a40b/image"
+    "name": "C1-MDE-06-NB_at_Macombs_Dam_Br-Ex5",
+    "url": "https://webcams.nyctmc.org/api/cameras/09cc9eed-0732-4199-a6ca-b3d0bbbad860/image"
    },
    {
-    "name": "Atlantic Ave @ Vanderbilt Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/b5d8fe4f-1cf5-4cd8-8211-8353e68da1cb/image"
+    "name": "C2-BQE-22-WB_at_Lee_Ave-Ex31",
+    "url": "https://webcams.nyctmc.org/api/cameras/b18d0e36-c053-435d-921e-813ab5f65a0a/image"
    }
   ],
-  "asOf": "2026-09-08T04:10:19.570Z"
+  "asOf": "2026-09-08T04:28:11.531Z"
  },
  "floodnet": {
   "sensors": 411,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-09-08T04:04:48.000Z"
+  "asOf": "2026-09-08T04:19:12.000Z"
  },
  "coned": {
-  "customersOut": 3,
+  "customersOut": 2,
   "customersServed": 3626606,
-  "outages": 3,
-  "asOf": "2026-09-08T04:05:00.000Z"
+  "outages": 2,
+  "asOf": "2026-09-08T04:20:00.000Z"
  },
  "path": {
-  "arrivals": 26,
+  "arrivals": 25,
   "stations": 13,
-  "asOf": "2026-09-08T04:12:05.068Z"
+  "asOf": "2026-09-08T04:30:02.057Z"
  },
  "reservoirs": {
   "pctFull": 88.6,
   "pctNormal": 82.9,
   "pageDate": "September 4, 2026",
-  "asOf": "2026-09-08T04:12:05.352Z"
+  "asOf": "2026-09-08T04:30:02.358Z"
  }
 }
