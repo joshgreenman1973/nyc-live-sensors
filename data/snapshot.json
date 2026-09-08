@@ -1,21 +1,21 @@
 {
- "generated": "2026-09-08T09:27:43.050Z",
+ "generated": "2026-09-08T09:41:11.665Z",
  "nyiso": {
-  "nycLoadMw": 4972.4194,
-  "isoLoadMw": 14385.1639,
-  "asOf": "2026-09-08T09:10:00.000Z",
+  "nycLoadMw": 5029.7847,
+  "isoLoadMw": 14551.8789,
+  "asOf": "2026-09-08T09:25:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3558
+    "mw": 3690
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3039
+    "mw": 3025
    },
    {
     "fuel": "Nuclear",
-    "mw": 3103
+    "mw": 3105
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,20 +23,20 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 218
+    "mw": 214
    },
    {
     "fuel": "Wind",
-    "mw": 330
+    "mw": 341
    },
    {
     "fuel": "Hydro",
-    "mw": 2198
+    "mw": 2300
    }
   ],
-  "fuelAsOf": "2026-09-08T09:10:00.000Z",
-  "nycPriceMwh": 34.61,
-  "priceAsOf": "2026-09-08T09:25:00.000Z"
+  "fuelAsOf": "2026-09-08T09:25:00.000Z",
+  "nycPriceMwh": 34.87,
+  "priceAsOf": "2026-09-08T09:40:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.7,
@@ -48,11 +48,11 @@
   "asOf": "2026-09-08T08:50:00.000Z"
  },
  "subway": {
-  "trains": 347,
+  "trains": 378,
   "feedsOk": 8,
   "feeds": 8,
   "alerts": 5,
-  "asOf": "2026-09-08T09:27:44.202Z"
+  "asOf": "2026-09-08T09:41:12.896Z"
  },
  "rail": {
   "lirr": {
@@ -60,157 +60,217 @@
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 277,
+   "trains": 282,
    "viaVehicles": true
   },
-  "asOf": "2026-09-08T09:27:44.390Z"
+  "asOf": "2026-09-08T09:41:13.058Z"
  },
  "ferry": {
-  "vessels": 8,
+  "vessels": 20,
   "positions": [
    {
-    "lat": 40.7039,
-    "lon": -73.97682,
+    "lat": 40.70402,
+    "lon": -73.97681,
+    "label": "H200"
+   },
+   {
+    "lat": 40.70452,
+    "lon": -73.97655,
+    "label": "H201"
+   },
+   {
+    "lat": 40.70395,
+    "lon": -73.97683,
     "label": "H202"
    },
    {
-    "lat": 40.70397,
+    "lat": 40.70398,
     "lon": -73.97681,
     "label": "H102"
    },
    {
     "lat": 40.70415,
-    "lon": -73.97671,
+    "lon": -73.97672,
     "label": "H104"
    },
    {
-    "lat": 40.78891,
-    "lon": -73.91616,
+    "lat": 40.70334,
+    "lon": -73.97649,
+    "label": "H105"
+   },
+   {
+    "lat": 40.7043,
+    "lon": -73.97667,
+    "label": "H107"
+   },
+   {
+    "lat": 40.76487,
+    "lon": -73.95167,
     "label": "H108"
    },
    {
-    "lat": 40.56764,
-    "lon": -73.91133,
+    "lat": 40.70436,
+    "lon": -73.97664,
+    "label": "H109"
+   },
+   {
+    "lat": 40.70459,
+    "lon": -73.97655,
+    "label": "H205"
+   },
+   {
+    "lat": 40.70259,
+    "lon": -73.97625,
+    "label": "H206"
+   },
+   {
+    "lat": 40.7035,
+    "lon": -73.97647,
+    "label": "H207"
+   },
+   {
+    "lat": 40.58414,
+    "lon": -73.83183,
     "label": "H114"
    },
    {
-    "lat": 40.70322,
-    "lon": -73.97655,
+    "lat": 40.70354,
+    "lon": -73.97641,
+    "label": "H112"
+   },
+   {
+    "lat": 40.70409,
+    "lon": -73.97615,
+    "label": "H113"
+   },
+   {
+    "lat": 40.72471,
+    "lon": -73.96672,
     "label": "H215"
    },
    {
-    "lat": 40.56625,
-    "lon": -73.97813,
+    "lat": 40.62435,
+    "lon": -74.04507,
     "label": "H091"
    },
    {
-    "lat": 40.79412,
-    "lon": -73.90918,
+    "lat": 40.80537,
+    "lon": -73.83704,
     "label": "H301"
+   },
+   {
+    "lat": 40.70658,
+    "lon": -73.99649,
+    "label": "H092"
+   },
+   {
+    "lat": 40.70251,
+    "lon": -73.9763,
+    "label": "H123"
    }
   ],
-  "asOf": "2026-09-08T09:27:44.560Z"
+  "asOf": "2026-09-08T09:41:13.240Z"
  },
  "cameras": {
-  "total": 963,
+  "total": 964,
   "list": [
    {
-    "name": "West Houston @ Varick St",
-    "url": "https://webcams.nyctmc.org/api/cameras/db84e6bd-1436-4213-bbfb-f6e0ceab38c7/image"
+    "name": "2 Ave @ 58 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/5b44d19e-de48-4941-b071-d2a4c08bd230/image"
    },
    {
-    "name": "WEBSTER AVE @ NEREID AVE",
-    "url": "https://webcams.nyctmc.org/api/cameras/6a841f4c-93ef-4f51-b38d-80e70053ff8d/image"
+    "name": "Boston Rd @ Claremont Pkwy @ Wilkins Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/1d5b7624-9334-4348-8119-4d0221988d24/image"
    },
    {
-    "name": "Columbia St @ Degraw St",
-    "url": "https://webcams.nyctmc.org/api/cameras/d3ab8634-97be-4229-9aa3-c3637ff66ea9/image"
+    "name": "BB-26 South Rdwy @ West of Manhattan Twr",
+    "url": "https://webcams.nyctmc.org/api/cameras/3fd80992-482b-4e88-ad7f-8c74690a8d37/image"
    },
    {
-    "name": "C5-VWE-25-NB_at_GCP-Intr.-Ex14",
-    "url": "https://webcams.nyctmc.org/api/cameras/1a64aa06-3f40-4f0e-b752-09ec44415ac0/image"
+    "name": "C5-BQE-39-WB_at_Broadway-Ex40",
+    "url": "https://webcams.nyctmc.org/api/cameras/2cde9c13-0146-4d4a-8d26-b6e7d34d9eec/image"
    },
    {
-    "name": "Staten Island Expy @ Hylan Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/0b7a91d5-e33e-42b3-a05a-951be0ab1663/image"
+    "name": "Staten Island Expy @ West Shore Expy",
+    "url": "https://webcams.nyctmc.org/api/cameras/97315cc7-688a-4139-93de-4c58c59fbede/image"
    },
    {
-    "name": "BB - Manhattan hub - 156.103",
-    "url": "https://webcams.nyctmc.org/api/cameras/98fc3e41-66be-42d7-8f69-5cc76ae7226f/image"
+    "name": "Harlem River Dr Ramp @ Before GWB & Amst_179St Exit",
+    "url": "https://webcams.nyctmc.org/api/cameras/936d479d-402f-468a-b1c6-b2c2a68a0b4c/image"
    },
    {
-    "name": "Major Deegan Expy @ Macombs Dam Bridge",
-    "url": "https://webcams.nyctmc.org/api/cameras/4ab788f8-4a07-4604-a1f6-f47ce72ea01e/image"
+    "name": "C1-BRE-06_W - WB_at_CBX-Hutch_Int-EX6A",
+    "url": "https://webcams.nyctmc.org/api/cameras/b221fdc4-ca81-41ae-875e-bf0341377758/image"
    },
    {
-    "name": "C2-BQE-27-EB_at_Mtrpolitan_Av-Ex32",
-    "url": "https://webcams.nyctmc.org/api/cameras/6232350a-c27c-4964-a6e8-7bd0507b6826/image"
+    "name": "Sands St @ Pearl St",
+    "url": "https://webcams.nyctmc.org/api/cameras/82ff853c-50e3-403a-855b-5f17708a4f38/image"
    },
    {
-    "name": "Astoria Blvd @ 94 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/ae88c4d8-5638-4f90-bbdb-e15999936d31/image"
+    "name": "GCP @ LGA 94 St Exit",
+    "url": "https://webcams.nyctmc.org/api/cameras/9fa5b0dd-e955-449e-97e1-9c53ad9c23a8/image"
    },
    {
-    "name": "Narrow Rd N @ Richmond Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/7d1db29e-90a9-4027-b1fc-6e6af4f4f0d9/image"
+    "name": "Hylan Blvd @ Nelson Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/7e13d5e6-bd1a-47af-ba28-39c50e2736c2/image"
    },
    {
-    "name": "5 Ave @ 86 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/06ea08ec-5cd8-4bd6-9535-502acf651abc/image"
+    "name": "Harlem River Dr @ Dyckman St /10 Av",
+    "url": "https://webcams.nyctmc.org/api/cameras/e610bc71-9bfb-4a92-928d-ad33cd1b9afd/image"
    },
    {
-    "name": "C1-MDE-12-SB_at_Heath_Ave-Ex9",
-    "url": "https://webcams.nyctmc.org/api/cameras/1a626331-3c36-48bd-91a5-edd930c314c0/image"
+    "name": "C1-BRE-11-SB_at_Buhre_Ave-Ex8A",
+    "url": "https://webcams.nyctmc.org/api/cameras/b19c9130-3a2d-4f7a-94a5-495eeea219ef/image"
    },
    {
-    "name": "Wythe Ave @ Williamsburg st w",
-    "url": "https://webcams.nyctmc.org/api/cameras/023cc794-4600-4c02-91e7-4603597172e1/image"
+    "name": "C2-GE-12_W_WB_at_26th St-Ex23",
+    "url": "https://webcams.nyctmc.org/api/cameras/a74c9c59-b6e1-4f7d-b260-7f54954e6e47/image"
    },
    {
-    "name": "Grand Ave @ Hamilton Pl",
-    "url": "https://webcams.nyctmc.org/api/cameras/b08600e6-7189-4104-a484-709dc81a3fa7/image"
+    "name": "Hillside Ave @ Little Neck Pkwy",
+    "url": "https://webcams.nyctmc.org/api/cameras/300e0508-3c7e-4ac5-8527-b75bcf8292b8/image"
    },
    {
-    "name": "Drumgoogle Rd E @ Vernon Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/29aaea67-bf67-4d6f-b572-f810f48f5b48/image"
+    "name": "Richmond Ave @ Amboy Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/f2029d59-52c0-44b9-8030-90e03f710f8f/image"
    },
    {
-    "name": "6 Ave @ 30 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/0dc7c2b4-614d-46a3-9610-3ba09f3f1284/image"
+    "name": "QBB SOR @ W Channel",
+    "url": "https://webcams.nyctmc.org/api/cameras/33aa3bec-8143-421c-a0f7-866a2feaa352/image"
    },
    {
     "name": "Fordham Rd @ Hughes Ave",
     "url": "https://webcams.nyctmc.org/api/cameras/2a0ec6ff-9284-466a-9785-9f6df84ea4cf/image"
    },
    {
-    "name": "Flatbush Ave @ Empire Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/2e43a9d0-1df8-4a38-ae20-2e0f359bb55d/image"
+    "name": "Ocean Pkwy @ Church Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/2293205b-2b15-44da-8220-6833a13c5a80/image"
    }
   ],
-  "asOf": "2026-09-08T09:27:44.923Z"
+  "asOf": "2026-09-08T09:41:13.740Z"
  },
  "floodnet": {
   "sensors": 412,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-09-08T09:21:36.000Z"
+  "asOf": "2026-09-08T09:36:00.000Z"
  },
  "coned": {
-  "customersOut": 205,
+  "customersOut": 342,
   "customersServed": 3626606,
   "outages": 4,
-  "asOf": "2026-09-08T09:20:00.000Z"
+  "asOf": "2026-09-08T09:35:00.000Z"
  },
  "path": {
-  "arrivals": 41,
+  "arrivals": 47,
   "stations": 13,
-  "asOf": "2026-09-08T09:29:30.698Z"
+  "asOf": "2026-09-08T09:42:59.765Z"
  },
  "reservoirs": {
   "pctFull": 88.6,
   "pctNormal": 82.9,
   "pageDate": "September 4, 2026",
-  "asOf": "2026-09-08T09:29:30.861Z"
+  "asOf": "2026-09-08T09:43:00.143Z"
  }
 }
