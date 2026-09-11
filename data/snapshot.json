@@ -1,21 +1,21 @@
 {
- "generated": "2026-09-11T01:31:43.354Z",
+ "generated": "2026-09-11T01:53:51.399Z",
  "nyiso": {
-  "nycLoadMw": 7854.69,
-  "isoLoadMw": 22092.0246,
-  "asOf": "2026-09-11T01:15:00.000Z",
+  "nycLoadMw": 7731.5303,
+  "isoLoadMw": 21606.9977,
+  "asOf": "2026-09-11T01:40:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 6270
+    "mw": 5923
    },
    {
     "fuel": "Natural Gas",
-    "mw": 4844
+    "mw": 4745
    },
    {
     "fuel": "Nuclear",
-    "mw": 3085
+    "mw": 3087
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,20 +23,20 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 245
+    "mw": 249
    },
    {
     "fuel": "Wind",
-    "mw": 616
+    "mw": 582
    },
    {
     "fuel": "Hydro",
-    "mw": 3094
+    "mw": 3183
    }
   ],
-  "fuelAsOf": "2026-09-11T01:15:00.000Z",
-  "nycPriceMwh": 50.63,
-  "priceAsOf": "2026-09-11T01:30:00.000Z"
+  "fuelAsOf": "2026-09-11T01:35:00.000Z",
+  "nycPriceMwh": 38.59,
+  "priceAsOf": "2026-09-11T01:50:00.000Z"
  },
  "buoy": {
   "waveHeightM": 1,
@@ -48,136 +48,116 @@
   "asOf": "2026-09-10T21:50:00.000Z"
  },
  "subway": {
-  "trains": 503,
+  "trains": 463,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 15,
-  "asOf": "2026-09-11T01:31:44.563Z"
+  "alerts": 12,
+  "asOf": "2026-09-11T01:53:52.356Z"
  },
  "rail": {
   "lirr": {
-   "trains": 40,
+   "trains": 36,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 128,
+   "trains": 119,
    "viaVehicles": true
   },
-  "asOf": "2026-09-11T01:31:44.797Z"
+  "asOf": "2026-09-11T01:53:52.441Z"
  },
  "ferry": {
-  "vessels": 6,
+  "vessels": 2,
   "positions": [
    {
-    "lat": 40.70763,
-    "lon": -73.9836,
-    "label": "H201"
-   },
-   {
-    "lat": 40.70784,
-    "lon": -73.97692,
+    "lat": 40.73109,
+    "lon": -73.96378,
     "label": "H104"
    },
    {
-    "lat": 40.68319,
-    "lon": -74.01188,
-    "label": "H204"
-   },
-   {
-    "lat": 40.69652,
-    "lon": -74.03099,
-    "label": "H205"
-   },
-   {
-    "lat": 40.71022,
-    "lon": -73.97894,
-    "label": "H206"
-   },
-   {
-    "lat": 40.65896,
-    "lon": -74.05412,
+    "lat": 40.64004,
+    "lon": -74.03819,
     "label": "H208"
    }
   ],
-  "asOf": "2026-09-11T01:31:44.895Z"
+  "asOf": "2026-09-11T01:53:52.454Z"
  },
  "cameras": {
-  "total": 968,
+  "total": 969,
   "list": [
    {
-    "name": "Union Sq @ 14 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/d47d2f63-cdc1-4f28-bc4c-e64ac07e4f1d/image"
+    "name": "Madison Ave @ E 44 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/879ab924-18ac-4779-a681-395d73a0f0cc/image"
    },
    {
-    "name": "Hutchhinson River Pkwy @ Waterbury Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/bfeb2434-fd55-4024-8172-f9602ea6ae06/image"
+    "name": "C1-CBX-17-Med_at_E.Tremont_Ave-Ex10",
+    "url": "https://webcams.nyctmc.org/api/cameras/99098e73-0848-4c19-895e-f81651f76c39/image"
    },
    {
-    "name": "Grand St @ Graham Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/7609996b-ec61-4c06-bb58-c9aa93c65b80/image"
+    "name": "Flatbush Ave @ DeKalb Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/243e945a-b872-4bac-9898-94ce8963ef44/image"
    },
    {
-    "name": "Queens Plaza South @ 11 St (ramp to UL)",
-    "url": "https://webcams.nyctmc.org/api/cameras/c562d33e-ee4d-4233-b2d2-cc301f64ed4a/image"
+    "name": "Jackson Ave @ 21 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/8a60eb4e-4069-4c0f-9bca-b8cc52915ffb/image"
    },
    {
-    "name": "C3-MLK-02-NB_at_Forest_Ave-Ex11",
-    "url": "https://webcams.nyctmc.org/api/cameras/4678c08d-9b89-4dd4-9fa0-234412822bb7/image"
+    "name": "SIE @ Fingerboard Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/171d87f4-033f-4769-ae00-7819baa8034e/image"
    },
    {
-    "name": "RT. 9A @ N. Moore St",
-    "url": "https://webcams.nyctmc.org/api/cameras/63930c04-926c-4730-821e-95b486513843/image"
+    "name": "8 Ave @ 14 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/3dc1adcd-7a47-45c3-a667-9d8fae9fdcd0/image"
    },
    {
-    "name": "Soundview Ave @ Lafayette Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/894dd92a-90a3-46d5-a996-4ddb2b6091cc/image"
+    "name": "Major Deegan Expy @ Van Cortland Pk S",
+    "url": "https://webcams.nyctmc.org/api/cameras/b6cd1640-fdc3-4525-bbb4-f148699876df/image"
    },
    {
-    "name": "Atlantic Ave @ Hicks Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/8820f260-11c9-49dd-8839-0ff47707b6f2/image"
+    "name": "Bushwick Ave @ Gates Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/74707723-013b-4bf1-9a8b-c209dbf71984/image"
    },
    {
-    "name": "Northern Blvd @ Parsons Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/40ffec9e-3d55-454f-927e-6a602869a451/image"
+    "name": "C5-LIE-17-EB_at_GCP-Ex22A_GCP",
+    "url": "https://webcams.nyctmc.org/api/cameras/6504ada3-3a93-4811-b2cd-31c377066f66/image"
    },
    {
-    "name": "Hylan Blvd @ Guyon Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/907af141-b289-47d3-9f41-edc7667cff7e/image"
+    "name": "Staten Island Expy @ Forest Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/8246cf40-87f5-4f3a-b987-369e38a2d450/image"
    },
    {
-    "name": "12 Ave @ 34 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/3809d95f-f99e-4eca-9121-9c7db73f8cbd/image"
+    "name": "Audobon Ave @ W 181 ST",
+    "url": "https://webcams.nyctmc.org/api/cameras/1ccb8d7c-43d4-450e-b40c-79527766db75/image"
    },
    {
-    "name": "C1-BRE-06_W - WB_at_CBX-Hutch_Int-EX6A",
-    "url": "https://webcams.nyctmc.org/api/cameras/b221fdc4-ca81-41ae-875e-bf0341377758/image"
+    "name": "Grand Concourse @ E 149 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/62380b5a-8960-4c2b-9125-d7f088605a7f/image"
    },
    {
-    "name": "Hamilton Ave @ Henry St",
-    "url": "https://webcams.nyctmc.org/api/cameras/c74510ed-35cf-4908-ad10-f2c9575cc853/image"
+    "name": "Flatbush Ave @ Empire Blvd",
+    "url": "https://webcams.nyctmc.org/api/cameras/2e43a9d0-1df8-4a38-ae20-2e0f359bb55d/image"
    },
    {
-    "name": "Queens Blvd @ 39 St - East",
-    "url": "https://webcams.nyctmc.org/api/cameras/8e07d72b-94cd-44c4-b92a-48decda031d2/image"
+    "name": "College Point Blvd @ Sanford Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/bedbc19d-977d-40b6-ba48-01c5454bea69/image"
    },
    {
-    "name": "Victory Blvd @ Richmond Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/1d799f04-00cb-4ac7-a8bb-f090b750dee1/image"
+    "name": "C3-SIE-11-EB_at_Renwick_Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/bcb706e6-135a-4981-8a06-7545f6e05ddd/image"
    },
    {
     "name": "Central Park West @ 86 St",
     "url": "https://webcams.nyctmc.org/api/cameras/8a6bc417-4877-4ebe-8052-88c1b261baf1/image"
    },
    {
-    "name": "Bruckner Blvd E / White Plains Rd- Camera 2",
-    "url": "https://webcams.nyctmc.org/api/cameras/0f657445-4729-4c98-8f3a-9591c1879b92/image"
+    "name": "Major Deegan Expwy @ 225 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/a65f8b8a-c0ba-4138-81a5-783ba837490d/image"
    },
    {
-    "name": "Hamilton Ave @ Hamilton PL @ 15 St (S SR)",
-    "url": "https://webcams.nyctmc.org/api/cameras/c74a2510-0ce0-48f2-8fbe-36fdd1a98379/image"
+    "name": "Jackie Robinson Pkwy @ Jamaica Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/48a0813b-60b4-4dd2-953f-a40731ae1fba/image"
    }
   ],
-  "asOf": "2026-09-11T01:31:45.354Z"
+  "asOf": "2026-09-11T01:53:52.715Z"
  },
  "floodnet": {
   "sensors": 416,
@@ -197,23 +177,23 @@
     "lon": -73.939451
    }
   ],
-  "asOf": "2026-09-11T01:26:24.000Z"
+  "asOf": "2026-09-11T01:55:12.000Z"
  },
  "coned": {
-  "customersOut": 152,
+  "customersOut": 90,
   "customersServed": 3626606,
-  "outages": 28,
-  "asOf": "2026-09-11T01:20:00.000Z"
+  "outages": 29,
+  "asOf": "2026-09-11T01:50:00.000Z"
  },
  "path": {
   "arrivals": 52,
   "stations": 13,
-  "asOf": "2026-09-11T01:33:32.821Z"
+  "asOf": "2026-09-11T01:55:38.111Z"
  },
  "reservoirs": {
   "pctFull": 87.6,
   "pctNormal": 81.4,
   "pageDate": "September 10, 2026",
-  "asOf": "2026-09-11T01:33:32.985Z"
+  "asOf": "2026-09-11T01:55:38.195Z"
  }
 }
