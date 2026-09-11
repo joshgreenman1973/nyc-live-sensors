@@ -1,17 +1,17 @@
 {
- "generated": "2026-09-11T08:50:24.665Z",
+ "generated": "2026-09-11T09:09:40.703Z",
  "nyiso": {
-  "nycLoadMw": 5705.285,
-  "isoLoadMw": 15734.6012,
-  "asOf": "2026-09-11T08:35:00.000Z",
+  "nycLoadMw": 5683.538,
+  "isoLoadMw": 15751.72,
+  "asOf": "2026-09-11T08:55:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3766
+    "mw": 3767
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3329
+    "mw": 3292
    },
    {
     "fuel": "Nuclear",
@@ -27,149 +27,180 @@
    },
    {
     "fuel": "Wind",
-    "mw": 297
+    "mw": 328
    },
    {
     "fuel": "Hydro",
     "mw": 2138
    }
   ],
-  "fuelAsOf": "2026-09-11T08:35:00.000Z",
+  "fuelAsOf": "2026-09-11T08:50:00.000Z",
   "nycPriceMwh": 33.11,
-  "priceAsOf": "2026-09-11T08:50:00.000Z"
+  "priceAsOf": "2026-09-11T09:05:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.7,
   "domPeriodS": 7,
   "waterTempC": 23.7,
-  "windMs": 5,
-  "airTempC": 24.1,
-  "pressureHpa": 1013.2,
-  "asOf": "2026-09-11T08:10:00.000Z"
+  "windMs": 4,
+  "airTempC": 23.8,
+  "pressureHpa": 1013.3,
+  "asOf": "2026-09-11T08:20:00.000Z"
  },
  "subway": {
-  "trains": 262,
+  "trains": 295,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 18,
-  "asOf": "2026-09-11T08:50:26.353Z"
+  "alerts": 6,
+  "asOf": "2026-09-11T09:09:41.513Z"
  },
  "rail": {
   "lirr": {
-   "trains": 20,
+   "trains": 29,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 263,
+   "trains": 270,
    "viaVehicles": true
   },
-  "asOf": "2026-09-11T08:50:26.821Z"
+  "asOf": "2026-09-11T09:09:41.617Z"
  },
  "ferry": {
-  "vessels": 0,
-  "positions": [],
-  "asOf": "2026-09-11T08:50:26.982Z"
+  "vessels": 6,
+  "positions": [
+   {
+    "lat": 40.58386,
+    "lon": -73.83138,
+    "label": "SB406"
+   },
+   {
+    "lat": 40.58362,
+    "lon": -73.85027,
+    "label": "H114"
+   },
+   {
+    "lat": 40.70436,
+    "lon": -73.97657,
+    "label": "H115"
+   },
+   {
+    "lat": 40.68341,
+    "lon": -74.01659,
+    "label": "H113"
+   },
+   {
+    "lat": 40.7037,
+    "lon": -73.97697,
+    "label": "H301"
+   },
+   {
+    "lat": 40.8043,
+    "lon": -73.84848,
+    "label": "H092"
+   }
+  ],
+  "asOf": "2026-09-11T09:09:41.664Z"
  },
  "cameras": {
-  "total": 967,
+  "total": 968,
   "list": [
    {
-    "name": "Worth Street @ Lafayette Street",
-    "url": "https://webcams.nyctmc.org/api/cameras/ebec9de9-3f56-477a-a413-2e0a09b2b6ba/image"
+    "name": "2 Ave @ 72 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/5674d0ea-703a-43c3-bea7-2b372d1eb00b/image"
    },
    {
-    "name": "Grand Concourse @ E 149 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/62380b5a-8960-4c2b-9125-d7f088605a7f/image"
+    "name": "Grand Concourse @ 161 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/a95f7916-24ee-4d7e-bc71-6f9f1e009f23/image"
    },
    {
-    "name": "BB-71 North Rdwy @ Front St",
-    "url": "https://webcams.nyctmc.org/api/cameras/14767de3-0b6f-4708-b63a-230f5883d932/image"
+    "name": "Atlantic Ave @ Henry St",
+    "url": "https://webcams.nyctmc.org/api/cameras/821d0c4e-f43f-4968-ad2d-566e40e53df6/image"
    },
    {
-    "name": "C5-BQE-44-Med_at_31st_Ave-Ex41",
-    "url": "https://webcams.nyctmc.org/api/cameras/38a9cb68-6d0c-4171-a809-344c581dfcb0/image"
+    "name": "Belt Pkwy @ 125 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/0bb2c096-0377-41f7-a451-56944aa8dae2/image"
    },
    {
-    "name": "West Shore Expy @ Rossville Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/4bb3c648-45f8-4134-9ac8-fb56f2f851fa/image"
+    "name": "Staten Island Expy @ Slosson Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/67a7ce68-80ad-46d3-930c-7cf200109be7/image"
    },
    {
-    "name": "Lincoln Tun Approach(Bet. 9Av & 10Av) @ W 33 St - 3.50",
-    "url": "https://webcams.nyctmc.org/api/cameras/bb9ce48d-0458-4493-89ad-ae51065b5796/image"
+    "name": "BB-43 North Rdwy @ Center Expansion Jt",
+    "url": "https://webcams.nyctmc.org/api/cameras/3c39ff3e-a81c-4f92-9a96-7861aa244fda/image"
    },
    {
-    "name": "C1-MDE-03-SB_at_E.138th_St-Ex3",
-    "url": "https://webcams.nyctmc.org/api/cameras/7c996b88-8ee6-4b0d-99c8-5764cf68f3bc/image"
+    "name": "C1-MDE-12-SB_at_Heath_Ave-Ex9",
+    "url": "https://webcams.nyctmc.org/api/cameras/1a626331-3c36-48bd-91a5-edd930c314c0/image"
    },
    {
-    "name": "C2-BQE-10-WB_at_State_St_UP-Ex27",
-    "url": "https://webcams.nyctmc.org/api/cameras/82ccb93a-fe0d-4e92-8419-64336edf761e/image"
+    "name": "Flatbush Ave @ Empire Blvd",
+    "url": "https://webcams.nyctmc.org/api/cameras/2e43a9d0-1df8-4a38-ae20-2e0f359bb55d/image"
    },
    {
-    "name": "Cross Bay Blvd @ North Channel Bridge",
-    "url": "https://webcams.nyctmc.org/api/cameras/abdd6b29-6f7b-4662-bb43-078fe2c76199/image"
+    "name": "Jackson Ave @ 11 ST",
+    "url": "https://webcams.nyctmc.org/api/cameras/76c47885-cc54-4e0d-989c-01cf1256dd1a/image"
    },
    {
-    "name": "West Shore Expy @ Bloomingdale Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/9b57d5a0-d4fb-47ab-8df5-1d093228189e/image"
+    "name": "Father Capodanno Blvd @ Sands LN",
+    "url": "https://webcams.nyctmc.org/api/cameras/0ff541bf-1be1-4bbf-88c5-3a570541e7d2/image"
    },
    {
-    "name": "2 Ave @ E 102 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/927f8797-4a7e-4b6d-b11f-cee68a027dc9/image"
+    "name": "Broadway @ 51 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/3d8e276f-b179-414d-a506-679d5e559d3e/image"
    },
    {
-    "name": "C1-TNE-02-Med_at_Randall_Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/f8549617-2066-4d74-b2b9-b06165dd13e2/image"
+    "name": "Henry Hudson Pkwy @ 232 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/97190ee9-e92c-46ef-a3fc-e8c75d416a9a/image"
    },
    {
-    "name": "Stillwell Ave @ Neptune Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/85d33af1-a82c-499c-b303-a16c8c891fe6/image"
+    "name": "Prospect Pkwy @ 3 Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/91c033b3-ecfd-4fb9-b27d-d256eb720789/image"
    },
    {
     "name": "GCP @ 31 ST",
     "url": "https://webcams.nyctmc.org/api/cameras/1e88b34b-2058-402e-9a3d-aca1c57696bf/image"
    },
    {
-    "name": "Narrow Rd N @ Richmond Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/7d1db29e-90a9-4027-b1fc-6e6af4f4f0d9/image"
+    "name": "Amboy Rd @ Nelson Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/5920b7ab-9e05-429f-971a-b235f3ea8dd9/image"
    },
    {
-    "name": "West Houston @ Hudson St",
-    "url": "https://webcams.nyctmc.org/api/cameras/0ff11926-fcf0-4e3b-8aea-ffc0ea4f2228/image"
+    "name": "12 Ave @ 42 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/9bd74b87-32d1-4767-8081-86a2e83f28f2/image"
    },
    {
-    "name": "Bruckner Blvd @ Lincoln Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/82b0f566-cab5-4366-bc3a-67f82cc4fec7/image"
+    "name": "C1-MDE-09-SB_at_Depot_Pl-Ex7-CBX",
+    "url": "https://webcams.nyctmc.org/api/cameras/c8b15922-4262-459a-85d5-17442ec9c54f/image"
    },
    {
-    "name": "C2-BQE-06_WB_at_Congress_St-Ex27",
-    "url": "https://webcams.nyctmc.org/api/cameras/e2a52948-46af-41f0-9769-623e4a7d2900/image"
+    "name": "Grand St @ Graham Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/7609996b-ec61-4c06-bb58-c9aa93c65b80/image"
    }
   ],
-  "asOf": "2026-09-11T08:50:27.820Z"
+  "asOf": "2026-09-11T09:09:41.965Z"
  },
  "floodnet": {
   "sensors": 417,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-09-11T08:38:24.000Z"
+  "asOf": "2026-09-11T09:07:12.000Z"
  },
  "coned": {
   "customersOut": 67,
   "customersServed": 3626606,
   "outages": 16,
-  "asOf": "2026-09-11T08:35:00.000Z"
+  "asOf": "2026-09-11T09:05:00.000Z"
  },
  "path": {
-  "arrivals": 24,
+  "arrivals": 28,
   "stations": 13,
-  "asOf": "2026-09-11T08:52:19.505Z"
+  "asOf": "2026-09-11T09:11:28.245Z"
  },
  "reservoirs": {
   "pctFull": 87.6,
   "pctNormal": 81.4,
   "pageDate": "September 10, 2026",
-  "asOf": "2026-09-11T08:52:19.750Z"
+  "asOf": "2026-09-11T09:11:28.390Z"
  }
 }
