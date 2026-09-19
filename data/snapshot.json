@@ -1,21 +1,21 @@
 {
- "generated": "2026-09-19T01:04:29.514Z",
+ "generated": "2026-09-19T01:32:09.308Z",
  "nyiso": {
-  "nycLoadMw": 7030.214,
-  "isoLoadMw": 19803.814800000004,
-  "asOf": "2026-09-19T00:50:00.000Z",
+  "nycLoadMw": 6919.76,
+  "isoLoadMw": 19409.788800000002,
+  "asOf": "2026-09-19T01:15:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 5510
+    "mw": 5062
    },
    {
     "fuel": "Natural Gas",
-    "mw": 5124
+    "mw": 4933
    },
    {
     "fuel": "Nuclear",
-    "mw": 2425
+    "mw": 2426
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,123 +23,88 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 202
+    "mw": 225
    },
    {
     "fuel": "Wind",
-    "mw": 516
+    "mw": 483
    },
    {
     "fuel": "Hydro",
-    "mw": 3324
+    "mw": 3156
    }
   ],
-  "fuelAsOf": "2026-09-19T00:45:00.000Z",
-  "nycPriceMwh": 54.6,
-  "priceAsOf": "2026-09-19T01:00:00.000Z"
+  "fuelAsOf": "2026-09-19T01:15:00.000Z",
+  "nycPriceMwh": 40.72,
+  "priceAsOf": "2026-09-19T01:30:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.5,
-  "domPeriodS": 13,
-  "waterTempC": 23.1,
-  "windMs": 6,
-  "airTempC": 23.9,
-  "pressureHpa": 1018.4,
-  "asOf": "2026-09-19T00:20:00.000Z"
+  "domPeriodS": 8,
+  "waterTempC": 23,
+  "windMs": 3,
+  "airTempC": 23.7,
+  "pressureHpa": 1018.8,
+  "asOf": "2026-09-19T00:50:00.000Z"
  },
  "subway": {
-  "trains": 530,
+  "trains": 490,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 7,
-  "asOf": "2026-09-19T01:04:30.354Z"
+  "alerts": 8,
+  "asOf": "2026-09-19T01:32:11.679Z"
  },
  "rail": {
   "lirr": {
-   "trains": 40,
+   "trains": 35,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 133,
+   "trains": 120,
    "viaVehicles": true
   },
-  "asOf": "2026-09-19T01:04:30.446Z"
+  "asOf": "2026-09-19T01:32:11.991Z"
  },
  "ferry": {
-  "vessels": 14,
+  "vessels": 7,
   "positions": [
    {
-    "lat": 40.74474,
-    "lon": -73.96929,
+    "lat": 40.71199,
+    "lon": -73.97124,
     "label": "H101"
    },
    {
-    "lat": 40.71646,
-    "lon": -74.02235,
-    "label": "H102"
-   },
-   {
-    "lat": 40.75706,
-    "lon": -74.01417,
+    "lat": 40.6848,
+    "lon": -74.03736,
     "label": "H104"
    },
    {
-    "lat": 40.68114,
-    "lon": -74.0133,
+    "lat": 40.71025,
+    "lon": -73.97884,
     "label": "H105"
    },
    {
-    "lat": 40.70378,
-    "lon": -73.99566,
-    "label": "H106"
-   },
-   {
-    "lat": 40.64876,
-    "lon": -74.03245,
+    "lat": 40.68496,
+    "lon": -74.03449,
     "label": "H107"
    },
    {
-    "lat": 40.75002,
-    "lon": -73.96474,
-    "label": "H108"
-   },
-   {
-    "lat": 40.57201,
-    "lon": -74.02099,
+    "lat": 40.68328,
+    "lon": -74.01641,
     "label": "H109"
    },
    {
-    "lat": 40.65291,
-    "lon": -74.03078,
-    "label": "H204"
-   },
-   {
-    "lat": 40.72407,
-    "lon": -73.96541,
+    "lat": 40.68366,
+    "lon": -74.01226,
     "label": "H207"
    },
    {
-    "lat": 40.70375,
-    "lon": -73.99548,
+    "lat": 40.73093,
+    "lon": -73.96381,
     "label": "H208"
-   },
-   {
-    "lat": 40.74301,
-    "lon": -73.97076,
-    "label": "H112"
-   },
-   {
-    "lat": 40.79747,
-    "lon": -73.87022,
-    "label": "H113"
-   },
-   {
-    "lat": 40.57439,
-    "lon": -73.87742,
-    "label": "H092"
    }
   ],
-  "asOf": "2026-09-19T01:04:30.538Z"
+  "asOf": "2026-09-19T01:32:12.159Z"
  },
  "cameras": {
   "total": 977,
@@ -220,27 +185,27 @@
   "asOf": "2026-09-18T13:47:38.084Z"
  },
  "floodnet": {
-  "sensors": 415,
+  "sensors": 414,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-09-19T00:57:36.000Z"
+  "asOf": "2026-09-19T01:26:24.000Z"
  },
  "coned": {
-  "customersOut": 177,
+  "customersOut": 66,
   "customersServed": 3626606,
-  "outages": 18,
-  "asOf": "2026-09-19T01:05:00.000Z"
+  "outages": 14,
+  "asOf": "2026-09-19T01:20:00.000Z"
  },
  "path": {
   "arrivals": 52,
   "stations": 13,
-  "asOf": "2026-09-19T01:06:18.338Z"
+  "asOf": "2026-09-19T01:34:07.076Z"
  },
  "reservoirs": {
   "pctFull": 86.3,
   "pctNormal": 79.3,
   "pageDate": "September 18, 2026",
-  "asOf": "2026-09-19T01:06:18.574Z"
+  "asOf": "2026-09-19T01:34:07.434Z"
  }
 }
