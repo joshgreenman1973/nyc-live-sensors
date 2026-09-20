@@ -1,21 +1,21 @@
 {
- "generated": "2026-09-20T01:12:38.795Z",
+ "generated": "2026-09-20T01:38:28.170Z",
  "nyiso": {
-  "nycLoadMw": 5564.112,
-  "isoLoadMw": 16569.7196,
-  "asOf": "2026-09-20T01:00:00.000Z",
+  "nycLoadMw": 5495.9766,
+  "isoLoadMw": 16352.066400000002,
+  "asOf": "2026-09-20T01:25:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3477
+    "mw": 3362
    },
    {
     "fuel": "Natural Gas",
-    "mw": 4133
+    "mw": 4315
    },
    {
     "fuel": "Nuclear",
-    "mw": 2435
+    "mw": 2434
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,113 +23,88 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 225
+    "mw": 227
    },
    {
     "fuel": "Wind",
-    "mw": 447
+    "mw": 522
    },
    {
     "fuel": "Hydro",
-    "mw": 2909
+    "mw": 2583
    }
   ],
-  "fuelAsOf": "2026-09-20T00:55:00.000Z",
-  "nycPriceMwh": 47.34,
-  "priceAsOf": "2026-09-20T01:10:00.000Z"
+  "fuelAsOf": "2026-09-20T01:20:00.000Z",
+  "nycPriceMwh": 40.05,
+  "priceAsOf": "2026-09-20T01:35:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.9,
-  "domPeriodS": 7,
+  "domPeriodS": 4,
   "waterTempC": 22.2,
-  "windMs": 8,
+  "windMs": 7,
   "airTempC": 19.3,
-  "pressureHpa": 1021.4,
-  "asOf": "2026-09-20T00:20:00.000Z"
+  "pressureHpa": 1021.6,
+  "asOf": "2026-09-20T00:50:00.000Z"
  },
  "subway": {
-  "trains": 391,
+  "trains": 384,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 24,
-  "asOf": "2026-09-20T01:12:40.364Z"
+  "alerts": 23,
+  "asOf": "2026-09-20T01:38:30.049Z"
  },
  "rail": {
   "lirr": {
-   "trains": 37,
+   "trains": 38,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 112,
+   "trains": 105,
    "viaVehicles": true
   },
-  "asOf": "2026-09-20T01:12:40.579Z"
+  "asOf": "2026-09-20T01:38:30.682Z"
  },
  "ferry": {
-  "vessels": 12,
+  "vessels": 7,
   "positions": [
    {
-    "lat": 40.64636,
-    "lon": -74.0738,
+    "lat": 40.67359,
+    "lon": -74.02283,
     "label": "H200"
    },
    {
-    "lat": 40.73928,
-    "lon": -74.02009,
-    "label": "H202"
-   },
-   {
-    "lat": 40.74205,
-    "lon": -73.96266,
+    "lat": 40.70374,
+    "lon": -73.9955,
     "label": "H101"
    },
    {
-    "lat": 40.69303,
-    "lon": -74.00513,
+    "lat": 40.71,
+    "lon": -73.97823,
     "label": "H102"
    },
    {
-    "lat": 40.75354,
-    "lon": -73.954,
+    "lat": 40.70583,
+    "lon": -73.97577,
     "label": "H108"
    },
    {
-    "lat": 40.72453,
-    "lon": -73.96762,
+    "lat": 40.7566,
+    "lon": -73.95269,
     "label": "H204"
    },
    {
-    "lat": 40.698,
-    "lon": -74.00307,
-    "label": "H207"
-   },
-   {
-    "lat": 40.63843,
-    "lon": -74.04109,
+    "lat": 40.70334,
+    "lon": -74.02962,
     "label": "H208"
    },
    {
-    "lat": 40.74038,
-    "lon": -73.97138,
-    "label": "H301"
-   },
-   {
-    "lat": 40.63294,
-    "lon": -74.04308,
+    "lat": 40.57219,
+    "lon": -73.8931,
     "label": "H092"
-   },
-   {
-    "lat": 40.72853,
-    "lon": -73.96437,
-    "label": "H121"
-   },
-   {
-    "lat": 40.71021,
-    "lon": -73.97897,
-    "label": "H123"
    }
   ],
-  "asOf": "2026-09-20T01:12:40.733Z"
+  "asOf": "2026-09-20T01:38:30.822Z"
  },
  "cameras": {
   "total": 977,
@@ -214,23 +189,23 @@
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-09-20T01:12:00.000Z"
+  "asOf": "2026-09-20T01:26:24.000Z"
  },
  "coned": {
   "customersOut": 56,
   "customersServed": 3626606,
   "outages": 12,
-  "asOf": "2026-09-20T01:05:00.000Z"
+  "asOf": "2026-09-20T01:35:00.000Z"
  },
  "path": {
-  "arrivals": 47,
+  "arrivals": 40,
   "stations": 13,
-  "asOf": "2026-09-20T01:14:31.553Z"
+  "asOf": "2026-09-20T01:40:23.304Z"
  },
  "reservoirs": {
   "pctFull": 86.3,
   "pctNormal": 79.3,
   "pageDate": "September 18, 2026",
-  "asOf": "2026-09-20T01:14:31.833Z"
+  "asOf": "2026-09-20T01:40:23.714Z"
  }
 }
