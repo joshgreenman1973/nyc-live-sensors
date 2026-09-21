@@ -1,21 +1,21 @@
 {
- "generated": "2026-09-21T03:11:35.180Z",
+ "generated": "2026-09-21T03:33:18.382Z",
  "nyiso": {
-  "nycLoadMw": 5563.1553,
-  "isoLoadMw": 15836.3861,
-  "asOf": "2026-09-21T02:55:00.000Z",
+  "nycLoadMw": 5434.5244,
+  "isoLoadMw": 15519.8689,
+  "asOf": "2026-09-21T03:20:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3081
+    "mw": 3008
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3549
+    "mw": 3813
    },
    {
     "fuel": "Nuclear",
-    "mw": 2459
+    "mw": 2461
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,52 +23,52 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 202
+    "mw": 219
    },
    {
     "fuel": "Wind",
-    "mw": 203
+    "mw": 180
    },
    {
     "fuel": "Hydro",
-    "mw": 1977
+    "mw": 2170
    }
   ],
-  "fuelAsOf": "2026-09-21T02:55:00.000Z",
-  "nycPriceMwh": 45.14,
-  "priceAsOf": "2026-09-21T03:10:00.000Z"
+  "fuelAsOf": "2026-09-21T03:15:00.000Z",
+  "nycPriceMwh": 44.78,
+  "priceAsOf": "2026-09-21T03:30:00.000Z"
  },
  "buoy": {
   "waveHeightM": 0.9,
   "domPeriodS": 5,
   "waterTempC": 21.9,
-  "windMs": 4,
-  "airTempC": 21.6,
-  "pressureHpa": 1013.3,
-  "asOf": "2026-09-21T02:20:00.000Z"
+  "windMs": 3,
+  "airTempC": 21.4,
+  "pressureHpa": 1013.4,
+  "asOf": "2026-09-21T02:50:00.000Z"
  },
  "subway": {
-  "trains": 307,
+  "trains": 282,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 17,
-  "asOf": "2026-09-21T03:11:37.199Z"
+  "alerts": 16,
+  "asOf": "2026-09-21T03:33:19.630Z"
  },
  "rail": {
   "lirr": {
-   "trains": 33,
+   "trains": 36,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 78,
+   "trains": 88,
    "viaVehicles": true
   },
-  "asOf": "2026-09-21T03:11:37.981Z"
+  "asOf": "2026-09-21T03:33:19.801Z"
  },
  "ferry": {
   "vessels": 0,
   "positions": [],
-  "asOf": "2026-09-21T03:11:38.163Z"
+  "asOf": "2026-09-21T03:33:20.024Z"
  },
  "cameras": {
   "total": 977,
@@ -149,40 +149,27 @@
   "asOf": "2026-09-18T13:47:38.084Z"
  },
  "floodnet": {
-  "sensors": 420,
-  "flooding": 1,
-  "wettest": {
-   "name": "Q - Battery Rd/Chandler St",
-   "mm": 46.37795275590551,
-   "depthIn": 1.8259036518073037
-  },
-  "wet": [
-   {
-    "id": 940,
-    "name": "Q - Battery Rd/Chandler St",
-    "mm": 46.37795275590551,
-    "depthIn": 1.8259036518073037,
-    "lat": 40.60958,
-    "lon": -73.75585
-   }
-  ],
-  "asOf": "2026-09-21T03:07:12.000Z"
+  "sensors": 419,
+  "flooding": 0,
+  "wettest": null,
+  "wet": [],
+  "asOf": "2026-09-21T03:21:36.000Z"
  },
  "coned": {
   "customersOut": 55,
   "customersServed": 3626606,
   "outages": 2,
-  "asOf": "2026-09-21T03:05:00.000Z"
+  "asOf": "2026-09-21T03:20:00.000Z"
  },
  "path": {
-  "arrivals": 36,
+  "arrivals": 35,
   "stations": 13,
-  "asOf": "2026-09-21T03:13:33.134Z"
+  "asOf": "2026-09-21T03:35:11.230Z"
  },
  "reservoirs": {
   "pctFull": 86.3,
   "pctNormal": 79.3,
   "pageDate": "September 18, 2026",
-  "asOf": "2026-09-21T03:13:33.558Z"
+  "asOf": "2026-09-21T03:35:11.498Z"
  }
 }
