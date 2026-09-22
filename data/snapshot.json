@@ -1,45 +1,74 @@
 {
- "generated": "2026-09-22T04:10:19.526Z",
+ "generated": "2026-09-22T04:28:53.116Z",
  "nyiso": {
-  "nycLoadMw": 4927.234,
-  "isoLoadMw": 14641.5425,
-  "asOf": "2026-09-22T03:55:00.000Z",
-  "fuelMix": null,
-  "fuelAsOf": null,
-  "nycPriceMwh": 32.83,
-  "priceAsOf": "2026-09-22T04:10:00.000Z"
+  "nycLoadMw": 4791.91,
+  "isoLoadMw": 14349.057799999999,
+  "asOf": "2026-09-22T04:15:00.000Z",
+  "fuelMix": [
+   {
+    "fuel": "Dual Fuel",
+    "mw": 3134
+   },
+   {
+    "fuel": "Natural Gas",
+    "mw": 3184
+   },
+   {
+    "fuel": "Nuclear",
+    "mw": 2469
+   },
+   {
+    "fuel": "Other Fossil Fuels",
+    "mw": 0
+   },
+   {
+    "fuel": "Other Renewables",
+    "mw": 196
+   },
+   {
+    "fuel": "Wind",
+    "mw": 582
+   },
+   {
+    "fuel": "Hydro",
+    "mw": 1834
+   }
+  ],
+  "fuelAsOf": "2026-09-22T04:10:00.000Z",
+  "nycPriceMwh": 34.35,
+  "priceAsOf": "2026-09-22T04:25:00.000Z"
  },
  "buoy": {
   "waveHeightM": 1.7,
-  "domPeriodS": 7,
+  "domPeriodS": 5,
   "waterTempC": 21.8,
   "windMs": 10,
   "airTempC": 19.3,
-  "pressureHpa": 1022,
-  "asOf": "2026-09-22T03:40:00.000Z"
+  "pressureHpa": 1021.8,
+  "asOf": "2026-09-22T03:50:00.000Z"
  },
  "subway": {
-  "trains": 277,
+  "trains": 260,
   "feedsOk": 8,
   "feeds": 8,
   "alerts": 14,
-  "asOf": "2026-09-22T04:10:21.858Z"
+  "asOf": "2026-09-22T04:28:54.814Z"
  },
  "rail": {
   "lirr": {
-   "trains": 36,
+   "trains": 35,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 101,
+   "trains": 112,
    "viaVehicles": true
   },
-  "asOf": "2026-09-22T04:10:22.331Z"
+  "asOf": "2026-09-22T04:28:55.162Z"
  },
  "ferry": {
   "vessels": 0,
   "positions": [],
-  "asOf": "2026-09-22T04:10:22.499Z"
+  "asOf": "2026-09-22T04:28:55.327Z"
  },
  "cameras": {
   "total": 977,
@@ -124,36 +153,36 @@
   "flooding": 1,
   "wettest": {
    "name": "Q - 100th St/34th Ave",
-   "mm": 43.97637795275591,
-   "depthIn": 1.7313534627069258
+   "mm": 43.89763779527559,
+   "depthIn": 1.7282534565069132
   },
   "wet": [
    {
     "id": 472,
     "name": "Q - 100th St/34th Ave",
-    "mm": 43.97637795275591,
-    "depthIn": 1.7313534627069258,
+    "mm": 43.89763779527559,
+    "depthIn": 1.7282534565069132,
     "lat": 40.7552491674981,
     "lon": -73.86815757252867
    }
   ],
-  "asOf": "2026-09-22T04:04:48.000Z"
+  "asOf": "2026-09-22T04:19:12.000Z"
  },
  "coned": {
-  "customersOut": 238,
+  "customersOut": 237,
   "customersServed": 3626606,
   "outages": 8,
-  "asOf": "2026-09-22T04:05:00.000Z"
+  "asOf": "2026-09-22T04:20:00.000Z"
  },
  "path": {
-  "arrivals": 26,
+  "arrivals": 22,
   "stations": 13,
-  "asOf": "2026-09-22T04:12:16.639Z"
+  "asOf": "2026-09-22T04:30:51.120Z"
  },
  "reservoirs": {
   "pctFull": 85.9,
   "pctNormal": 78.4,
   "pageDate": "September 21, 2026",
-  "asOf": "2026-09-22T04:12:16.948Z"
+  "asOf": "2026-09-22T04:30:51.395Z"
  }
 }
