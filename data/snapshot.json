@@ -1,21 +1,21 @@
 {
- "generated": "2026-09-22T05:09:05.901Z",
+ "generated": "2026-09-22T05:25:42.160Z",
  "nyiso": {
-  "nycLoadMw": 4629.17,
-  "isoLoadMw": 13945.766699999998,
-  "asOf": "2026-09-22T04:55:00.000Z",
+  "nycLoadMw": 4569.3604,
+  "isoLoadMw": 13793.137999999999,
+  "asOf": "2026-09-22T05:10:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3201
+    "mw": 3200
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3051
+    "mw": 3121
    },
    {
     "fuel": "Nuclear",
-    "mw": 2471
+    "mw": 2473
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,52 +23,52 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 183
+    "mw": 179
    },
    {
     "fuel": "Wind",
-    "mw": 528
+    "mw": 499
    },
    {
     "fuel": "Hydro",
-    "mw": 1755
+    "mw": 1779
    }
   ],
-  "fuelAsOf": "2026-09-22T04:50:00.000Z",
-  "nycPriceMwh": 33.24,
-  "priceAsOf": "2026-09-22T05:05:00.000Z"
+  "fuelAsOf": "2026-09-22T05:10:00.000Z",
+  "nycPriceMwh": 31.81,
+  "priceAsOf": "2026-09-22T05:25:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 1.6,
+  "waveHeightM": 1.8,
   "domPeriodS": 8,
   "waterTempC": 21.8,
   "windMs": 10,
-  "airTempC": 19.1,
-  "pressureHpa": 1022.1,
-  "asOf": "2026-09-22T04:20:00.000Z"
+  "airTempC": 18.9,
+  "pressureHpa": 1022,
+  "asOf": "2026-09-22T04:50:00.000Z"
  },
  "subway": {
   "trains": 245,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 14,
-  "asOf": "2026-09-22T05:09:06.700Z"
+  "alerts": 13,
+  "asOf": "2026-09-22T05:25:43.942Z"
  },
  "rail": {
   "lirr": {
-   "trains": 29,
+   "trains": 25,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 138,
+   "trains": 145,
    "viaVehicles": true
   },
-  "asOf": "2026-09-22T05:09:06.799Z"
+  "asOf": "2026-09-22T05:25:44.181Z"
  },
  "ferry": {
   "vessels": 0,
   "positions": [],
-  "asOf": "2026-09-22T05:09:06.893Z"
+  "asOf": "2026-09-22T05:25:44.315Z"
  },
  "cameras": {
   "total": 977,
@@ -149,40 +149,27 @@
   "asOf": "2026-09-18T13:47:38.084Z"
  },
  "floodnet": {
-  "sensors": 419,
-  "flooding": 1,
-  "wettest": {
-   "name": "Q - 100th St/34th Ave",
-   "mm": 44.01574803149607,
-   "depthIn": 1.7329034658069318
-  },
-  "wet": [
-   {
-    "id": 472,
-    "name": "Q - 100th St/34th Ave",
-    "mm": 44.01574803149607,
-    "depthIn": 1.7329034658069318,
-    "lat": 40.7552491674981,
-    "lon": -73.86815757252867
-   }
-  ],
-  "asOf": "2026-09-22T05:02:24.000Z"
+  "sensors": 420,
+  "flooding": 0,
+  "wettest": null,
+  "wet": [],
+  "asOf": "2026-09-22T05:16:48.000Z"
  },
  "coned": {
-  "customersOut": 237,
+  "customersOut": 236,
   "customersServed": 3626606,
   "outages": 8,
-  "asOf": "2026-09-22T05:05:00.000Z"
+  "asOf": "2026-09-22T05:20:00.000Z"
  },
  "path": {
-  "arrivals": 21,
-  "stations": 12,
-  "asOf": "2026-09-22T05:10:55.189Z"
+  "arrivals": 19,
+  "stations": 11,
+  "asOf": "2026-09-22T05:27:35.814Z"
  },
  "reservoirs": {
   "pctFull": 85.9,
   "pctNormal": 78.4,
   "pageDate": "September 21, 2026",
-  "asOf": "2026-09-22T05:10:55.317Z"
+  "asOf": "2026-09-22T05:27:36.065Z"
  }
 }
