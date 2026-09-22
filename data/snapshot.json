@@ -1,21 +1,21 @@
 {
- "generated": "2026-09-22T06:15:16.654Z",
+ "generated": "2026-09-22T06:50:20.063Z",
  "nyiso": {
-  "nycLoadMw": 4380.114,
-  "isoLoadMw": 13282.3735,
-  "asOf": "2026-09-22T06:00:00.000Z",
+  "nycLoadMw": 4351.1514,
+  "isoLoadMw": 13215.0457,
+  "asOf": "2026-09-22T06:15:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 2744
+    "mw": 2897
    },
    {
     "fuel": "Natural Gas",
-    "mw": 2936
+    "mw": 3029
    },
    {
     "fuel": "Nuclear",
-    "mw": 2476
+    "mw": 2477
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,52 +23,52 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 192
+    "mw": 198
    },
    {
     "fuel": "Wind",
-    "mw": 458
+    "mw": 423
    },
    {
     "fuel": "Hydro",
-    "mw": 1762
+    "mw": 1776
    }
   ],
-  "fuelAsOf": "2026-09-22T06:00:00.000Z",
-  "nycPriceMwh": 28.13,
-  "priceAsOf": "2026-09-22T06:15:00.000Z"
+  "fuelAsOf": "2026-09-22T06:15:00.000Z",
+  "nycPriceMwh": 27.82,
+  "priceAsOf": "2026-09-22T06:45:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 1.7,
+  "waveHeightM": 1.8,
   "domPeriodS": 7,
   "waterTempC": 21.7,
   "windMs": 10,
-  "airTempC": 18.9,
-  "pressureHpa": 1022,
-  "asOf": "2026-09-22T05:50:00.000Z"
+  "airTempC": 18.7,
+  "pressureHpa": 1021.9,
+  "asOf": "2026-09-22T06:20:00.000Z"
  },
  "subway": {
-  "trains": 227,
+  "trains": 222,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 14,
-  "asOf": "2026-09-22T06:15:18.259Z"
+  "alerts": 13,
+  "asOf": "2026-09-22T06:50:21.503Z"
  },
  "rail": {
   "lirr": {
-   "trains": 18,
+   "trains": 14,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 189,
+   "trains": 208,
    "viaVehicles": true
   },
-  "asOf": "2026-09-22T06:15:18.986Z"
+  "asOf": "2026-09-22T06:50:21.995Z"
  },
  "ferry": {
   "vessels": 0,
   "positions": [],
-  "asOf": "2026-09-22T06:15:19.192Z"
+  "asOf": "2026-09-22T06:50:22.152Z"
  },
  "cameras": {
   "total": 977,
@@ -150,39 +150,26 @@
  },
  "floodnet": {
   "sensors": 419,
-  "flooding": 1,
-  "wettest": {
-   "name": "M - E 108th St/1st Ave",
-   "mm": 33.503937007874015,
-   "depthIn": 1.3190526381052763
-  },
-  "wet": [
-   {
-    "id": 462,
-    "name": "M - E 108th St/1st Ave",
-    "mm": 33.503937007874015,
-    "depthIn": 1.3190526381052763,
-    "lat": 40.790943,
-    "lon": -73.939451
-   }
-  ],
-  "asOf": "2026-09-22T06:14:24.000Z"
+  "flooding": 0,
+  "wettest": null,
+  "wet": [],
+  "asOf": "2026-09-22T06:43:12.000Z"
  },
  "coned": {
-  "customersOut": 234,
+  "customersOut": 21,
   "customersServed": 3626606,
-  "outages": 6,
-  "asOf": "2026-09-22T06:05:00.000Z"
+  "outages": 5,
+  "asOf": "2026-09-22T06:50:00.000Z"
  },
  "path": {
-  "arrivals": 17,
+  "arrivals": 21,
   "stations": 11,
-  "asOf": "2026-09-22T06:17:12.842Z"
+  "asOf": "2026-09-22T06:52:18.295Z"
  },
  "reservoirs": {
   "pctFull": 85.9,
   "pctNormal": 78.4,
   "pageDate": "September 21, 2026",
-  "asOf": "2026-09-22T06:17:13.172Z"
+  "asOf": "2026-09-22T06:52:18.605Z"
  }
 }
