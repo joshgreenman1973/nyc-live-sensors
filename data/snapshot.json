@@ -1,17 +1,17 @@
 {
- "generated": "2026-09-27T10:47:45.422Z",
+ "generated": "2026-09-27T11:07:26.004Z",
  "nyiso": {
-  "nycLoadMw": 4013.3552,
-  "isoLoadMw": 12660.1368,
-  "asOf": "2026-09-27T10:35:00.000Z",
+  "nycLoadMw": 4026.0315,
+  "isoLoadMw": 12688.1877,
+  "asOf": "2026-09-27T10:45:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 1994
+    "mw": 1971
    },
    {
     "fuel": "Natural Gas",
-    "mw": 2990
+    "mw": 3125
    },
    {
     "fuel": "Nuclear",
@@ -23,133 +23,139 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 210
+    "mw": 208
    },
    {
     "fuel": "Wind",
-    "mw": 1121
+    "mw": 1140
    },
    {
     "fuel": "Hydro",
-    "mw": 2072
+    "mw": 2069
    }
   ],
-  "fuelAsOf": "2026-09-27T10:30:00.000Z",
-  "nycPriceMwh": 22.52,
-  "priceAsOf": "2026-09-27T10:45:00.000Z"
+  "fuelAsOf": "2026-09-27T10:45:00.000Z",
+  "nycPriceMwh": 21.17,
+  "priceAsOf": "2026-09-27T11:05:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 3.2,
+  "waveHeightM": 3.3,
   "domPeriodS": 10,
   "waterTempC": 18.7,
   "windMs": 19,
   "airTempC": 16.6,
-  "pressureHpa": 995.3,
-  "asOf": "2026-09-27T09:50:00.000Z"
+  "pressureHpa": 995.1,
+  "asOf": "2026-09-27T10:20:00.000Z"
  },
  "subway": {
-  "trains": 275,
+  "trains": 293,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 15,
-  "asOf": "2026-09-27T10:47:47.135Z"
+  "alerts": 17,
+  "asOf": "2026-09-27T11:07:26.819Z"
  },
  "rail": {
   "lirr": {
-   "trains": 32,
+   "trains": 35,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 153,
+   "trains": 162,
    "viaVehicles": true
   },
-  "asOf": "2026-09-27T10:47:47.427Z"
+  "asOf": "2026-09-27T11:07:26.926Z"
  },
  "ferry": {
-  "vessels": 0,
-  "positions": [],
-  "asOf": "2026-09-27T10:47:47.565Z"
- },
- "cameras": {
-  "total": 969,
-  "list": [
+  "vessels": 1,
+  "positions": [
    {
-    "name": "6 Ave @ 39 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/34674be5-4791-47f1-b0b2-2db0ff619732/image"
-   },
-   {
-    "name": "Grand Concourse @ Moshulu Pkwy",
-    "url": "https://webcams.nyctmc.org/api/cameras/83d034f2-584b-4dab-9e3d-d70a59995dc5/image"
-   },
-   {
-    "name": "Morningstar Rd @ Richmond Terr.",
-    "url": "https://webcams.nyctmc.org/api/cameras/b0670166-0aa0-4f93-a6f6-8bf07a9ea663/image"
-   },
-   {
-    "name": "C2-BQE-12-WB_at_Furmn_St_LL-Ex28A",
-    "url": "https://webcams.nyctmc.org/api/cameras/5f1847a6-f7fa-4663-afb8-bcbcb93f0c69/image"
-   },
-   {
-    "name": "Belt Pkwy @ Brookville Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/e676b48b-e3ff-4f8f-9388-7d1206094f83/image"
-   },
-   {
-    "name": "QBB NOR @ W Channel",
-    "url": "https://webcams.nyctmc.org/api/cameras/0173e3be-ac26-49b0-bf76-642428d0721a/image"
-   },
-   {
-    "name": "C1-MDE-13-SB_at_Van_Cortlandt-Ex11",
-    "url": "https://webcams.nyctmc.org/api/cameras/fcde67cd-f29e-40c6-8f84-1f3a336315c4/image"
-   },
-   {
-    "name": "Hylan Blvd @ Nelson Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/7e13d5e6-bd1a-47af-ba28-39c50e2736c2/image"
-   },
-   {
-    "name": "Bay Pkwy @ 78 St (Kings Hwy)",
-    "url": "https://webcams.nyctmc.org/api/cameras/0472fa7a-acd7-4510-a9e7-61307d4057cd/image"
-   },
-   {
-    "name": "Main St @ Roosevelt Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/23605598-4eb1-46c2-8b80-8a8c124f020a/image"
-   },
-   {
-    "name": "Church St @ Park Pl",
-    "url": "https://webcams.nyctmc.org/api/cameras/b222af52-75f2-4588-80ef-354bb7c159c8/image"
-   },
-   {
-    "name": "Hutchhinson River Pkwy @ Westchester Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/15fca74d-c3e9-42ee-8f32-5b708ef36477/image"
-   },
-   {
-    "name": "Drumgoole Rd E @ Bloomingdale Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/53295394-387c-4a43-b472-52494ac8122e/image"
-   },
-   {
-    "name": "7 Ave @ 18 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/40961631-fb83-4f48-8ffb-3385448d4e5f/image"
-   },
-   {
-    "name": "Cross Island Pkwy @ 100 Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/5933e055-d8a8-4248-a125-fc2ce861b1bc/image"
-   },
-   {
-    "name": "QBB UL CM @ York Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/975c7dd6-d6d7-4eaa-843d-fbe8eb7a1eb3/image"
-   },
-   {
-    "name": "East Gun Hill RD @ Allerton Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/c914c9ae-00b2-4b77-abb9-0a85f903e34e/image"
-   },
-   {
-    "name": "C3-MLK-02-NB_at_Forest_Ave-Ex11",
-    "url": "https://webcams.nyctmc.org/api/cameras/4678c08d-9b89-4dd4-9fa0-234412822bb7/image"
+    "lat": 40.70447,
+    "lon": -73.97598,
+    "label": "H209"
    }
   ],
-  "asOf": "2026-09-27T10:47:48.379Z"
+  "asOf": "2026-09-27T11:07:27.029Z"
+ },
+ "cameras": {
+  "total": 968,
+  "list": [
+   {
+    "name": "1 Ave @ 42 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/f0e5c9aa-7700-4918-834f-c106189bde4b/image"
+   },
+   {
+    "name": "Bronx River Pkwy @ East Gun Hill RD (NB)",
+    "url": "https://webcams.nyctmc.org/api/cameras/36ff050c-ba9c-4920-beaf-ea3b02f2cde5/image"
+   },
+   {
+    "name": "C3-WSE-06-NB_at_Muldoon_Ave-Ex5",
+    "url": "https://webcams.nyctmc.org/api/cameras/efc538d1-4711-4f6e-b81c-e555fc37d127/image"
+   },
+   {
+    "name": "Gowanus Expy @ FT. Hamilton Pkwy",
+    "url": "https://webcams.nyctmc.org/api/cameras/d7496b4f-f3b5-4a49-89d3-4212e0606205/image"
+   },
+   {
+    "name": "Qns Blvd @ 65 Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/e179ded3-4cdc-4110-ac9c-f12c20f9ccad/image"
+   },
+   {
+    "name": "West st and Chambers",
+    "url": "https://webcams.nyctmc.org/api/cameras/34616ac5-0cc5-4b86-ac7a-82c77238a536/image"
+   },
+   {
+    "name": "Grand Concourse @ Bedford Park Blvd",
+    "url": "https://webcams.nyctmc.org/api/cameras/2f28f8df-5eb5-4327-ab1f-7feaf2630b34/image"
+   },
+   {
+    "name": "C3-SIE-15-EB_at_Fingerboard_Rd_Ex15",
+    "url": "https://webcams.nyctmc.org/api/cameras/261853c1-91c6-4007-9d52-ed530d1a826a/image"
+   },
+   {
+    "name": "Stillwell Ave @ Surf Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/84a2c36a-ef84-41b6-a4eb-3c3a2bf3bf10/image"
+   },
+   {
+    "name": "Hempstead Ave @ Springfield Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/5bcf06f4-dbf0-4c7b-b6f3-241aea4e92c6/image"
+   },
+   {
+    "name": "Brooklyn Bridge - Ped Walk Way",
+    "url": "https://webcams.nyctmc.org/api/cameras/0f3b6031-fe36-43df-b2c7-6120e0580309/image"
+   },
+   {
+    "name": "Pelham Pkwy E/B @ Boston Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/5654d38e-e305-4119-8cd9-8a7bba65460b/image"
+   },
+   {
+    "name": "Drumgoole Rd E @ Arden Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/52b1ec32-8603-41e1-af1f-b1e1e33752cb/image"
+   },
+   {
+    "name": "Furman St @ Atlantic Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/95f77270-6143-4522-b55e-a3ef8cc48e18/image"
+   },
+   {
+    "name": "QBB UL @ Queens Pier",
+    "url": "https://webcams.nyctmc.org/api/cameras/bfcb2b32-7ae7-4060-a39b-80f71a1db289/image"
+   },
+   {
+    "name": "7 Ave @ 54 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/4ebe49c8-3e68-43f7-b415-da3db9f72693/image"
+   },
+   {
+    "name": "C1-BRE-09-SB_at_Lasalle_Ave-Ex7C",
+    "url": "https://webcams.nyctmc.org/api/cameras/6eee8e60-805b-403c-9c82-bac9e60d9cd9/image"
+   },
+   {
+    "name": "C3-WSE-10-SB_at_South_Ave-Ex8",
+    "url": "https://webcams.nyctmc.org/api/cameras/43d53907-8b02-4793-8b0c-c816c9cf979a/image"
+   }
+  ],
+  "asOf": "2026-09-27T11:07:27.311Z"
  },
  "floodnet": {
-  "sensors": 419,
+  "sensors": 418,
   "flooding": 1,
   "wettest": {
    "name": "M - E 108th St/1st Ave",
@@ -166,23 +172,23 @@
     "lon": -73.939451
    }
   ],
-  "asOf": "2026-09-27T10:48:00.000Z"
+  "asOf": "2026-09-27T11:02:24.000Z"
  },
  "coned": {
-  "customersOut": 1279,
+  "customersOut": 2152,
   "customersServed": 3626606,
-  "outages": 62,
-  "asOf": "2026-09-27T10:35:00.000Z"
+  "outages": 93,
+  "asOf": "2026-09-27T11:05:00.000Z"
  },
  "path": {
-  "arrivals": 17,
+  "arrivals": 22,
   "stations": 13,
-  "asOf": "2026-09-27T10:49:37.903Z"
+  "asOf": "2026-09-27T11:09:13.028Z"
  },
  "reservoirs": {
   "pctFull": 85,
   "pctNormal": 77.6,
   "pageDate": "September 25, 2026",
-  "asOf": "2026-09-27T10:49:38.046Z"
+  "asOf": "2026-09-27T11:09:13.157Z"
  }
 }
