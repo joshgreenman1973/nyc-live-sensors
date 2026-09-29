@@ -1,17 +1,17 @@
 {
- "generated": "2026-09-29T02:02:35.732Z",
+ "generated": "2026-09-29T02:35:38.215Z",
  "nyiso": {
-  "nycLoadMw": 5139.367,
-  "isoLoadMw": 15944.545399999999,
-  "asOf": "2026-09-29T01:45:00.000Z",
+  "nycLoadMw": 4927.0903,
+  "isoLoadMw": 15255.5486,
+  "asOf": "2026-09-29T02:20:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3325
+    "mw": 3258
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3497
+    "mw": 3864
    },
    {
     "fuel": "Nuclear",
@@ -23,164 +23,153 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 209
+    "mw": 221
    },
    {
     "fuel": "Wind",
-    "mw": 79
+    "mw": 70
    },
    {
     "fuel": "Hydro",
-    "mw": 2858
+    "mw": 2499
    }
   ],
-  "fuelAsOf": "2026-09-29T01:45:00.000Z",
-  "nycPriceMwh": 35.45,
-  "priceAsOf": "2026-09-29T02:00:00.000Z"
+  "fuelAsOf": "2026-09-29T02:20:00.000Z",
+  "nycPriceMwh": 35.27,
+  "priceAsOf": "2026-09-29T02:35:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 0.8,
-  "domPeriodS": 8,
+  "waveHeightM": 0.7,
+  "domPeriodS": 9,
   "waterTempC": 18.5,
   "windMs": 4,
   "airTempC": 17.3,
-  "pressureHpa": 1013.6,
-  "asOf": "2026-09-29T01:20:00.000Z"
+  "pressureHpa": 1013.7,
+  "asOf": "2026-09-29T01:50:00.000Z"
  },
  "subway": {
-  "trains": 447,
+  "trains": 402,
   "feedsOk": 8,
   "feeds": 8,
   "alerts": 12,
-  "asOf": "2026-09-29T02:02:37.446Z"
+  "asOf": "2026-09-29T02:35:39.269Z"
  },
  "rail": {
   "lirr": {
-   "trains": 34,
+   "trains": 40,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 106,
+   "trains": 97,
    "viaVehicles": true
   },
-  "asOf": "2026-09-29T02:02:37.742Z"
+  "asOf": "2026-09-29T02:35:39.485Z"
  },
  "ferry": {
-  "vessels": 2,
-  "positions": [
-   {
-    "lat": 40.71022,
-    "lon": -73.97897,
-    "label": "H104"
-   },
-   {
-    "lat": 40.68892,
-    "lon": -74.00948,
-    "label": "H207"
-   }
-  ],
-  "asOf": "2026-09-29T02:02:37.973Z"
+  "vessels": 0,
+  "positions": [],
+  "asOf": "2026-09-29T02:35:39.585Z"
  },
  "cameras": {
-  "total": 973,
+  "total": 972,
   "list": [
    {
-    "name": "Broadway @ 145 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/7f865d20-e4f4-4f7c-88db-c0edf88a9501/image"
+    "name": "South Street @ Pike Street",
+    "url": "https://webcams.nyctmc.org/api/cameras/547cd268-58f9-4a84-a235-dbaa0432d79a/image"
+   },
+   {
+    "name": "Fordham Rd @ Major Deegan Expy",
+    "url": "https://webcams.nyctmc.org/api/cameras/b591a4be-a1aa-4978-ab2c-be4a17eb190e/image"
+   },
+   {
+    "name": "Belt Pkwy @ Erskine St",
+    "url": "https://webcams.nyctmc.org/api/cameras/426d2789-3f58-4c5b-9db6-1647db7c4b5a/image"
+   },
+   {
+    "name": "Queens Blvd @ 36 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/cc6c54fa-43fb-4484-a598-20feea2adb89/image"
+   },
+   {
+    "name": "Richmond Ave @ North Access Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/0537e9a6-3e6f-480c-9c6e-bb3ad15356ae/image"
+   },
+   {
+    "name": "10 Ave @ 42 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/b55781b8-827c-40e3-b094-27c289d22f7a/image"
+   },
+   {
+    "name": "Under Cliff Ave @ Boscobe Pl",
+    "url": "https://webcams.nyctmc.org/api/cameras/9f118098-cee3-4964-8630-b932c94f70a3/image"
+   },
+   {
+    "name": "BB-64 South Rdwy @ Bklyn Twr Side Sapn",
+    "url": "https://webcams.nyctmc.org/api/cameras/33dda383-4778-48ee-97e7-abcd68b5d365/image"
+   },
+   {
+    "name": "Queens Blvd @ 51 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/19c66e73-e218-42d8-af0b-a0ca53e6bf86/image"
+   },
+   {
+    "name": "Morningstar Rd @ Walker St",
+    "url": "https://webcams.nyctmc.org/api/cameras/710191bf-5753-49f7-a524-d0db75526600/image"
+   },
+   {
+    "name": "5 Ave @ 42 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/f4e822f7-d2a2-4146-851c-04b2fa6d5265/image"
+   },
+   {
+    "name": "Henry Hudson Pkwy @ 232 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/97190ee9-e92c-46ef-a3fc-e8c75d416a9a/image"
+   },
+   {
+    "name": "Atlantic Ave @ Barclays Center",
+    "url": "https://webcams.nyctmc.org/api/cameras/053afe02-e1b3-4bea-9995-787e72c7fff4/image"
+   },
+   {
+    "name": "Queens Plaza North @ 2811 (Westside)",
+    "url": "https://webcams.nyctmc.org/api/cameras/76ce9adc-f73d-46b7-9ca7-fe6d7521b603/image"
+   },
+   {
+    "name": "Drumgoole Rd W @ Richmond Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/4c3de40f-6f13-491f-9253-1fc93cada807/image"
+   },
+   {
+    "name": "5 Ave @ 49 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/7a7016c5-a086-40fd-9298-90f17f8b6cea/image"
    },
    {
     "name": "Pelham Shore Rd @ City Island Rd",
     "url": "https://webcams.nyctmc.org/api/cameras/09afb231-ef10-470f-bf54-0f44fc2dc18f/image"
    },
    {
-    "name": "Bay Pkwy @ 78 St (Kings Hwy)",
-    "url": "https://webcams.nyctmc.org/api/cameras/0472fa7a-acd7-4510-a9e7-61307d4057cd/image"
-   },
-   {
-    "name": "Hempstead Ave @ Cross Island Pkwy (Quad)",
-    "url": "https://webcams.nyctmc.org/api/cameras/66bcf232-3abf-4afc-951c-469e9e6cfd70/image"
-   },
-   {
-    "name": "Hylan Blvd @ Huguenot Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/5e7535c0-fee4-4989-8481-0addea488020/image"
-   },
-   {
-    "name": "Amsterdam Ave @ 79 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/fb31c502-9b4a-4c19-9b26-5b84a1a39ec3/image"
-   },
-   {
-    "name": "Bronx River Pkwy @ 233 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/dfac53ae-0460-409d-8514-6db67de9aff3/image"
-   },
-   {
-    "name": "Atlantic Ave @ Hicks Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/8820f260-11c9-49dd-8839-0ff47707b6f2/image"
-   },
-   {
-    "name": "Queens Blvd E/B @ 43 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/60982889-171e-4208-ae1d-8f179f91231e/image"
-   },
-   {
-    "name": "Hylan Ave @ Page Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/01ffcaef-7c54-4f16-8668-bce6efbcfcb1/image"
-   },
-   {
-    "name": "Central Park West @ 66 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/7e2400e3-cad2-407a-927b-d575a35048e3/image"
-   },
-   {
-    "name": "Hutchhinson River Pkwy @ Waterbury Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/bfeb2434-fd55-4024-8172-f9602ea6ae06/image"
-   },
-   {
-    "name": "Grand St (Borinquen PL) @ South 4 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/c173fe45-9067-4582-81ef-cab0aad56afd/image"
-   },
-   {
-    "name": "Woodhaven Blvd @ 91 ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/5d1261df-ddca-435a-9292-a0474c44c104/image"
-   },
-   {
-    "name": "Narrow Rd N @ Richmond Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/7d1db29e-90a9-4027-b1fc-6e6af4f4f0d9/image"
-   },
-   {
-    "name": "Madison Ave @ 79 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/a4bb497d-7e15-47c4-9787-374b013efbbe/image"
-   },
-   {
-    "name": "Southern Bl. @ Cross Bronx Expwy",
-    "url": "https://webcams.nyctmc.org/api/cameras/7305c9dc-a6c3-4eab-83df-fd42296efbea/image"
-   },
-   {
-    "name": "BQE @ Atlantic Ave Exit - westbound",
-    "url": "https://webcams.nyctmc.org/api/cameras/bcafb919-3f51-4caa-b964-d6888ed4cecf/image"
+    "name": "BB-45 South Rdwy @ 350Ft West of Bklyn Twr",
+    "url": "https://webcams.nyctmc.org/api/cameras/54d81029-7015-4c05-941b-94688c5aae85/image"
    }
   ],
-  "asOf": "2026-09-29T02:02:38.605Z"
+  "asOf": "2026-09-29T02:35:39.925Z"
  },
  "floodnet": {
-  "sensors": 414,
+  "sensors": 415,
   "flooding": 0,
   "wettest": null,
   "wet": [],
-  "asOf": "2026-09-29T01:55:12.000Z"
+  "asOf": "2026-09-29T02:24:00.000Z"
  },
  "coned": {
-  "customersOut": 337,
+  "customersOut": 333,
   "customersServed": 3626606,
-  "outages": 29,
-  "asOf": "2026-09-29T01:50:00.000Z"
+  "outages": 27,
+  "asOf": "2026-09-29T02:35:00.000Z"
  },
  "path": {
-  "arrivals": 49,
+  "arrivals": 50,
   "stations": 13,
-  "asOf": "2026-09-29T02:04:41.241Z"
+  "asOf": "2026-09-29T02:37:25.671Z"
  },
  "reservoirs": {
   "pctFull": 84.9,
   "pctNormal": 77.2,
   "pageDate": "September 28, 2026",
-  "asOf": "2026-09-29T02:04:41.530Z"
+  "asOf": "2026-09-29T02:37:25.805Z"
  }
 }
