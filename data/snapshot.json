@@ -1,21 +1,21 @@
 {
- "generated": "2026-10-12T02:01:16.223Z",
+ "generated": "2026-10-12T09:09:50.109Z",
  "nyiso": {
-  "nycLoadMw": 4896.001,
-  "isoLoadMw": 15311.8068,
-  "asOf": "2026-10-12T01:45:00.000Z",
+  "nycLoadMw": 3933.944,
+  "isoLoadMw": 12641.882999999998,
+  "asOf": "2026-10-12T08:55:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3545
+    "mw": 2970
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3040
+    "mw": 2807
    },
    {
     "fuel": "Nuclear",
-    "mw": 3311
+    "mw": 3310
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,166 +23,197 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 210
+    "mw": 196
    },
    {
     "fuel": "Wind",
-    "mw": 527
+    "mw": 555
    },
    {
     "fuel": "Hydro",
-    "mw": 2341
+    "mw": 1539
    }
   ],
-  "fuelAsOf": "2026-10-12T01:45:00.000Z",
-  "nycPriceMwh": 42.79,
-  "priceAsOf": "2026-10-12T02:00:00.000Z"
+  "fuelAsOf": "2026-10-12T08:50:00.000Z",
+  "nycPriceMwh": 28.82,
+  "priceAsOf": "2026-10-12T09:05:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 2.6,
-  "domPeriodS": 8,
+  "waveHeightM": 2.1,
+  "domPeriodS": 10,
   "waterTempC": 18,
-  "windMs": 12,
-  "airTempC": 16.1,
-  "pressureHpa": 1009.7,
-  "asOf": "2026-10-12T01:20:00.000Z"
+  "windMs": 10,
+  "airTempC": 14.2,
+  "pressureHpa": 1005.8,
+  "asOf": "2026-10-12T08:20:00.000Z"
  },
  "subway": {
-  "trains": 344,
+  "trains": 298,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 13,
-  "asOf": "2026-10-12T02:01:17.660Z"
+  "alerts": 5,
+  "asOf": "2026-10-12T09:09:51.904Z"
  },
  "rail": {
   "lirr": {
-   "trains": 38,
+   "trains": 26,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 96,
+   "trains": 283,
    "viaVehicles": true
   },
-  "asOf": "2026-10-12T02:01:17.888Z"
+  "asOf": "2026-10-12T09:09:52.325Z"
  },
  "ferry": {
-  "vessels": 0,
-  "positions": [],
-  "asOf": "2026-10-12T02:01:18.026Z"
+  "vessels": 6,
+  "positions": [
+   {
+    "lat": 40.63542,
+    "lon": -74.0417,
+    "label": "H109"
+   },
+   {
+    "lat": 40.58495,
+    "lon": -73.82635,
+    "label": "SB406"
+   },
+   {
+    "lat": 40.70425,
+    "lon": -73.97664,
+    "label": "H112"
+   },
+   {
+    "lat": 40.59755,
+    "lon": -73.76862,
+    "label": "SBC409"
+   },
+   {
+    "lat": 40.58376,
+    "lon": -73.83739,
+    "label": "H301"
+   },
+   {
+    "lat": 40.80432,
+    "lon": -73.84845,
+    "label": "H092"
+   }
+  ],
+  "asOf": "2026-10-12T09:09:52.536Z"
  },
  "cameras": {
-  "total": 978,
+  "total": 977,
   "list": [
-   {
-    "name": "WBB - 16 SOR-4 @ Kent Ave South",
-    "url": "https://webcams.nyctmc.org/api/cameras/dd80055d-ae29-469e-bce5-bf62228a3178/image"
-   },
-   {
-    "name": "Washington St @ Prospect St",
-    "url": "https://webcams.nyctmc.org/api/cameras/4334f995-5cae-4725-b7d2-ccaf72447237/image"
-   },
-   {
-    "name": "Pelham Shore Rd @ City Island Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/09afb231-ef10-470f-bf54-0f44fc2dc18f/image"
-   },
-   {
-    "name": "Cross Island Pkwy @ Throgsneck",
-    "url": "https://webcams.nyctmc.org/api/cameras/7bf1dd27-0a96-4381-bb7e-03123c4b7739/image"
-   },
-   {
-    "name": "Narrows Rd South @ Fingerboard Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/7be9623c-4f70-4815-bc54-5f0411491b83/image"
-   },
-   {
-    "name": "West Side HWY BPU Entrance -148.54",
-    "url": "https://webcams.nyctmc.org/api/cameras/35a808cf-7e4d-4ca5-891d-36ac48518662/image"
-   },
-   {
-    "name": "C2-BQE-28-WB_at_Manhattan_Ave-Ex33",
-    "url": "https://webcams.nyctmc.org/api/cameras/41610046-fbab-40be-b824-4afa48119bec/image"
-   },
-   {
-    "name": "Bronx River Pkwy @ 233 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/dfac53ae-0460-409d-8514-6db67de9aff3/image"
-   },
-   {
-    "name": "Astoria Blvd @ 108 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/d5ed6e53-5a1f-404f-8394-a1ed88a2c429/image"
-   },
-   {
-    "name": "Lily Pond Ave @ School Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/1c3a5c25-a40c-40d6-8f6b-030294269fd1/image"
-   },
-   {
-    "name": "WBB-6 South Rdwy @ Delancy St and Clinton St",
-    "url": "https://webcams.nyctmc.org/api/cameras/2334b7bd-a237-4bf5-9224-5241bd4ee29e/image"
-   },
-   {
-    "name": "Eastern Pkwy @ Utica Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/c89b62d1-35be-4bb8-b22b-a77c2583733c/image"
-   },
-   {
-    "name": "Boston Rd @ Gun hill Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/cbd86999-5bb1-4f2d-addd-dbf15fa3609d/image"
-   },
-   {
-    "name": "Qns Blvd @ 65 PL",
-    "url": "https://webcams.nyctmc.org/api/cameras/97e0da4b-551e-4ef4-a12a-7cbcc0b8560a/image"
-   },
-   {
-    "name": "West Shore Expy @ South Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/a6b2c1c8-1124-4dec-aa22-c8d87f6835ec/image"
-   },
    {
     "name": "Broadway @ 125 St",
     "url": "https://webcams.nyctmc.org/api/cameras/43bb4857-e86e-4775-916e-6b26cedaf554/image"
    },
    {
-    "name": "Prospect Pkwy @ 3 Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/91c033b3-ecfd-4fb9-b27d-d256eb720789/image"
+    "name": "Bushwick Ave @ Cooper St",
+    "url": "https://webcams.nyctmc.org/api/cameras/a8805cdb-e305-42d0-b011-cb825380cf8e/image"
    },
    {
-    "name": "C1-BRE-11-SB_at_Buhre_Ave-Ex8A",
-    "url": "https://webcams.nyctmc.org/api/cameras/b19c9130-3a2d-4f7a-94a5-495eeea219ef/image"
+    "name": "WEBSTER AVE @ NEREID AVE",
+    "url": "https://webcams.nyctmc.org/api/cameras/6a841f4c-93ef-4f51-b38d-80e70053ff8d/image"
+   },
+   {
+    "name": "Grand Central Pkwy NSR @ 79 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/fa85ed07-ccc9-4dc7-97bd-fd55acc0a415/image"
+   },
+   {
+    "name": "C3-MLK-03_NB_at_Walkr_St-Bayonne_Br",
+    "url": "https://webcams.nyctmc.org/api/cameras/4d92ff93-b8cd-4bec-a70b-91b4cfb75857/image"
+   },
+   {
+    "name": "7 Ave @ 57 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/f0b924fe-0df6-4ac2-85a2-5d2b96d081d5/image"
+   },
+   {
+    "name": "Tillary St EB @ Jay St",
+    "url": "https://webcams.nyctmc.org/api/cameras/ae67eb8d-0aed-4204-b7a1-3621ed9eef65/image"
+   },
+   {
+    "name": "C1-CBE-04_N - NB_at_Macombs Rd-Ex2A",
+    "url": "https://webcams.nyctmc.org/api/cameras/ded03849-7c56-43e5-8e82-05b61c175aca/image"
+   },
+   {
+    "name": "Springfield Blvd @ Merrick Blvd",
+    "url": "https://webcams.nyctmc.org/api/cameras/62174b3a-f453-4108-9eb2-48d833528a7c/image"
+   },
+   {
+    "name": "Hylan Blvd @ Arden Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/0f5e11ff-0ecc-4622-a32e-bb80a6b2c1c6/image"
+   },
+   {
+    "name": "Amsterdam Ave @ 79 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/fb31c502-9b4a-4c19-9b26-5b84a1a39ec3/image"
+   },
+   {
+    "name": "C2-GE-01-WB_at_92nd_St-Vrrazano_Br",
+    "url": "https://webcams.nyctmc.org/api/cameras/90361876-3521-4aa4-a924-701716d5d506/image"
+   },
+   {
+    "name": "C1-BRE-10-NB_at_Middle_Twn_Rd-Ex7C",
+    "url": "https://webcams.nyctmc.org/api/cameras/e38e3af7-19e6-4c8d-aa05-a21c8d5a7b29/image"
+   },
+   {
+    "name": "Jamaica Ave @ 168 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/52399045-4691-4258-8f82-12000f5719a8/image"
+   },
+   {
+    "name": "C3-MLK-01-SB_at_Watchogue_Rd-Ex10",
+    "url": "https://webcams.nyctmc.org/api/cameras/8df73045-61fd-4394-b21a-dfa3f440d6e7/image"
+   },
+   {
+    "name": "Riverside Dr @ Washington Br ENT ramp",
+    "url": "https://webcams.nyctmc.org/api/cameras/a9b2501d-062f-43f8-9419-f89faa4f36ba/image"
+   },
+   {
+    "name": "BQE @ Kane St",
+    "url": "https://webcams.nyctmc.org/api/cameras/d0ea28d7-e1d3-4277-aebc-586a70b60957/image"
+   },
+   {
+    "name": "C1-CBX-18-Med_at_Pennyfield_Av-TNB",
+    "url": "https://webcams.nyctmc.org/api/cameras/e51a2974-8ca2-4fe2-a90a-842685cbbcc9/image"
    }
   ],
-  "asOf": "2026-10-12T02:01:18.737Z"
+  "asOf": "2026-10-12T09:09:53.433Z"
  },
  "floodnet": {
   "sensors": 417,
   "flooding": 1,
   "wettest": {
    "name": "SI - Chapin Ave/Dalemere Rd",
-   "mm": 28.1496062992126,
-   "depthIn": 1.108252216504433
+   "mm": 28.267716535433074,
+   "depthIn": 1.1129022258044519
   },
   "wet": [
    {
     "id": 455,
     "name": "SI - Chapin Ave/Dalemere Rd",
-    "mm": 28.1496062992126,
-    "depthIn": 1.108252216504433,
+    "mm": 28.267716535433074,
+    "depthIn": 1.1129022258044519,
     "lat": 40.5974986,
     "lon": -74.1017731
    }
   ],
-  "asOf": "2026-10-12T01:55:12.000Z"
+  "asOf": "2026-10-12T09:07:12.000Z"
  },
  "coned": {
-  "customersOut": 232,
+  "customersOut": 257,
   "customersServed": 3626606,
-  "outages": 14,
-  "asOf": "2026-10-12T01:50:00.000Z"
+  "outages": 5,
+  "asOf": "2026-10-12T09:05:00.000Z"
  },
  "path": {
-  "arrivals": 39,
+  "arrivals": 29,
   "stations": 13,
-  "asOf": "2026-10-12T02:03:22.776Z"
+  "asOf": "2026-10-12T09:11:47.221Z"
  },
  "reservoirs": {
   "pctFull": 83.2,
   "pctNormal": 77,
   "pageDate": "October 9, 2026",
-  "asOf": "2026-10-12T02:03:22.964Z"
+  "asOf": "2026-10-12T09:11:47.559Z"
  }
 }
