@@ -255,7 +255,7 @@ const FEEDS = [
 
   {
     id: "polarsat", domain: "sky", title: "Low-orbit pass", wide: true,
-    instrument: "Visible Infrared Imaging Radiometer Suite aboard the NOAA-20 polar orbiter, 512 miles up — a true-color look at the city itself, about 375 meters per pixel, one early-afternoon pass a day. Some days you get the city; some days you get the clouds.",
+    instrument: "Visible Infrared Imaging Radiometer Suite aboard the NOAA-20 polar orbiter, 512 miles up — a true-color look at the city itself, about 375 meters per pixel, one early-afternoon pass a day. On some days clouds hide the city.",
     source: "NASA Global Imagery Browse Services",
     every: 3600,
     async run(f) {
