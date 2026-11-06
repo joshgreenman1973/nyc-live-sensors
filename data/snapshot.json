@@ -1,21 +1,21 @@
 {
- "generated": "2026-11-05T23:46:54.103Z",
+ "generated": "2026-11-06T04:53:23.241Z",
  "nyiso": {
-  "nycLoadMw": 6152.5957,
-  "isoLoadMw": 18334.0558,
-  "asOf": "2026-11-05T23:30:00.000Z",
+  "nycLoadMw": 4958.7197,
+  "isoLoadMw": 14547.9107,
+  "asOf": "2026-11-06T04:40:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 4057
+    "mw": 3395
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3251
+    "mw": 1983
    },
    {
     "fuel": "Nuclear",
-    "mw": 3324
+    "mw": 3326
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,36 +23,36 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 231
+    "mw": 230
    },
    {
     "fuel": "Wind",
-    "mw": 770
+    "mw": 709
    },
    {
     "fuel": "Hydro",
-    "mw": 4002
+    "mw": 2406
    }
   ],
-  "fuelAsOf": "2026-11-05T23:30:00.000Z",
-  "nycPriceMwh": 56.46,
-  "priceAsOf": "2026-11-05T23:45:00.000Z"
+  "fuelAsOf": "2026-11-06T04:35:00.000Z",
+  "nycPriceMwh": 30.66,
+  "priceAsOf": "2026-11-06T04:50:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 1.4,
+  "waveHeightM": 1.2,
   "domPeriodS": 9,
   "waterTempC": 16.2,
-  "windMs": 10,
+  "windMs": 8,
   "airTempC": 17.7,
-  "pressureHpa": 1012.3,
-  "asOf": "2026-11-05T22:50:00.000Z"
+  "pressureHpa": 1012.2,
+  "asOf": "2026-11-06T04:10:00.000Z"
  },
  "subway": {
-  "trains": 737,
+  "trains": 293,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 8,
-  "asOf": "2026-11-05T23:46:55.379Z"
+  "alerts": 20,
+  "asOf": "2026-11-06T04:53:25.150Z"
  },
  "rail": {
   "lirr": {
@@ -60,250 +60,129 @@
    "viaVehicles": false
   },
   "mnr": {
-   "trains": 222,
+   "trains": 101,
    "viaVehicles": true
   },
-  "asOf": "2026-11-05T23:46:55.698Z"
+  "asOf": "2026-11-06T04:53:25.555Z"
  },
  "ferry": {
-  "vessels": 24,
-  "positions": [
-   {
-    "lat": 40.73119,
-    "lon": -73.9636,
-    "label": "H201"
-   },
-   {
-    "lat": 40.7468,
-    "lon": -74.01649,
-    "label": "H202"
-   },
-   {
-    "lat": 40.68883,
-    "lon": -74.00812,
-    "label": "H101"
-   },
-   {
-    "lat": 40.74187,
-    "lon": -73.96149,
-    "label": "H102"
-   },
-   {
-    "lat": 40.67804,
-    "lon": -74.0411,
-    "label": "H103"
-   },
-   {
-    "lat": 40.70306,
-    "lon": -74.00675,
-    "label": "H104"
-   },
-   {
-    "lat": 40.66954,
-    "lon": -74.02031,
-    "label": "H105"
-   },
-   {
-    "lat": 40.71464,
-    "lon": -73.97062,
-    "label": "H106"
-   },
-   {
-    "lat": 40.70782,
-    "lon": -73.98954,
-    "label": "H107"
-   },
-   {
-    "lat": 40.71051,
-    "lon": -73.97459,
-    "label": "H110"
-   },
-   {
-    "lat": 40.68092,
-    "lon": -74.02087,
-    "label": "H204"
-   },
-   {
-    "lat": 40.64003,
-    "lon": -74.03818,
-    "label": "H207"
-   },
-   {
-    "lat": 40.70372,
-    "lon": -73.99551,
-    "label": "H208"
-   },
-   {
-    "lat": 40.72089,
-    "lon": -73.9651,
-    "label": "H209"
-   },
-   {
-    "lat": 40.56683,
-    "lon": -73.88239,
-    "label": "SB402"
-   },
-   {
-    "lat": 40.60791,
-    "lon": -73.75418,
-    "label": "SB406"
-   },
-   {
-    "lat": 40.74609,
-    "lon": -73.96185,
-    "label": "H114"
-   },
-   {
-    "lat": 40.79632,
-    "lon": -73.87182,
-    "label": "H112"
-   },
-   {
-    "lat": 40.57157,
-    "lon": -73.89615,
-    "label": "H115"
-   },
-   {
-    "lat": 40.59143,
-    "lon": -73.79356,
-    "label": "SBC409"
-   },
-   {
-    "lat": 40.70325,
-    "lon": -74.00566,
-    "label": "H214"
-   },
-   {
-    "lat": 40.75566,
-    "lon": -73.95926,
-    "label": "H215"
-   },
-   {
-    "lat": 40.75697,
-    "lon": -73.95235,
-    "label": "H401"
-   },
-   {
-    "lat": 40.56733,
-    "lon": -73.99618,
-    "label": "H092"
-   }
-  ],
-  "asOf": "2026-11-05T23:46:55.863Z"
+  "vessels": 0,
+  "positions": [],
+  "asOf": "2026-11-06T04:53:25.759Z"
  },
  "cameras": {
-  "total": 970,
+  "total": 969,
   "list": [
    {
-    "name": "Whitestone Expy @ 28 Rd N of Linden Pl",
-    "url": "https://webcams.nyctmc.org/api/cameras/fc900cf1-98b4-4ddb-a511-1e8a9233935c/image"
+    "name": "Main St @ LIE N S/R",
+    "url": "https://webcams.nyctmc.org/api/cameras/a6095c69-aef9-4a64-8091-9a2cb8645ee7/image"
    },
    {
-    "name": "New Eng Thru @ Bartow",
-    "url": "https://webcams.nyctmc.org/api/cameras/4f806706-c888-4926-932c-f9f3f0255b60/image"
+    "name": "7 Ave @ 145 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/61890a52-c90e-41a1-b032-d5c6f39746d9/image"
    },
    {
-    "name": "Atlantic Ave @ Highland Pl (Berriman St)",
-    "url": "https://webcams.nyctmc.org/api/cameras/e016c2e4-a602-4c4d-ab9e-fadfa7f4e703/image"
+    "name": "C1-MDE-11-NB_at_W.179th_St-Ex8",
+    "url": "https://webcams.nyctmc.org/api/cameras/b9ba6a87-0e0b-4c5a-ad6a-7ead399e0864/image"
    },
    {
-    "name": "1 Ave @ 86 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/f3c6fe0c-75c8-4ce9-ad9a-5b7eb8e9087e/image"
+    "name": "Columbia St @ Degraw St",
+    "url": "https://webcams.nyctmc.org/api/cameras/d3ab8634-97be-4229-9aa3-c3637ff66ea9/image"
    },
    {
-    "name": "West Shore Expy @ Bloomingdale Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/9b57d5a0-d4fb-47ab-8df5-1d093228189e/image"
+    "name": "C3-SIE-03-WB_at_South_Ave-Ex5",
+    "url": "https://webcams.nyctmc.org/api/cameras/6c1d7768-9e5f-4541-99c4-77dc8fac932b/image"
    },
    {
-    "name": "Roosevelt Ave @ 79St",
-    "url": "https://webcams.nyctmc.org/api/cameras/57a8e506-1b7d-4a44-94c2-5cb2a4d31b21/image"
+    "name": "Queens Blvd @ Van Dam",
+    "url": "https://webcams.nyctmc.org/api/cameras/ce959ed6-e7e7-49ed-b932-70b8d18033f2/image"
    },
    {
-    "name": "Pelham Shore Rd @ City Island Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/09afb231-ef10-470f-bf54-0f44fc2dc18f/image"
+    "name": "Lexington Ave @ E 128 Street",
+    "url": "https://webcams.nyctmc.org/api/cameras/9c6dae83-0258-489e-a9cd-83396cf8dad7/image"
    },
    {
-    "name": "7 Ave @ 18 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/40961631-fb83-4f48-8ffb-3385448d4e5f/image"
+    "name": "SEDGWICK AVE @ CEDAR AVE",
+    "url": "https://webcams.nyctmc.org/api/cameras/d7d6c994-492d-4f3a-895e-745596825fb4/image"
    },
    {
-    "name": "Broadway @ 46 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/f3d82b25-6b10-44c7-ae89-30df075a7ac8/image"
+    "name": "BQE @ Vander Voort Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/fdb5054c-08b7-4a84-91cb-b61aa890d8b0/image"
    },
    {
-    "name": "Hylan Blvd @ Arden Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/0f5e11ff-0ecc-4622-a32e-bb80a6b2c1c6/image"
+    "name": "Drumgoole Rd E @ Bloomingdale Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/53295394-387c-4a43-b472-52494ac8122e/image"
    },
    {
-    "name": "C5-LIE-22-WB_at_163rd_St-Ex25",
-    "url": "https://webcams.nyctmc.org/api/cameras/8ff75339-6269-457e-8fb0-55af56997c5b/image"
+    "name": "Long Island Expy @ Douglaston Pkwy",
+    "url": "https://webcams.nyctmc.org/api/cameras/74fcddb5-5030-4be4-864c-e315e58b86f4/image"
    },
    {
-    "name": "Bruckner Expy @ Sheridian Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/e38f2549-cdbf-4d78-a0c6-d71e5421ac1e/image"
+    "name": "Hudson St @ Erickson Pl/Beach",
+    "url": "https://webcams.nyctmc.org/api/cameras/8c1ea3b6-0db6-4222-ba50-2545f8f82d71/image"
    },
    {
-    "name": "Pennsylvania ave @ Jamaica Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/5179f300-88f0-4597-8586-04760e482077/image"
+    "name": "Major Deegan Expwy @ 225 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/a65f8b8a-c0ba-4138-81a5-783ba837490d/image"
    },
    {
-    "name": "5 Ave @ 42 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/f4e822f7-d2a2-4146-851c-04b2fa6d5265/image"
+    "name": "Atlantic Ave @ Hicks Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/311fa910-d8d6-4dde-acd4-ebaf275eba77/image"
    },
    {
-    "name": "C3-SIE-08-EB_at_Bradley_Ave-Ex11",
-    "url": "https://webcams.nyctmc.org/api/cameras/08922d10-ec77-4e36-aa87-962ebfc39212/image"
+    "name": "Morningstar Rd @ Richmond Terr.",
+    "url": "https://webcams.nyctmc.org/api/cameras/b0670166-0aa0-4f93-a6f6-8bf07a9ea663/image"
    },
    {
-    "name": "Qns Blvd @ QnCnt Mall",
-    "url": "https://webcams.nyctmc.org/api/cameras/52f3d48e-3bb4-4c83-bec2-1fb664d56501/image"
+    "name": "Northern Blvd @ Parsons Blvd",
+    "url": "https://webcams.nyctmc.org/api/cameras/40ffec9e-3d55-454f-927e-6a602869a451/image"
    },
    {
-    "name": "Crotona Pkwy @ Cross Bronx Expwy",
-    "url": "https://webcams.nyctmc.org/api/cameras/4053642d-dd92-4045-ac55-069110659563/image"
+    "name": "Park Ave @ 37 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/20b2298a-90cf-463f-b172-0b398a34f061/image"
    },
    {
-    "name": "C2-BQE-19-WB_at_Kent_Ave-Ex31",
-    "url": "https://webcams.nyctmc.org/api/cameras/935fdfa1-d810-45fe-9534-e035e059b8ec/image"
+    "name": "C1-CBX-17-Med_at_E.Tremont_Ave-Ex10",
+    "url": "https://webcams.nyctmc.org/api/cameras/99098e73-0848-4c19-895e-f81651f76c39/image"
    }
   ],
-  "asOf": "2026-11-05T23:46:56.196Z"
+  "asOf": "2026-11-06T04:53:26.528Z"
  },
  "floodnet": {
-  "sensors": 426,
+  "sensors": 421,
   "flooding": 1,
   "wettest": {
    "name": "M - E 108th St/1st Ave",
-   "mm": 34.724409448818896,
-   "depthIn": 1.3671027342054685
+   "mm": 34.76377952755906,
+   "depthIn": 1.3686527373054749
   },
   "wet": [
    {
     "id": 462,
     "name": "M - E 108th St/1st Ave",
-    "mm": 34.724409448818896,
-    "depthIn": 1.3671027342054685,
+    "mm": 34.76377952755906,
+    "depthIn": 1.3686527373054749,
     "lat": 40.790943,
     "lon": -73.939451
    }
   ],
-  "asOf": "2026-11-05T23:45:36.000Z"
+  "asOf": "2026-11-06T04:48:00.000Z"
  },
  "coned": {
-  "customersOut": 20,
+  "customersOut": 6,
   "customersServed": 3626606,
-  "outages": 10,
-  "asOf": "2026-11-05T23:35:00.000Z"
+  "outages": 5,
+  "asOf": "2026-11-06T04:50:00.000Z"
  },
  "path": {
-  "arrivals": 54,
+  "arrivals": 33,
   "stations": 13,
-  "asOf": "2026-11-05T23:49:01.246Z"
+  "asOf": "2026-11-06T04:55:25.010Z"
  },
  "reservoirs": {
   "pctFull": 79.9,
   "pctNormal": 78.8,
   "pageDate": "November 5, 2026",
-  "asOf": "2026-11-05T23:49:01.498Z"
+  "asOf": "2026-11-06T04:55:25.286Z"
  }
 }
