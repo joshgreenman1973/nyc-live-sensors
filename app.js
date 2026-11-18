@@ -290,16 +290,17 @@ const FEEDS = [
   {
     id: "aircraft", domain: "sky", title: "Aircraft overhead", wide: false,
     instrument: "ADS-B transponder receivers — every aircraft within 30 nautical miles of City Hall",
-    source: "airplanes.live community receiver network",
-    every: 120,
+    source: "adsb.lol community receiver network, via snapshot",
+    every: 900, fromSnapshot: true,
     async run(f) {
-      const j = await getJSON("https://api.airplanes.live/v2/point/40.7128/-74.0060/30");
-      const ac = (j.ac || []).filter(a => a.alt_baro !== "ground");
+      const s = snapshot?.aircraft;
+      if (!s || !Array.isArray(s.ac)) throw new Error("no aircraft data");
+      const ac = s.ac;
       const helis = ac.filter(a => a.category === "A7").length;
       const low = ac.filter(a => typeof a.alt_baro === "number" && a.alt_baro < 3000).length;
       STATE.aircraft = ac; mapPush("aircraft");
-      const now = new Date();
-      setModule(f, "ok",
+      const now = new Date(s.asOf);
+      setModule(f, stateFor(now, 60),
         `<div class="big">${fmtInt(ac.length)}</div>
          <div class="big-label">aircraft airborne in a 30-nautical-mile circle</div>
          <div class="rows">

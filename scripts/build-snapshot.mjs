@@ -193,6 +193,24 @@ async function buoy() {
   };
 }
 
+/* ---------- aircraft within 30 nautical miles of City Hall ----------
+   adsb.lol volunteer receiver network. It sends no CORS headers, so the
+   browser cannot read it directly (airplanes.live, used until November 2026,
+   now refuses anonymous requests). Keep only airborne aircraft and the fields
+   the page draws. */
+async function aircraft() {
+  const j = await fetchJSON("https://api.adsb.lol/v2/point/40.7128/-74.0060/30");
+  if (!Array.isArray(j.ac)) throw new Error("no aircraft list");
+  snapshot.aircraft = {
+    asOf: new Date(j.now || Date.now()).toISOString(),
+    ac: j.ac.filter(a => a.alt_baro !== "ground" && a.lat != null && a.lon != null).map(a => ({
+      flight: a.flight ? a.flight.trim() : undefined, r: a.r, t: a.t, category: a.category,
+      alt_baro: a.alt_baro, gs: a.gs != null ? Math.round(a.gs) : undefined,
+      lat: Math.round(a.lat * 1e4) / 1e4, lon: Math.round(a.lon * 1e4) / 1e4
+    }))
+  };
+}
+
 /* ---------- MTA subway: trains transmitting positions + alerts ---------- */
 async function subway() {
   const base = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs";
@@ -365,8 +383,8 @@ function stationsFile() {
 }
 
 /* ---------- run everything, carry stale sections forward ---------- */
-const jobs = { nyiso, buoy, subway, rail, ferry, cameras, floodnet, coned, path, reservoirs };
-const carry = { nyiso: "nyiso", buoy: "buoy", subway: "subway", rail: "rail", ferry: "ferry", cameras: "cameras", floodnet: "floodnet", coned: "coned", path: "path", reservoirs: "reservoirs" };
+const jobs = { nyiso, buoy, aircraft, subway, rail, ferry, cameras, floodnet, coned, path, reservoirs };
+const carry = { nyiso: "nyiso", buoy: "buoy", aircraft: "aircraft", subway: "subway", rail: "rail", ferry: "ferry", cameras: "cameras", floodnet: "floodnet", coned: "coned", path: "path", reservoirs: "reservoirs" };
 
 for (const [name, job] of Object.entries(jobs)) {
   try {

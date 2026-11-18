@@ -75,8 +75,8 @@
     </tr>
     <tr>
       <td><b>Aircraft overhead</b></td>
-      <td>airplanes.live API: <code>api.airplanes.live/v2/point/40.7128/-74.0060/30</code></td>
-      <td>Browser, every 2 min</td>
+      <td>adsb.lol API, read by the 15-minute snapshot robot: <code>api.adsb.lol/v2/point/40.7128/-74.0060/30</code>. Until November 2026 this tile read airplanes.live directly; that service now refuses anonymous requests, and adsb.lol does not let browsers read it, so the reading is up to 15 minutes old (more when GitHub delays the robot).</td>
+      <td>Snapshot robot, every 15 min</td>
       <td>Community-run network of Automatic Dependent Surveillance-Broadcast receivers. Counts aircraft not reporting "ground" status within 30 nautical miles of City Hall. Helicopter count uses the transponder's self-reported category (A7, rotorcraft), which some helicopters leave unset — treat it as a floor.</td>
     </tr>
     <tr>
@@ -221,7 +221,7 @@
   </div>
 
   <h2>Private sensor networks: what a sweep found</h2>
-  <p>Several tiles already come from privately run networks with public feeds: airplanes.live (volunteer aircraft-transponder receivers), aisstream.io (volunteer ship-transponder receivers), Citi Bike (Lyft's dock telemetry) and FloodNet (a university consortium). A July 2026 sweep of other private networks found:</p>
+  <p>Several tiles already come from privately run networks with public feeds: adsb.lol (volunteer aircraft-transponder receivers), aisstream.io (volunteer ship-transponder receivers), Citi Bike (Lyft's dock telemetry) and FloodNet (a university consortium). A July 2026 sweep of other private networks found:</p>
   <ul>
     <li><b>Sensor.Community</b> (citizen air-quality sensors, key-free and open): only 3 sensors currently report inside the five boroughs, one of them indoors — too sparse to summarize. Worth rechecking as the network grows.</li>
     <li><b>PurpleAir</b> (the largest citizen air-sensor network, with real density in the city): the API requires a key that cannot be published in page code. It could join the 15-minute snapshot if a key were added as a repository secret.</li>
