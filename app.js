@@ -37,6 +37,8 @@ const mToFt = m => m * 3.28084;
 const kmhToMph = k => k * 0.621371;
 const msToMph = ms => ms * 2.23694;
 const ktToMph = k => k * 1.15078;
+/* a link out to a source, opened in a new tab */
+const A = (text, url) => `<a href="${url}" target="_blank" rel="noopener">${text}</a>`;
 /* compass word for a bearing, eight points ("northwest") */
 const dirWord = d => d == null || isNaN(d) ? "" :
   ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"][Math.round(d / 45) % 8];
@@ -170,7 +172,7 @@ const FEEDS = [
   {
     id: "weather", domain: "sky", title: "Surface weather", wide: false,
     instrument: "Automated surface observing stations — Central Park, LaGuardia, Kennedy",
-    source: "National Weather Service api.weather.gov",
+    source: `National Weather Service observations at ${A("Central Park", "https://forecast.weather.gov/data/obhistory/KNYC.html")}, ${A("LaGuardia", "https://forecast.weather.gov/data/obhistory/KLGA.html")} and ${A("Kennedy", "https://forecast.weather.gov/data/obhistory/KJFK.html")}`,
     every: 300,
     async run(f) {
       const st = ["KNYC", "KLGA", "KJFK"];
@@ -212,7 +214,7 @@ const FEEDS = [
   {
     id: "mesonet", domain: "sky", title: "A weather station in every borough", wide: false,
     instrument: "New York State Mesonet stations on rooftops and grounds in all five boroughs, reporting every five minutes",
-    source: "New York State Mesonet, University at Albany",
+    source: `${A("New York State Mesonet", "https://www.nysmesonet.org/")}, University at Albany`,
     every: 300,
     async run(f) {
       const j = await getJSON("https://api.nysmesonet.org/data/index.php/geojson/nysm/latest");
@@ -255,7 +257,7 @@ const FEEDS = [
   {
     id: "radar", domain: "sky", title: "Weather radar", wide: true,
     instrument: "NEXRAD Doppler radar KOKX, Upton NY — base reflectivity composite",
-    source: "NOAA via Iowa Environmental Mesonet tiles",
+    source: `${A("National Weather Service radar KOKX", "https://radar.weather.gov/station/kokx/standard")}, via ${A("Iowa Environmental Mesonet", "https://mesonet.agron.iastate.edu/")} tiles`,
     every: 300,
     async run(f) {
       const z = 9, xs = [149, 150, 151], ys = [191, 192, 193];
@@ -288,9 +290,59 @@ const FEEDS = [
   },
 
   {
+    id: "lightning", domain: "sky", title: "Lightning", wide: false,
+    instrument: "Lightning strikes detected across New York State and its edges, located to the minute and relayed by the state Mesonet in five-minute batches",
+    source: `Strike locations relayed by the ${A("New York State Mesonet", "https://www.nysmesonet.org/weather/maps")}`,
+    every: 300,
+    async run(f) {
+      const api = "https://api.nysmesonet.org/data/index.php/lightning/";
+      const since = new Date(Date.now() - 60 * 60000).toISOString();
+      const list = await getJSON(`${api}list/${since}/latest`);
+      const times = (list?.times || []).slice(-12);
+      if (!times.length) throw new Error("no lightning batches");
+      const frames = await Promise.all(times.map(t =>
+        getJSON(`${api}get/${new Date(t * 1000).toISOString()}`).catch(() => null)));
+      if (!frames.some(Boolean)) throw new Error("lightning batches unreadable");
+      const HALL = [40.7128, -74.006];
+      const miles = (a, b, c, d) => {
+        const r = Math.PI / 180, x = Math.sin((c - a) * r / 2) ** 2 +
+          Math.cos(a * r) * Math.cos(c * r) * Math.sin((d - b) * r / 2) ** 2;
+        return 3958.8 * 2 * Math.asin(Math.sqrt(x));
+      };
+      const bearing = (a, b, c, d) => {
+        const r = Math.PI / 180, y = Math.sin((d - b) * r) * Math.cos(c * r),
+          x = Math.cos(a * r) * Math.sin(c * r) - Math.sin(a * r) * Math.cos(c * r) * Math.cos((d - b) * r);
+        return (Math.atan2(y, x) / r + 360) % 360;
+      };
+      const strikes = frames.filter(Boolean).flatMap(fr => fr.features || []).map(x => {
+        const [lon, lat] = x.geometry.coordinates;
+        return { lat, lon, time: parseUTC(x.properties.time), mi: miles(HALL[0], HALL[1], lat, lon) };
+      });
+      STATE.lightning = strikes.filter(x => x.mi < 90); mapPush("lightning");
+      const near = strikes.filter(x => x.mi <= 25);
+      const nearest = strikes.reduce((a, b) => !a || b.mi < a.mi ? b : a, null);
+      const t = new Date(times[times.length - 1] * 1000);
+      const ago = d => { const m = Math.round((Date.now() - d) / 60000); return m < 1 ? "just now" : `${m} min ago`; };
+      let label;
+      if (!strikes.length) label = "within 25 miles of City Hall in the past hour, and none anywhere the network covers.";
+      else if (!near.length) label = `within 25 miles of City Hall in the past hour. The nearest was ${Math.round(nearest.mi)} miles to the ${dirWord(bearing(HALL[0], HALL[1], nearest.lat, nearest.lon))}, ${ago(nearest.time)}.`;
+      else label = `within 25 miles of City Hall in the past hour; the closest ${Math.round(nearest.mi) < 1 ? "was less than a mile away" : `was ${Math.round(nearest.mi)} miles to the ${dirWord(bearing(HALL[0], HALL[1], nearest.lat, nearest.lon))}`}, ${ago(nearest.time)}.`;
+      const latest = near.length ? near.reduce((a, b) => a.time > b.time ? a : b) : null;
+      setModule(f, stateFor(t, 20),
+        `<div class="big">${fmtInt(near.length)}</div>
+         <div class="big-label">${near.length === 1 ? "strike" : "strikes"} ${label}</div>
+         <div class="rows">
+           <div class="r"><span>Across the whole network, past hour</span><b>${fmtInt(strikes.length)}</b></div>
+           ${latest ? `<div class="r"><span>Most recent near the city</span><b>${fmtTimeET(latest.time)}</b></div>` : ""}
+         </div>`, t);
+      report(f, true, null);
+    }
+  },
+
+  {
     id: "satellite", domain: "sky", title: "Satellite view", wide: true,
     instrument: "Advanced Baseline Imager on the GOES-East geostationary weather satellite, 22,236 miles up — northeast sector",
-    source: "NOAA National Environmental Satellite, Data and Information Service",
+    source: `${A("NOAA GOES-East imagery, Northeast sector", "https://www.star.nesdis.noaa.gov/GOES/sector.php?sat=G19&sector=ne")}`,
     every: 300,
     async run(f) {
       const bucket = Math.floor(Date.now() / 300000);
@@ -324,7 +376,7 @@ const FEEDS = [
   {
     id: "aircraft", domain: "sky", title: "Aircraft overhead", wide: false,
     instrument: "ADS-B transponder receivers — every aircraft within 30 nautical miles of City Hall",
-    source: "adsb.lol community receiver network, via snapshot",
+    source: `${A("adsb.lol", "https://adsb.lol/")} community receiver network, via snapshot`,
     every: 900, fromSnapshot: true,
     async run(f) {
       const s = snapshot?.aircraft;
@@ -348,7 +400,7 @@ const FEEDS = [
   {
     id: "polarsat", domain: "sky", title: "Low-orbit pass", wide: true,
     instrument: "Visible Infrared Imaging Radiometer Suite aboard the NOAA-20 polar orbiter, 512 miles up — a true-color look at the city itself, about 375 meters per pixel, one early-afternoon pass a day. On some days clouds hide the city.",
-    source: "NASA Global Imagery Browse Services",
+    source: `NASA Global Imagery Browse Services; see it in ${A("NASA Worldview", "https://worldview.earthdata.nasa.gov/")}`,
     every: 3600,
     async run(f) {
       const etISO = off => {
@@ -380,7 +432,7 @@ const FEEDS = [
   {
     id: "airquality", domain: "sky", title: "Air quality", wide: false,
     instrument: "State air monitors' hourly index for New York City, with the Copernicus model's estimate alongside",
-    source: "EPA AirNow (New York State Department of Environmental Conservation monitors), via snapshot; Open-Meteo",
+    source: `${A("EPA AirNow", "https://www.airnow.gov/?city=New%20York&state=NY&country=USA")} (${A("state Department of Environmental Conservation monitors", "https://dec.ny.gov/environmental-protection/air-quality")}), via snapshot; ${A("Open-Meteo", "https://open-meteo.com/en/docs/air-quality-api")}`,
     every: 900, fromSnapshot: true,
     async run(f) {
       const cat = v => v <= 50 ? "good" : v <= 100 ? "moderate" : v <= 150 ? "unhealthy for sensitive groups" : v <= 200 ? "unhealthy" : "very unhealthy";
@@ -417,7 +469,7 @@ const FEEDS = [
   {
     id: "battery", domain: "water", title: "Harbor tide — the Battery", wide: false,
     instrument: "Microwave water-level sensor, station 8518750, in continuous service since 1920",
-    source: "NOAA tides and currents",
+    source: `${A("NOAA station 8518750, the Battery", "https://tidesandcurrents.noaa.gov/stationhome.html?id=8518750")}`,
     every: 300,
     async run(f) {
       const base = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?station=8518750&time_zone=lst_ldt&units=english&format=json";
@@ -449,7 +501,7 @@ const FEEDS = [
   {
     id: "kingspoint", domain: "water", title: "Harbor tide — Kings Point", wide: false,
     instrument: "Water-level station 8516945 on the western Long Island Sound side",
-    source: "NOAA tides and currents",
+    source: `${A("NOAA station 8516945, Kings Point", "https://tidesandcurrents.noaa.gov/stationhome.html?id=8516945")}`,
     every: 300,
     async run(f) {
       const j = await getJSON("https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?station=8516945&product=water_level&datum=MLLW&date=latest&time_zone=lst_ldt&units=english&format=json");
@@ -467,7 +519,7 @@ const FEEDS = [
   {
     id: "currents", domain: "water", title: "Harbor currents", wide: false,
     instrument: "Acoustic current meters on navigation buoys in the Kill Van Kull and at the mouth of Newark Bay",
-    source: "NOAA New York and New Jersey Harbor PORTS",
+    source: `${A("NOAA New York and New Jersey Harbor PORTS", "https://tidesandcurrents.noaa.gov/ports/index.html?port=ny")}: ${A("Kill Van Kull", "https://tidesandcurrents.noaa.gov/stationhome.html?id=n06010")}, ${A("Newark Bay", "https://tidesandcurrents.noaa.gov/stationhome.html?id=n07010")}`,
     every: 360,
     async run(f) {
       const base = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=latest&units=english&time_zone=gmt&format=json&product=currents&bin=1&station=";
@@ -496,7 +548,7 @@ const FEEDS = [
   {
     id: "harborwind", domain: "water", title: "Wind on the harbor", wide: false,
     instrument: "Anemometers at NOAA water-level stations on Robbins Reef light, Mariners Harbor and Kings Point",
-    source: "NOAA tides and currents",
+    source: `NOAA stations ${A("Robbins Reef", "https://tidesandcurrents.noaa.gov/stationhome.html?id=8530973")}, ${A("Mariners Harbor", "https://tidesandcurrents.noaa.gov/stationhome.html?id=8519532")} and ${A("Kings Point", "https://tidesandcurrents.noaa.gov/stationhome.html?id=8516945")}`,
     every: 360,
     async run(f) {
       const base = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=latest&units=english&time_zone=gmt&format=json&station=";
@@ -533,7 +585,7 @@ const FEEDS = [
   {
     id: "usgs", domain: "water", title: "Stream + tide gauges", wide: false,
     instrument: "United States Geological Survey gauges in the five boroughs' streams and creeks, plus a water-quality sonde in the Bronx River",
-    source: "USGS instantaneous values service",
+    source: `${A("United States Geological Survey water data", "https://waterdata.usgs.gov/state/new-york/")}; ${A("Bronx River sonde", "https://waterdata.usgs.gov/monitoring-location/USGS-01302020/")}`,
     every: 600,
     async run(f) {
       const counties = "countyCd=36005,36047,36061,36081,36085";
@@ -598,7 +650,7 @@ const FEEDS = [
   {
     id: "buoy", domain: "water", title: "Wave buoy — harbor entrance", wide: false,
     instrument: "NOAA buoy 44065, moored 15 miles south of Breezy Point in 82 ft of water",
-    source: "National Data Buoy Center, via snapshot",
+    source: `${A("National Data Buoy Center station 44065", "https://www.ndbc.noaa.gov/station_page.php?station=44065")}, via snapshot`,
     every: 900, fromSnapshot: true,
     async run(f) {
       const b = snapshot?.buoy;
@@ -620,7 +672,7 @@ const FEEDS = [
   {
     id: "airgap", domain: "water", title: "Bridge clearance", wide: false,
     instrument: "Microwave air-gap sensors under the Verrazzano and Bayonne bridge decks, measuring clearance for ships",
-    source: "NOAA Physical Oceanographic Real-Time System",
+    source: `NOAA air-gap sensors at the ${A("Verrazzano", "https://tidesandcurrents.noaa.gov/stationhome.html?id=8517986")} and ${A("Bayonne", "https://tidesandcurrents.noaa.gov/stationhome.html?id=8519461")} bridges`,
     every: 300,
     async run(f) {
       const base = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=air_gap&date=latest&time_zone=lst_ldt&units=english&format=json";
@@ -645,7 +697,7 @@ const FEEDS = [
   {
     id: "ships", domain: "water", title: "Ships in the harbor", wide: false,
     instrument: "Automatic Identification System transponders on every large vessel, heard by volunteer shore receivers around the harbor",
-    source: "aisstream.io volunteer network, via the harbor relay",
+    source: `${A("aisstream.io", "https://aisstream.io/")} volunteer network, via the harbor relay`,
     every: 300,
     async run(f) {
       const vessels = await listenAIS(25000);
@@ -668,7 +720,7 @@ const FEEDS = [
   {
     id: "reservoirs", domain: "water", title: "Upstate reservoirs", wide: false,
     instrument: "Level gauges on the 19 reservoirs and three controlled lakes that hold the city's drinking water, read daily",
-    source: "NYC Department of Environmental Protection, via snapshot",
+    source: `${A("NYC Department of Environmental Protection reservoir levels", "https://www.nyc.gov/site/dep/water/reservoir-levels.page")}, via snapshot`,
     every: 3600, fromSnapshot: true,
     async run(f) {
       const r = snapshot?.reservoirs;
@@ -688,7 +740,7 @@ const FEEDS = [
   {
     id: "traffic", domain: "streets", title: "Traffic speed sensors", wide: false,
     instrument: "Roadway sensors and E-ZPass readers on highways and bridges, run by the city Department of Transportation",
-    source: "NYC Open Data real-time traffic speeds",
+    source: `${A("NYC Open Data real-time traffic speeds", "https://data.cityofnewyork.us/d/i4gi-tjb9")}`,
     every: 300,
     async run(f) {
       const j = await getJSON("https://data.cityofnewyork.us/resource/i4gi-tjb9.json?$select=speed,borough,data_as_of&$order=data_as_of%20DESC&$limit=1500");
@@ -721,7 +773,7 @@ const FEEDS = [
   {
     id: "cameras", domain: "streets", title: "Traffic cameras", wide: true,
     instrument: "The city's traffic-camera network — sit back for the tour, or click any dot on the little map to look through that lens",
-    source: "NYC Department of Transportation traffic management center",
+    source: `${A("NYC Department of Transportation traffic cameras", "https://webcams.nyctmc.org/")}`,
     every: 900, fromSnapshot: true,
     async run(f) {
       const cams = snapshot?.cameras;
@@ -751,7 +803,7 @@ const FEEDS = [
   {
     id: "citibike", domain: "streets", title: "Citi Bike docks", wide: false,
     instrument: "Dock telemetry from every station in the system, refreshed about once a minute",
-    source: "Citi Bike general bikeshare feed specification",
+    source: `${A("Citi Bike system data", "https://citibikenyc.com/system-data")}`,
     every: 180,
     async run(f) {
       const j = await getJSON("https://gbfs.citibikenyc.com/gbfs/en/station_status.json");
@@ -780,7 +832,7 @@ const FEEDS = [
   {
     id: "scooters", domain: "streets", title: "Shared scooters + e-bikes", wide: false,
     instrument: "GPS units on every dockless scooter and e-bike in the city's share program, reported by the three operators. Only Veo's appear on the map.",
-    source: "Veo, Lime and Bird general bikeshare feeds (Lime and Bird via snapshot)",
+    source: `${A("Veo", "https://www.veoride.com/")}, ${A("Lime", "https://www.li.me/")} and ${A("Bird", "https://www.bird.co/")} feeds (Lime and Bird via snapshot); the ${A("city's scooter share program", "https://www.nyc.gov/html/dot/html/bicyclists/scooter-share.shtml")}`,
     every: 300, fromSnapshot: true,
     async run(f) {
       const veoBase = "https://cluster-prod.veoride.com/api/shares/name/";
@@ -824,7 +876,7 @@ const FEEDS = [
   {
     id: "bikecounters", domain: "streets", title: "Bike + walk counters", wide: false,
     instrument: "Automated counters embedded in bridges and bike lanes, tallying riders and walkers in 15-minute bins",
-    source: "NYC Department of Transportation, via NYC Open Data",
+    source: `NYC Department of Transportation ${A("bike and pedestrian counts", "https://data.cityofnewyork.us/d/ct66-47at")}, via NYC Open Data`,
     every: 900,
     async run(f) {
       // The portal runs hours behind, so a window ending now would hold only
@@ -865,7 +917,7 @@ const FEEDS = [
   {
     id: "subway", domain: "transit", title: "Subway trains reporting", wide: false,
     instrument: "Train-position messages from the eight real-time subway feeds",
-    source: "Metropolitan Transportation Authority, via snapshot",
+    source: `${A("Metropolitan Transportation Authority real-time feeds", "https://api.mta.info/")}, via snapshot`,
     every: 900, fromSnapshot: true,
     async run(f) {
       const s = snapshot?.subway;
@@ -884,7 +936,7 @@ const FEEDS = [
   {
     id: "buses", domain: "transit", title: "Buses reporting", wide: false,
     instrument: "Satellite-positioning trackers on every bus in service, polled through the Bus Time feed",
-    source: "MTA Bus Time",
+    source: `${A("MTA Bus Time", "https://bustime.mta.info/")}`,
     every: 180,
     async run(f) {
       // Public, rate-limited Bus Time key — the same one already published in
@@ -910,7 +962,7 @@ const FEEDS = [
   {
     id: "elevators", domain: "transit", title: "Elevators + escalators", wide: false,
     instrument: "Status telemetry from the subway's elevator and escalator fleet — this feed lists what's broken right now",
-    source: "Metropolitan Transportation Authority equipment outage feed",
+    source: `${A("Metropolitan Transportation Authority elevator and escalator status", "https://www.mta.info/elevator-escalator-status")}`,
     every: 300,
     async run(f) {
       const j = await getJSON("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fnyct_ene.json");
@@ -939,7 +991,7 @@ const FEEDS = [
   {
     id: "rail", domain: "transit", title: "Commuter trains", wide: false,
     instrument: "Train-position and trip messages from the Long Island Rail Road and Metro-North feeds",
-    source: "Metropolitan Transportation Authority, via snapshot",
+    source: `${A("Metropolitan Transportation Authority real-time feeds", "https://api.mta.info/")}, via snapshot`,
     every: 900, fromSnapshot: true,
     async run(f) {
       const r = snapshot?.rail;
@@ -960,7 +1012,7 @@ const FEEDS = [
   {
     id: "path", domain: "transit", title: "PATH trains", wide: false,
     instrument: "Signal-system arrival predictions published for all 13 stations of the bi-state subway under the Hudson",
-    source: "Port Authority of New York and New Jersey, via snapshot",
+    source: `${A("Port Authority of New York and New Jersey PATH", "https://www.panynj.gov/path/en/index.html")}, via snapshot`,
     every: 900, fromSnapshot: true,
     async run(f) {
       const p = snapshot?.path;
@@ -979,7 +1031,7 @@ const FEEDS = [
   {
     id: "ferry", domain: "transit", title: "NYC Ferry vessels", wide: false,
     instrument: "Boat-position messages from the ferry system's vehicle feed",
-    source: "NYC Ferry real-time feed, via snapshot",
+    source: `${A("NYC Ferry", "https://www.ferry.nyc/")} real-time feed, via snapshot`,
     every: 900, fromSnapshot: true,
     async run(f) {
       const s = snapshot?.ferry;
@@ -998,7 +1050,7 @@ const FEEDS = [
   {
     id: "load", domain: "power", title: "Electric demand", wide: false,
     instrument: "Metered load on the grid, New York City zone of the state system",
-    source: "New York Independent System Operator, via snapshot",
+    source: `${A("New York Independent System Operator", "https://www.nyiso.com/real-time-dashboard")}, via snapshot`,
     every: 900, fromSnapshot: true,
     async run(f) {
       const g = snapshot?.nyiso;
@@ -1018,7 +1070,7 @@ const FEEDS = [
   {
     id: "coned", domain: "power", title: "Power outages", wide: false,
     instrument: "Outage detection across Con Edison's distribution grid — how many of its 3.6 million customers are dark right now",
-    source: "Con Edison outage map data, via snapshot",
+    source: `${A("Con Edison outage map", "https://outagemap.coned.com/")}, via snapshot`,
     every: 900, fromSnapshot: true,
     async run(f) {
       const c = snapshot?.coned;
@@ -1038,7 +1090,7 @@ const FEEDS = [
   {
     id: "geomag", domain: "ground", title: "Geomagnetic field", wide: false,
     instrument: "A worldwide ring of ground magnetometers, distilled into the planetary K index — when it spikes, power grids and satellite navigation feel it",
-    source: "NOAA Space Weather Prediction Center",
+    source: `${A("NOAA Space Weather Prediction Center", "https://www.swpc.noaa.gov/products/planetary-k-index")}`,
     every: 1800,
     async run(f) {
       const [kpj, scales] = await Promise.all([
@@ -1071,7 +1123,7 @@ const FEEDS = [
   {
     id: "quakes", domain: "ground", title: "Seismographs", wide: false,
     instrument: "The Lamont-Doherty cooperative seismographic network listens under the region; the United States Geological Survey catalogs what it hears",
-    source: "USGS earthquake catalog",
+    source: `${A("United States Geological Survey earthquake catalog", "https://earthquake.usgs.gov/earthquakes/map/")}; ${A("Lamont-Doherty network", "https://lamont.columbia.edu/")}`,
     every: 1800,
     async run(f) {
       const start = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
@@ -1097,7 +1149,7 @@ const FEEDS = [
   {
     id: "fuelmix", domain: "power", title: "What's making the power", wide: false,
     instrument: "Generation by fuel type across the state grid, updated about every 5 minutes at the source",
-    source: "New York Independent System Operator, via snapshot",
+    source: `${A("New York Independent System Operator", "https://www.nyiso.com/real-time-dashboard")}, via snapshot`,
     every: 900, fromSnapshot: true,
     async run(f) {
       const g = snapshot?.nyiso;
@@ -1274,6 +1326,7 @@ const MAP = window.MAP = {
     { id: "usgs",     label: "Stream gauges", color: INK["d-water"], on: true },
     { id: "ships",    label: "Ships", color: INK["d-water"], on: true },
     { id: "weather",  label: "Weather stations", color: INK["d-sky"], on: true },
+    { id: "lightning", label: "Lightning, past hour", color: INK["d-sky"], on: true },
     { id: "aircraft", label: "Aircraft", color: INK["d-sky"], on: true },
     { id: "traffic",  label: "Traffic speed", color: INK["d-streets"], on: true },
     { id: "cameras",  label: "Cameras", color: INK["d-streets"], on: true },
@@ -1580,6 +1633,18 @@ const MAP = window.MAP = {
     this.setCount("ferry", boats.length);
   },
 
+  /* ---- lightning strikes in the past hour ---- */
+  draw_lightning(l) {
+    if (!STATE.lightning) return;
+    l.group.clearLayers();
+    for (const x of STATE.lightning) {
+      const m = this.dot(x.lat, x.lon, { color: INK["d-sky"], radius: 3, weight: 1, fillOpacity: 0.9 });
+      m.bindPopup(this.pop(`<h5>Lightning strike</h5>${fmtTimeET(x.time)} · ${Math.round(x.mi)} miles from City Hall`));
+      l.group.addLayer(m);
+    }
+    this.setCount("lightning", STATE.lightning.length);
+  },
+
   /* ---- Veo scooters and e-bikes (off by default: 2,000+ dots) ---- */
   draw_veo(l) {
     if (!STATE.veo) return;
@@ -1619,7 +1684,7 @@ function makeNote(n) {
 /* ---------- sections + boot ---------- */
 
 const SECTIONS = [
-  ["sky", "Sky", "Radar, weather stations, two satellites, aircraft transponders and air monitors."],
+  ["sky", "Sky", "Radar, weather stations, lightning detection, two satellites, aircraft transponders and air monitors."],
   ["water", "Water", "Tide gauges, current meters, harbor wind, stream gauges, a wave buoy, bridge clearance, ships and the reservoirs."],
   ["streets", "Streets", "Speed sensors, cameras, bike and pedestrian counters, bike docks and dockless scooters."],
   ["transit", "Transit", "Trains, buses, ferries and the subway's broken elevators."],

@@ -190,6 +190,8 @@ h2 {
   font-size: var(--t-micro); color: var(--fg2); line-height: 1.45;
 }
 .mod-foot .asof { white-space: nowrap; }
+.mod-foot .src a { color: inherit; }
+.mod-foot .src a:hover { color: var(--fg); }
 .mod-foot .asof b { color: var(--fg); font-weight: 700; }
 
 /* ---------- radar, satellite, cameras ---------- */

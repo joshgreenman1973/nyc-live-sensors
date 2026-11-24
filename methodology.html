@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261124b">
+<link rel="stylesheet" href="style.css?v=20261124d">
 <style>
   .doc { max-width: 900px; padding: 0 var(--pad) 80px; }
   .doc h1 { margin-top: 30px; }
@@ -37,6 +37,7 @@
     <li><b>Direct feeds.</b> Sources that allow cross-origin requests are fetched by your browser, live, on a timer of one to five minutes per feed. Nothing passes through any intermediate server.</li>
     <li><b>Snapshot feeds.</b> Sources that block cross-origin browser requests (the New York Independent System Operator, the National Data Buoy Center, the Metropolitan Transportation Authority, NYC Ferry, the traffic-camera directory, Lime and Bird) and the one too large to read on every visit (AirNow's air-quality file) are fetched by a script that runs every 10 minutes and writes <code>data/snapshot.json</code>. The script runs inside one long GitHub Actions job that loops for about five and a half hours and then starts its successor; from October 2026 GitHub's own scheduler started only three or four runs a day of the original 15-minute schedule, which left these tiles hours stale. Tiles fed this way are usually 10 to 15 minutes behind; each shows its own "as of" time.</li>
   </ul>
+  <p>Each tile's source line links to the agency's or operator's own page for that instrument or feed, where its fuller record usually lives.</p>
   <p>Every reading carries its "as of" time. When the latest reading is older than that feed's usual rhythm, the line says "Lagging" and the rule above the reading turns yellow; when the feed cannot be read at all, it says "No signal." The paragraph at the top counts how many feeds are current, lagging or quiet, and the opening sentence is built from whichever vehicle feeds (subway, buses, aircraft, ships) are current.</p>
 
   <h2>The map</h2>
@@ -62,6 +63,12 @@
       <td>New York State Mesonet, run by the University at Albany: <code>api.nysmesonet.org/data/index.php/geojson/nysm/latest</code>, stations MANH, BKLN, QUEE, BRON and STAT</td>
       <td>Browser, every 5 min; stations report every 5 min</td>
       <td>Research-grade stations, one per borough, so the tile can show how temperature and wind differ across the city rather than at three airports. Wind is the 5-minute average; the higher figure in a range is the peak gust. Readings older than three hours are dropped. Mesonet data may not be redistributed except by media users or under an agreement; this page uses it as a media user, with credit to the network.</td>
+    </tr>
+    <tr>
+      <td><b>Lightning</b></td>
+      <td>New York State Mesonet lightning service: <code>api.nysmesonet.org/data/index.php/lightning/list/&lt;start&gt;/latest</code> for the five-minute batch times, then <code>lightning/get/&lt;time&gt;</code> for each batch's strikes</td>
+      <td>Browser, every 5 min; batches every 5 min</td>
+      <td>The page reads the past hour's twelve batches and counts strikes within 25 miles of City Hall, measured as straight-line distance. Each strike comes with a location and a time, nothing about its strength or whether it reached the ground. Coverage runs across New York State and somewhat past its borders, so "none anywhere the network covers" means none in that region, not none in the country. The Mesonet's own weather stations do not detect lightning, and the Mesonet does not say which detection network the strikes come from; the leading candidate is a commercial network whose owner restricts redistribution. The map shows strikes within about 90 miles.</td>
     </tr>
     <tr>
       <td><b>Weather radar</b></td>
