@@ -145,12 +145,12 @@ let snapshot = null;
 async function loadSnapshot() {
   const bucket = Math.floor(Date.now() / 300000);
   snapshot = await getJSON(`data/snapshot.json?t=${bucket}`);
-  mapPush("floodnet"); mapPush("ferry");
+  mapPush("ferry");
 }
 
 /* ---------- shared state for the map ---------- */
 const STATE = {};       // latest parsed data per feed
-let stationsGeo = null; // data/stations.json — camera + flood-sensor locations
+let stationsGeo = null; // data/stations.json — camera locations
 function mapPush(id) { if (window.MAP?.ready) MAP.refresh(id); }
 
 /* =====================================================================
@@ -463,24 +463,6 @@ const FEEDS = [
   },
 
   {
-    id: "floodnet", domain: "water", title: "Street flood sensors", wide: false,
-    instrument: "FloodNet ultrasonic depth sensors mounted over flood-prone streets",
-    source: "FloodNet (NYU + CUNY), via snapshot",
-    every: 900, fromSnapshot: true,
-    async run(f) {
-      const fl = snapshot?.floodnet;
-      if (!fl || fl.sensors == null) throw new Error("no floodnet data");
-      const t = new Date(fl.asOf);
-      const wet = fl.flooding ?? 0;
-      setModule(f, stateFor(t, 60),
-        `<div class="big">${wet}</div>
-         <div class="big-label">of ${fmtInt(fl.sensors)} street sensors currently measuring water on the roadway</div>
-         ${wet > 0 && fl.wettest ? `<div class="rows"><div class="r"><span>${fl.wettest.name}</span><b>${fmt1(fl.wettest.depthIn)} in</b></div></div>` : ""}`, t);
-      report(f, true, `STREET FLOOD SENSORS WET <span class="t-val">${wet}/${fl.sensors}</span>`);
-    }
-  },
-
-  {
     id: "airgap", domain: "water", title: "Bridge clearance", wide: false,
     instrument: "Microwave air-gap sensors under the Verrazzano and Bayonne bridge decks, measuring clearance for ships",
     source: "NOAA Physical Oceanographic Real-Time System",
@@ -538,7 +520,7 @@ const FEEDS = [
       if (!r || r.pctFull == null) throw new Error("no reservoir data");
       const t = new Date(r.asOf);
       setModule(f, stateFor(t, 26 * 60), // DEP posts once a day
-        `<div class="big">${fmt1(r.pctFull)}<span class="unit">%</span></div>
+        `<div class="big">${fmt1(r.pctFull)}%</div>
          <div class="big-label">full${r.pageDate ? ` as of ${r.pageDate}` : ""} — the system that supplies a billion gallons a day</div>
          <div class="rows">
            ${r.pctNormal != null ? `<div class="r"><span>Normal for this date</span><b>${fmt1(r.pctNormal)}%</b></div>` : ""}
@@ -927,7 +909,7 @@ const FEEDS = [
         `<div class="r"><span>${x.fuel}</span><b>${Math.round(x.mw / total * 100)}%</b></div>`).join("");
       const top = [...g.fuelMix].sort((a, b) => b.mw - a.mw)[0];
       setModule(f, stateFor(t, 45),
-        `<div class="big">${Math.round(top.mw / total * 100)}<span class="unit">%</span></div>
+        `<div class="big">${Math.round(top.mw / total * 100)}%</div>
          <div class="big-label">of the state's electricity is coming from ${top.fuel.toLowerCase()} right now</div>
          <div class="rows">${rows}</div>`, t);
       report(f, true, `TOP FUEL ${top.fuel.toUpperCase()} <span class="t-val">${Math.round(top.mw / total * 100)}%</span>`);
@@ -1072,7 +1054,7 @@ function buildCameraMiniMap() {
 /* =====================================================================
    THE MAP — every sensor with a location, one Leaflet canvas.
    Fixed instruments render as dots; live things (aircraft, ferries,
-   wet flood sensors) re-render as their feeds refresh.
+   buses, ships) re-render as their feeds refresh.
    ===================================================================== */
 
 /* Colours from the stylesheet's tokens, so the map and the page agree. */
@@ -1089,7 +1071,6 @@ const MAP = window.MAP = {
   ready: false, map: null, layers: {},
 
   DEFS: [
-    { id: "floodnet", label: "Flood sensors", color: INK["d-water"], on: true },
     { id: "noaa",     label: "Tide gauges and buoy", color: INK["d-water"], on: true },
     { id: "usgs",     label: "Stream gauges", color: INK["d-water"], on: true },
     { id: "ships",    label: "Ships", color: INK["d-water"], on: true },
@@ -1199,22 +1180,6 @@ const MAP = window.MAP = {
       l.group.addLayer(m);
     }
     this.setCount("usgs", STATE.usgs.length);
-  },
-
-  /* ---- FloodNet: all sensors dim, wet ones bright ---- */
-  draw_floodnet(l) {
-    if (!stationsGeo?.floodnet) return;
-    l.group.clearLayers();
-    const wet = new Map((snapshot?.floodnet?.wet || []).map(w => [w.id, w]));
-    for (const [lat, lon, name, sid] of stationsGeo.floodnet) {
-      const w = wet.get(sid);
-      const m = this.dot(lat, lon, w
-        ? { color: INK["d-water"], radius: 7, fillOpacity: 0.95 }
-        : { color: INK["d-water"], radius: 2.5, weight: 0, fillOpacity: 0.3 });
-      m.bindPopup(this.pop(`<h5>${name}</h5>${w ? `<b>${fmt1(w.depthIn)} in of water on the street</b>` : "street flood sensor — currently dry"}`));
-      l.group.addLayer(m);
-    }
-    this.setCount("floodnet", stationsGeo.floodnet.length);
   },
 
   /* ---- weather stations ---- */
@@ -1394,11 +1359,34 @@ const MAP = window.MAP = {
   }
 };
 
+/* Instruments that exist but cannot be read live. They sit in their
+   section like the others, with no reading, and say why. */
+const NOTES = [
+  {
+    domain: "water", title: "Street flood sensors",
+    instrument: "FloodNet ultrasonic depth sensors, mounted over more than 400 flood-prone streets",
+    body: `<p>These sensors are out there and measuring, but there is no trustworthy way to read them live. FloodNet's public real-time data comes from an older endpoint it has deprecated: those readings skip the project's filtering, which is what separates real water from stuck or echoing sensors, and FloodNet says it will be switched off with no public replacement. Read raw, it shows floods that never happened. The checked readings reach NYC Open Data about two weeks later, after people review them, and a cleaned live version goes only to city agencies.</p>`,
+    source: `FloodNet (NYU, CUNY and the city). The history: <a href="https://joshgreenman1973.github.io/nyc-floodnet-map/">Where the streets flood</a>`
+  }
+];
+
+function makeNote(n) {
+  const el = document.createElement("article");
+  el.className = "mod note-mod";
+  el.dataset.domain = n.domain;
+  el.innerHTML = `
+    <div class="mod-title">${n.title} <span class="model">(not live)</span></div>
+    <div class="mod-instrument">${n.instrument}</div>
+    <div class="mod-body">${n.body}</div>
+    <div class="mod-foot"><span class="src">${n.source}</span></div>`;
+  return el;
+}
+
 /* ---------- sections + boot ---------- */
 
 const SECTIONS = [
   ["sky", "Sky", "Radar, weather stations, two satellites and aircraft transponders."],
-  ["water", "Water", "Tide gauges, stream gauges, a wave buoy, street flood sensors, bridge clearance, ships and the reservoirs."],
+  ["water", "Water", "Tide gauges, stream gauges, a wave buoy, bridge clearance, ships and the reservoirs."],
   ["streets", "Streets", "Speed sensors, cameras, bike and pedestrian counters and bike-dock telemetry."],
   ["transit", "Transit", "Trains, buses, ferries and the subway's broken elevators."],
   ["power", "Power", "What the city draws, what's making it and who's in the dark."],
@@ -1413,6 +1401,7 @@ function build() {
     h.innerHTML = `<h2>${label}</h2><p class="aside">${sub}</p>`;
     board.appendChild(h);
     FEEDS.filter(f => f.domain === dom).forEach(f => board.appendChild(makeModule(f)));
+    NOTES.filter(n => n.domain === dom).forEach(n => board.appendChild(makeNote(n)));
   });
 }
 
@@ -1429,7 +1418,7 @@ async function runFeed(f) {
 async function loadStationsGeo() {
   const bucket = Math.floor(Date.now() / 3600000);
   stationsGeo = await getJSON(`data/stations.json?t=${bucket}`);
-  mapPush("floodnet"); mapPush("cameras");
+  mapPush("cameras");
 }
 
 async function boot() {

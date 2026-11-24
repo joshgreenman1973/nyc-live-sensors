@@ -1,7 +1,8 @@
 /* Builds data/snapshot.json — the readings a browser can't fetch directly
    (no CORS headers at the source): NYISO grid data, the harbor wave buoy,
-   MTA subway train positions, NYC Ferry positions, the traffic-camera list
-   and FloodNet street flood sensors. Run every 10 minutes by the long-lived
+   MTA subway train positions, NYC Ferry positions and the traffic-camera
+   list. (FloodNet street flood sensors were read here until November 2026;
+   see the methodology for why that tile was retired.) Run every 10 minutes by the long-lived
    GitHub Actions job in .github/workflows/snapshot.yml.
    Every section is independent: one failing feed never empties the others. */
 
@@ -314,64 +315,8 @@ async function cameras() {
   };
 }
 
-/* ---------- FloodNet street flood sensors (via the FieldKit platform) ----------
-   FloodNet's own dataviz runs on FieldKit; project 174 is "NYC FloodNet".
-   We list the project's stations, then pull each recently-updated station's
-   latest depth reading. */
-let fnStations = null; // stashed for the daily stations file
-async function floodnet() {
-  const j = await fetchJSON("https://api.fieldkit.org/projects/174/stations");
-  const stations = j.stations || [];
-  if (!stations.length) throw new Error("no FloodNet stations");
-  const cutoff = Date.now() - 48 * 3600 * 1000;
-  const active = stations.filter(s => (s.updatedAt || 0) > cutoff);
-  if (!active.length) throw new Error("no recently-updated FloodNet stations");
-  fnStations = active;
-
-  /* Sensor 44 is wh.floodnet.depth; per FloodNet's published schema, depth is
-     in millimeters. The tail endpoint returns the last few buckets per station. */
-  const DEPTH_SENSOR = 44;
-  const names = new Map(active.map(s => [s.id, s.name]));
-  let latest = new Map(); // stationId -> {time, mm}
-  const chunks = [];
-  for (let i = 0; i < active.length; i += 60) chunks.push(active.slice(i, i + 60));
-  // One chunk at a time: FieldKit answers slowly (about 20 seconds a chunk)
-  // and returns 500s and timeouts when the chunks arrive in parallel.
-  for (const chunk of chunks) {
-    const ids = chunk.map(s => s.id).join(",");
-    let rec;
-    try { rec = await fetchJSON(`https://api.fieldkit.org/sensors/data?stations=${encodeURIComponent(ids)}&tail=1`); }
-    catch (e) { console.error("floodnet chunk:", e.message); continue; }
-    for (const row of rec.data || []) {
-      if (row.sensorId !== DEPTH_SENSOR) continue;
-      const val = [row.last, row.avg, row.max].find(v => typeof v === "number" && !isNaN(v));
-      if (val == null) continue;
-      const prev = latest.get(row.stationId);
-      if (!prev || row.time > prev.time) latest.set(row.stationId, { time: row.time, mm: val });
-    }
-  }
-  // only count stations whose latest depth bucket is from the last 6 hours
-  const locs = new Map(active.map(s => [s.id, s.location?.precise])); // [lon, lat]
-  const cutoffRead = Date.now() - 6 * 3600 * 1000;
-  let reporting = 0, flooding = 0, wettest = null, newestMs = 0;
-  const wet = [];
-  for (const [id, r] of latest) {
-    if (r.time < cutoffRead) continue;
-    reporting++;
-    newestMs = Math.max(newestMs, r.time);
-    if (r.mm > 25.4) { // more than an inch of water
-      flooding++;
-      const p = locs.get(id);
-      wet.push({ id, name: names.get(id) || "sensor", mm: r.mm, depthIn: r.mm / 25.4, lat: p?.[1], lon: p?.[0] });
-      if (!wettest || r.mm > wettest.mm) wettest = { name: names.get(id) || "sensor", mm: r.mm, depthIn: r.mm / 25.4 };
-    }
-  }
-  if (!reporting) throw new Error("FloodNet stations listed but no fresh depth readings");
-  snapshot.floodnet = { sensors: reporting, flooding, wettest, wet, asOf: new Date(newestMs).toISOString() };
-}
-
 /* ---------- daily positions file for the map ----------
-   Camera and FloodNet sensor locations barely move, so they live in
+   Camera locations barely move, so they live in
    data/stations.json, rewritten at most once a day to keep the
    every-10-minutes commits small. */
 function stationsFile() {
@@ -379,25 +324,22 @@ function stationsFile() {
   let prev = null;
   if (existsSync(path)) { try { prev = JSON.parse(readFileSync(path, "utf8")); } catch {} }
   if (prev?.generated && Date.now() - Date.parse(prev.generated) < 20 * 3600 * 1000) return;
-  if (!allCameras || !fnStations) { console.error("stations file skipped (source lists unavailable)"); return; }
+  if (!allCameras) { console.error("stations file skipped (camera list unavailable)"); return; }
   const out = {
     generated: now(),
     // compact rows: [lat, lon, name, id]
     cameras: allCameras
       .filter(c => c.latitude && c.longitude)
       .map(c => [+(+c.latitude).toFixed(5), +(+c.longitude).toFixed(5),
-        String(c.name || "").replace(/\s*-\s*quad.*$/i, "").trim(), c.id]),
-    floodnet: fnStations
-      .filter(s => s.location?.precise)
-      .map(s => [+s.location.precise[1].toFixed(5), +s.location.precise[0].toFixed(5), s.name, s.id])
+        String(c.name || "").replace(/\s*-\s*quad.*$/i, "").trim(), c.id])
   };
   writeFileSync(path, JSON.stringify(out));
-  console.log("wrote", path, `(${out.cameras.length} cameras, ${out.floodnet.length} flood sensors)`);
+  console.log("wrote", path, `(${out.cameras.length} cameras)`);
 }
 
 /* ---------- run everything, carry stale sections forward ---------- */
-const jobs = { nyiso, buoy, aircraft, subway, rail, ferry, cameras, floodnet, coned, path, reservoirs };
-const carry = { nyiso: "nyiso", buoy: "buoy", aircraft: "aircraft", subway: "subway", rail: "rail", ferry: "ferry", cameras: "cameras", floodnet: "floodnet", coned: "coned", path: "path", reservoirs: "reservoirs" };
+const jobs = { nyiso, buoy, aircraft, subway, rail, ferry, cameras, coned, path, reservoirs };
+const carry = { nyiso: "nyiso", buoy: "buoy", aircraft: "aircraft", subway: "subway", rail: "rail", ferry: "ferry", cameras: "cameras", coned: "coned", path: "path", reservoirs: "reservoirs" };
 
 for (const [name, job] of Object.entries(jobs)) {
   try {

@@ -156,6 +156,8 @@ h2 {
 @media (max-width: 680px) { .mod.wide { grid-column: span 1; } }
 .mod[data-state="stale"] { border-top-color: var(--sun); }
 .mod[data-state="err"], .mod[data-state="wait"] { border-top-color: var(--line); }
+.note-mod { border-top: 1.5px dashed var(--fg2); }
+.note-mod .mod-body p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--fg2); }
 
 .mod-title { font-size: 1.12rem; font-weight: 700; line-height: 1.25; }
 .mod-title .model { font-weight: 400; color: var(--fg2); }

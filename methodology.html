@@ -32,14 +32,14 @@
   <p>Feeds fall into two groups:</p>
   <ul>
     <li><b>Direct feeds.</b> Sources that allow cross-origin requests are fetched by your browser, live, on a timer of one to five minutes per feed. Nothing passes through any intermediate server.</li>
-    <li><b>Snapshot feeds.</b> Sources that block cross-origin browser requests (the New York Independent System Operator, the National Data Buoy Center, the Metropolitan Transportation Authority, NYC Ferry, the traffic-camera directory and FloodNet) are fetched by a script that runs every 10 minutes and writes <code>data/snapshot.json</code>. The script runs inside one long GitHub Actions job that loops for about five and a half hours and then starts its successor; from October 2026 GitHub's own scheduler started only three or four runs a day of the original 15-minute schedule, which left these tiles hours stale. Tiles fed this way are usually 10 to 15 minutes behind; each shows its own "as of" time.</li>
+    <li><b>Snapshot feeds.</b> Sources that block cross-origin browser requests (the New York Independent System Operator, the National Data Buoy Center, the Metropolitan Transportation Authority, NYC Ferry and the traffic-camera directory) are fetched by a script that runs every 10 minutes and writes <code>data/snapshot.json</code>. The script runs inside one long GitHub Actions job that loops for about five and a half hours and then starts its successor; from October 2026 GitHub's own scheduler started only three or four runs a day of the original 15-minute schedule, which left these tiles hours stale. Tiles fed this way are usually 10 to 15 minutes behind; each shows its own "as of" time.</li>
   </ul>
   <p>Every reading carries its "as of" time. When the latest reading is older than that feed's usual rhythm, the line says "Lagging" and the rule above the reading turns yellow; when the feed cannot be read at all, it says "No signal." The paragraph at the top counts how many feeds are current, lagging or quiet, and the opening sentence is built from whichever vehicle feeds (subway, buses, aircraft, ships) are current.</p>
 
   <h2>The map</h2>
-  <p>The map plots every sensor that has a published location, colored by domain and toggleable by layer. Fixed instruments (tide gauges, the wave buoy, stream gauges, weather stations, flood sensors, cameras, bike docks) sit at their installed coordinates; moving things (aircraft, ferries) appear at their last transmitted position. Traffic sensors draw as their actual road segments, colored by the latest speed. Clicking a camera dot loads that camera's live frame.</p>
+  <p>The map plots every sensor that has a published location, colored by domain and toggleable by layer. Fixed instruments (tide gauges, the wave buoy, stream gauges, weather stations, cameras, bike docks) sit at their installed coordinates; moving things (aircraft, ferries) appear at their last transmitted position. Traffic sensors draw as their actual road segments, colored by the latest speed. Clicking a camera dot loads that camera's live frame.</p>
   <ul>
-    <li>Camera and flood-sensor coordinates come from a <code>data/stations.json</code> file the snapshot script rewrites at most once a day (the hardware doesn't move; this keeps the every-10-minutes commits small). Aircraft and ferry positions come from the snapshot, so they are up to about 10 minutes old; the ferry popup says so.</li>
+    <li>Camera coordinates come from a <code>data/stations.json</code> file the snapshot script rewrites at most once a day (the hardware doesn't move; this keeps the every-10-minutes commits small). Aircraft and ferry positions come from the snapshot, so they are up to about 10 minutes old; the ferry popup says so.</li>
     <li>The traffic feed's coordinate strings are dirty — truncated pairs and dropped minus signs. Points outside a plausible New York box are discarded and lines are split where consecutive points jump implausibly far, so a small number of segments render partially.</li>
     <li>Subway trains are counted on the board but not mapped: the public train feed reports positions by track segment and stop, not coordinates. The base map is CARTO's dark tiles over OpenStreetMap data.</li>
   </ul>
@@ -107,12 +107,6 @@
       <td>Automatic Identification System transponders, heard by aisstream.io's network of volunteer shore receivers and relayed through a small Cloudflare Worker (the same relay that powers the harbor-traffic project; the stream key stays inside the Worker)</td>
       <td>Browser listens to the stream for about 25 seconds, every 5 min</td>
       <td>Counts vessels heard during the listening window, so slow-transmitting anchored ships can be undercounted; large commercial vessels transmit every few seconds. "Underway" means faster than half a knot.</td>
-    </tr>
-    <tr>
-      <td><b>Street flood sensors</b></td>
-      <td>FloodNet (a New York University and City University of New York project with city agencies), read through the FieldKit platform its dashboard runs on: project 174, sensor <code>wh.floodnet.depth</code></td>
-      <td>Snapshot, every 10 min</td>
-      <td>Ultrasonic sensors measure water depth over roadways at flood-prone spots. Only stations with a depth reading in the last 6 hours are counted. Depth values are treated as millimeters, matching FloodNet's published data schema; a sensor is counted as "wet" above one inch (25.4 millimeters). Because the unit is inferred from the schema rather than labeled in the feed, treat the wet-sensor count as a floor. Dry readings hover near zero with sensor noise.</td>
     </tr>
     <tr>
       <td><b>Traffic speed sensors</b></td>
@@ -233,6 +227,7 @@
   </ul>
 
   <h2>What is not here, and why</h2>
+  <p><b>Street flood sensors (FloodNet): real, running, and not readable live.</b> FloodNet's ultrasonic sensors hang over more than 400 flood-prone streets and keep measuring. Until November 2026 this page counted how many were reading water on the roadway, from the raw real-time readings (read through FieldKit, the platform FloodNet's own dashboard runs on). FloodNet said in August 2026 that its public real-time data comes from a deprecated endpoint: those readings skip the project's full filtering stages, it will not stay up much longer and no public replacement is planned. The filtering matters because the sensors' worst errors look like the most dramatic floods. A stuck sensor holds a flat "flood" for hours; an ultrasonic echo doubles a reading; in a July 2026 check, one month of the raw real-time data showed more gauges above two feet than five years of FloodNet's published flood records. The checked data does exist, in two places a live page cannot use: NYC Open Data, about two weeks behind because people review and label each event, and a pre-labeled real-time service FloodNet provides only to city agencies. FloodNet plans to hand the network to the Department of Environmental Protection in March 2027, so this could change. The page keeps a note where the tile was. For the published history, see <a href="https://joshgreenman1973.github.io/nyc-floodnet-map/">Where the streets flood</a>.</p>
   <p>This board aims to include every public sensor network with a live, public interface. The notable ones that don't qualify, checked as of July 2026:</p>
   <ul>
     <li><b>Department of Transportation street activity sensors.</b> The Numina-based sensors now at roughly 100 locations count pedestrians, cyclists and vehicles continuously. The city owns the data and says datasets "will be available via NYC Open Data," but as of this writing there is no public real-time interface — only press releases. When it lands, it belongs here.</li>
