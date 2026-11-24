@@ -1,7 +1,7 @@
 /* The instrumented city — live feed engine.
    Every feed is registered in FEEDS with its own fetch + render logic.
    CORS-open feeds are fetched straight from the browser; everything else
-   arrives via data/snapshot.json, rebuilt every 15 minutes by GitHub Actions. */
+   arrives via data/snapshot.json, rebuilt every 10 minutes by GitHub Actions. */
 
 "use strict";
 
@@ -22,11 +22,15 @@ function rel(d) {
   const m = Math.round(s / 60);
   if (m < 60) return `${m} min ago`;
   const h = Math.round(m / 60);
-  return h === 1 ? "1 hr ago" : `${h} hrs ago`;
+  if (h < 48) return h === 1 ? "1 hr ago" : `${h} hrs ago`;
+  return `${Math.round(h / 24)} days ago`;
 }
-function asOfHTML(d) {
-  if (!d || isNaN(d)) return "";
-  return `as of ${fmtTimeET(d)} · ${rel(d)}`;
+/* "as of 8:54 a.m." for today's readings; older ones carry their date */
+function asOfText(d) {
+  const day = x => x.toLocaleDateString("en-CA", { timeZone: ET });
+  const when = day(d) === day(new Date()) ? fmtTimeET(d)
+    : `${d.toLocaleDateString("en-US", { timeZone: ET, month: "short", day: "numeric" })}, ${fmtTimeET(d)}`;
+  return `as of ${when} · ${rel(d)}`;
 }
 const cToF = c => c * 9 / 5 + 32;
 const mToFt = m => m * 3.28084;
@@ -82,7 +86,7 @@ function setModule(f, state, bodyHTML, asOfDate) {
   const el = $("#mod-" + f.id);
   el.dataset.state = state;
   if (bodyHTML != null) $(".mod-body", el).innerHTML = bodyHTML;
-  $(".asof", el).textContent = state === "err" ? "no signal" : (asOfDate ? `as of ${fmtTimeET(asOfDate)} · ${rel(asOfDate)}` : "");
+  $(".asof", el).textContent = state === "err" ? "no signal" : (asOfDate ? asOfText(asOfDate) : "");
   if (asOfDate) el.dataset.asof = asOfDate.getTime();
 }
 
@@ -96,7 +100,10 @@ function stateFor(d, maxAgeMin) {
 
 const readings = new Map(); // feedId -> {domain, text, ok}
 function report(f, ok, tickerText) {
-  readings.set(f.id, { domain: f.domain, text: tickerText, ok });
+  // a reading older than its feed's freshness window is reported, but not
+  // as current: it stays off the ticker and counts as lagging in the masthead
+  const stale = $("#mod-" + f.id)?.dataset.state === "stale";
+  readings.set(f.id, { domain: f.domain, text: tickerText, ok: ok && !stale, stale });
   updateMasthead();
   updateTicker();
 }
@@ -104,7 +111,8 @@ function report(f, ok, tickerText) {
 function updateMasthead() {
   const total = FEEDS.length;
   const ok = [...readings.values()].filter(r => r.ok).length;
-  $("#feed-status").textContent = `${ok} of ${total} feeds reporting`;
+  const lagging = [...readings.values()].filter(r => r.stale).length;
+  $("#feed-status").textContent = `${ok} of ${total} feeds current${lagging ? ` · ${lagging} lagging` : ""}`;
   $("#feed-status").style.color = ok >= total * 0.7 ? "var(--ok)" : "var(--stale)";
 }
 
@@ -118,7 +126,7 @@ function updateTicker() {
   }, 400);
 }
 
-/* ---------- snapshot (non-CORS feeds, rebuilt every 15 min) ---------- */
+/* ---------- snapshot (non-CORS feeds, rebuilt every 10 min) ---------- */
 
 let snapshot = null;
 async function loadSnapshot() {
@@ -396,13 +404,19 @@ const FEEDS = [
         const vals = s.values?.[0]?.value || [];
         const last = vals[vals.length - 1];
         const geo = s.sourceInfo.geoLocation?.geogLocation;
+        const noData = parseFloat(s.variable?.noDataValue ?? -999999);
         return last ? {
           name: s.sourceInfo.siteName,
           val: parseFloat(last.value),
+          noData,
           time: new Date(last.dateTime),
           lat: geo?.latitude, lon: geo?.longitude
         } : null;
-      }).filter(Boolean).filter(s => !isNaN(s.val));
+      // "active" sites include gauges whose last value is weeks old, and a
+      // malfunctioning gauge reports USGS's -999999 no-data code as its value.
+      // Count only real readings from the last three hours.
+      }).filter(Boolean).filter(s => !isNaN(s.val) && s.val !== s.noData && s.val > -9999
+        && Date.now() - s.time.getTime() < 3 * 3600000);
       if (!sites.length) throw new Error("no gauges");
       STATE.usgs = sites; mapPush("usgs");
       const newest = sites.reduce((a, b) => a.time > b.time ? a : b).time;
@@ -515,7 +529,7 @@ const FEEDS = [
       const r = snapshot?.reservoirs;
       if (!r || r.pctFull == null) throw new Error("no reservoir data");
       const t = new Date(r.asOf);
-      setModule(f, "ok",
+      setModule(f, stateFor(t, 26 * 60), // DEP posts once a day
         `<div class="big">${fmt1(r.pctFull)}<span class="unit">%</span></div>
          <div class="big-label">full${r.pageDate ? ` as of ${r.pageDate}` : ""} — the system that supplies a billion gallons a day</div>
          <div class="rows">
@@ -547,9 +561,13 @@ const FEEDS = [
         .sort((a, b) => a[1] - b[1])
         .map(([b, v]) => `<div class="r"><span>${b}</span><b>${fmt1(v)} mph</b></div>`).join("");
       const fresh = stateFor(newest, 45) === "ok";
+      const lagH = (Date.now() - newest) / 3600000;
+      const lagTxt = lagH >= 24
+        ? ` — the city's public feed has not updated since ${newest.toLocaleDateString("en-US", { timeZone: ET, weekday: "long", month: "long", day: "numeric" })}, so these are old speeds`
+        : " — the public feed is lagging right now";
       setModule(f, stateFor(newest, 45),
         `<div class="big">${fmt1(avg)}<span class="unit">mph</span></div>
-         <div class="big-label">average across ${fmtInt(rows.length)} highway sensors in the network's most recent transmission${fresh ? "" : " — the public feed is lagging right now"}</div>
+         <div class="big-label">average across ${fmtInt(rows.length)} highway sensors in the network's most recent transmission${fresh ? "" : lagTxt}</div>
          <div class="rows">${bRows}</div>`, newest);
       report(f, fresh, `HIGHWAY SPEED AVG <span class="t-val">${fmt1(avg)} MPH</span> · ${rows.length} SENSORS`);
     }
@@ -557,12 +575,14 @@ const FEEDS = [
 
   {
     id: "cameras", domain: "streets", title: "Traffic cameras", wide: true,
-    instrument: "The city's network of about 950 traffic cameras — sit back for the tour, or click any dot on the little map to look through that lens",
+    instrument: "The city's traffic-camera network — sit back for the tour, or click any dot on the little map to look through that lens",
     source: "NYC Department of Transportation traffic management center",
     every: 900, fromSnapshot: true,
     async run(f) {
       const cams = snapshot?.cameras;
       if (!cams?.list?.length) throw new Error("no camera list");
+      if (cams.total) $("#mod-cameras .mod-instrument").textContent =
+        `The city's ${fmtInt(cams.total)} online traffic cameras — sit back for the tour, or click any dot on the little map to look through that lens`;
       if (!document.getElementById("camwrap")) {
         setModule(f, "ok",
           `<div class="camwrap" id="camwrap">
@@ -619,11 +639,17 @@ const FEEDS = [
     source: "NYC Department of Transportation, via NYC Open Data",
     every: 900,
     async run(f) {
-      const sinceET = new Date(Date.now() - 24 * 3600000).toLocaleString("sv-SE", { timeZone: ET }).replace(" ", "T");
-      const [byMode, bySensor] = await Promise.all([
+      // The portal runs hours behind, so a window ending now would hold only
+      // 18 or 20 hours of counts. End the 24 hours at the newest bin instead.
+      const newestRow = await getJSON("https://data.cityofnewyork.us/resource/ct66-47at.json?$select=max(timestamp) as latest&$where=travelmode='bike'");
+      const anchor = newestRow?.[0]?.latest ? parseETLocal(newestRow[0].latest.replace("T", " ").slice(0, 16)) : new Date();
+      const sinceET = new Date(anchor.getTime() - 24 * 3600000).toLocaleString("sv-SE", { timeZone: ET }).replace(" ", "T");
+      const [byMode, bySensor, pedSensors] = await Promise.all([
         getJSON(`https://data.cityofnewyork.us/resource/ct66-47at.json?$select=travelmode,sum(counts) as total,max(timestamp) as latest&$where=timestamp>'${sinceET}'&$group=travelmode`),
-        getJSON(`https://data.cityofnewyork.us/resource/ct66-47at.json?$select=sensor_id,sum(counts) as total&$where=timestamp>'${sinceET}' AND travelmode='bike'&$group=sensor_id`)
+        getJSON(`https://data.cityofnewyork.us/resource/ct66-47at.json?$select=sensor_id,sum(counts) as total&$where=timestamp>'${sinceET}' AND travelmode='bike'&$group=sensor_id`),
+        getJSON(`https://data.cityofnewyork.us/resource/ct66-47at.json?$select=count(distinct sensor_id) as n&$where=timestamp>'${sinceET}' AND starts_with(travelmode,'ped')`).catch(() => null)
       ]);
+      const nPed = +(pedSensors?.[0]?.n || 0);
       if (!byMode?.length) throw new Error("no counter data");
       const bikes = byMode.find(r => r.travelmode === "bike");
       const peds = byMode.find(r => (r.travelmode || "").startsWith("ped"));
@@ -639,9 +665,9 @@ const FEEDS = [
       mapPush("bikecounters");
       setModule(f, stateFor(latest, 10 * 60), // counts reach the open-data portal hours behind
         `<div class="big">${fmtInt(Math.round(+(bikes?.total || 0)))}</div>
-         <div class="big-label">bike trips counted in the last 24 hours across ${fmtInt(bySensor.length)} automated counters — the portal runs a few hours behind the street</div>
+         <div class="big-label">bike trips counted in the 24 hours to the newest posted reading, across ${fmtInt(bySensor.length)} automated counters — the portal runs a few hours behind the street</div>
          <div class="rows">
-           ${peds ? `<div class="r"><span>Pedestrians counted</span><b>${fmtInt(Math.round(+peds.total))}</b></div>` : ""}
+           ${peds ? `<div class="r"><span>Pedestrians counted${nPed ? ` (${nPed} counter${nPed === 1 ? "" : "s"})` : ""}</span><b>${fmtInt(Math.round(+peds.total))}</b></div>` : ""}
          </div>`, latest);
       report(f, true, `BIKES COUNTED (24H) <span class="t-val">${fmtInt(Math.round(+(bikes?.total || 0)))}</span>`);
     }
@@ -701,19 +727,24 @@ const FEEDS = [
     async run(f) {
       const j = await getJSON("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fnyct_ene.json");
       if (!Array.isArray(j)) throw new Error("bad outage feed");
-      const el = j.filter(o => o.equipmenttype === "EL").length;
-      const es = j.filter(o => o.equipmenttype === "ES").length;
-      const ada = j.filter(o => o.ADA === "Y").length;
+      // Most rows are planned work scheduled for coming days or weeks
+      // (isupcomingoutage "Y"); only the rest are out of service now.
+      const out = j.filter(o => o.isupcomingoutage !== "Y");
+      const upcoming = j.length - out.length;
+      const el = out.filter(o => o.equipmenttype === "EL").length;
+      const es = out.filter(o => o.equipmenttype === "ES").length;
+      const ada = out.filter(o => o.ADA === "Y").length;
       const t = new Date();
       setModule(f, "ok",
-        `<div class="big">${fmtInt(j.length)}</div>
+        `<div class="big">${fmtInt(out.length)}</div>
          <div class="big-label">subway elevators and escalators out of service right now</div>
          <div class="rows">
            <div class="r"><span>Elevators</span><b>${el}</b></div>
            <div class="r"><span>Escalators</span><b>${es}</b></div>
            <div class="r"><span>On accessible routes</span><b>${ada}</b></div>
+           ${upcoming ? `<div class="r"><span>More shutdowns scheduled</span><b>${fmtInt(upcoming)}</b></div>` : ""}
          </div>`, t);
-      report(f, true, `ELEVATORS/ESCALATORS OUT <span class="t-val">${fmtInt(j.length)}</span>`);
+      report(f, true, `ELEVATORS/ESCALATORS OUT <span class="t-val">${fmtInt(out.length)}</span>`);
     }
   },
 
@@ -766,9 +797,11 @@ const FEEDS = [
       const s = snapshot?.ferry;
       if (!s || s.vessels == null) throw new Error("no ferry data");
       const t = new Date(s.asOf);
+      const hr = +new Date(t).toLocaleString("en-US", { timeZone: ET, hour: "numeric", hour12: false }) % 24;
+      const overnight = s.vessels === 0 && hr < 6;
       setModule(f, stateFor(t, 40),
         `<div class="big">${s.vessels}</div>
-         <div class="big-label">ferries transmitting a position on the water</div>`, t);
+         <div class="big-label">ferries transmitting a position on the water${overnight ? " — the fleet is docked for the night" : ""}</div>`, t);
       report(f, true, `FERRIES ON THE WATER <span class="t-val">${s.vessels}</span>`);
     }
   },
@@ -834,7 +867,9 @@ const FEEDS = [
       const cur = scales?.["0"];
       const gTxt = cur?.G ? `G${cur.G.Scale} (${cur.G.Text})` : null;
       const word = kp < 3 ? "quiet" : kp < 4 ? "unsettled" : kp < 5 ? "active" : "storm conditions";
-      setModule(f, stateFor(t, 240),
+      // Kp is stamped at the start of its three-hour window and posted after
+      // the window closes, so a current value is routinely five-plus hours old
+      setModule(f, stateFor(t, 7 * 60),
         `<div class="big">${fmt1(kp)}<span class="unit">Kp</span></div>
          <div class="big-label">${word} — the magnetic field over the region right now</div>
          <div class="rows">
@@ -1213,7 +1248,8 @@ const MAP = window.MAP = {
       for (const seg of segs) {
         if (seg.length < 2) continue;
         const line = L.polyline(seg, { color: ramp(spd), weight: 3, opacity: 0.75 });
-        line.bindPopup(this.pop(`<h5>${r.link_name || "road segment"}</h5><b>${fmt1(spd)} mph</b> in the latest transmission`));
+        const when = r.data_as_of ? parseETLocal(r.data_as_of.replace("T", " ").slice(0, 16)) : null;
+        line.bindPopup(this.pop(`<h5>${r.link_name || "road segment"}</h5><b>${fmt1(spd)} mph</b> ${when ? asOfText(when) : "in the latest transmission"}`));
         l.group.addLayer(line); drew = true;
       }
       if (drew) n++;
@@ -1239,7 +1275,7 @@ const MAP = window.MAP = {
     l.group.clearLayers();
     for (const s of STATE.bikeMap) {
       const m = this.dot(s.lat, s.lon, { color: "#ffa07a", radius: 5 });
-      m.bindPopup(this.pop(`<h5>${s.name}</h5><b>${fmtInt(s.total)} bike trips</b> counted in the last 24 hours`));
+      m.bindPopup(this.pop(`<h5>${s.name}</h5><b>${fmtInt(s.total)} bike trips</b> counted in the 24 hours to the newest posted reading`));
       l.group.addLayer(m);
     }
     this.setCount("bikecounters", STATE.bikeMap.length);
@@ -1315,7 +1351,7 @@ const MAP = window.MAP = {
     const boats = snapshot?.ferry?.positions || [];
     for (const b of boats) {
       const m = this.dot(b.lat, b.lon, { color: "#ef7fd4", radius: 6 });
-      m.bindPopup(this.pop(`<h5>NYC Ferry ${b.label}</h5>position as of the last snapshot (up to 15 min old)`));
+      m.bindPopup(this.pop(`<h5>NYC Ferry ${b.label}</h5>position as of the last snapshot (up to about 10 min old)`));
       l.group.addLayer(m);
     }
     this.setCount("ferry", boats.length);
@@ -1380,7 +1416,7 @@ async function boot() {
     document.querySelectorAll(".mod[data-asof]").forEach(el => {
       const d = new Date(+el.dataset.asof);
       const span = $(".asof", el);
-      if (span && el.dataset.state !== "err") span.textContent = `as of ${fmtTimeET(d)} · ${rel(d)}`;
+      if (span && el.dataset.state !== "err") span.textContent = asOfText(d);
     });
   }, 30000);
 }

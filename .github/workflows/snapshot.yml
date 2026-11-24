@@ -1,53 +1,118 @@
 name: Refresh sensor snapshot
 
+# ONE long-lived job instead of a 15-minute cron.
+#
+# From Oct. 1, 2026 GitHub's scheduler started only three or four runs a day
+# of this workflow's quarter-hourly cron, all green, so the snapshot tiles sat
+# eight to twelve hours stale. This job now loops for about 5.5 hours,
+# rebuilding data/snapshot.json every 10 minutes and pushing it when it
+# changes, then starts its own successor through workflow_dispatch (dispatch
+# events are not throttled like cron). The hourly cron is only a backstop that
+# restarts the chain if it ever breaks; when a loop is already live, the
+# backstop run exits in seconds. Public repo, so Actions minutes are free.
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "17 * * * *"
   workflow_dispatch:
+    inputs:
+      predecessor:
+        description: "Run id of the loop run that started this one (set automatically)"
+        required: false
+        default: ""
+      once:
+        description: "Build and push one snapshot, then exit without starting a successor (for testing)"
+        type: boolean
+        default: false
 
 permissions:
-  contents: write
-
-concurrency:
-  group: snapshot
-  cancel-in-progress: false
+  contents: write   # snapshot commits
+  actions: write    # dispatch the successor
 
 jobs:
   snapshot:
     runs-on: ubuntu-latest
+    timeout-minutes: 350
     steps:
+      # Single writer. Exit before doing anything if an older loop run is
+      # live. The run that dispatched this one is exempt; wait for it to finish.
+      - name: Yield to a loop that is already running
+        id: guard
+        if: ${{ github.event.inputs.once != 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          ME: ${{ github.run_id }}
+          PRED: ${{ github.event.inputs.predecessor }}
+        run: |
+          others() {
+            gh api "repos/$REPO/actions/workflows/snapshot.yml/runs?status=in_progress&per_page=50" \
+              --jq "[.workflow_runs[].id | select(. != $ME) | tostring] | join(\" \")"
+          }
+          if [ -n "$PRED" ]; then
+            for i in $(seq 1 20); do
+              case " $(others) " in *" $PRED "*) sleep 15 ;; *) break ;; esac
+            done
+          fi
+          for id in $(others); do
+            if [ "$id" != "${PRED:-0}" ] && [ "$id" -lt "$ME" ]; then
+              echo "Snapshot loop run $id is already live; this run yields."
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v4
+        if: steps.guard.outputs.skip != 'true'
 
       - uses: actions/setup-node@v4
+        if: steps.guard.outputs.skip != 'true'
         with:
           node-version: 20
 
       - name: Install protobuf bindings
+        if: steps.guard.outputs.skip != 'true'
         run: npm install --no-save gtfs-realtime-bindings@1
 
-      - name: Build snapshot
-        run: node scripts/build-snapshot.mjs
-
-      - name: Commit if changed
+      - name: Build and push a snapshot every 10 minutes
+        if: steps.guard.outputs.skip != 'true'
+        env:
+          ONCE: ${{ github.event.inputs.once }}
         run: |
           git config user.name "sensor-bot"
           git config user.email "actions@github.com"
-          git add data/snapshot.json data/stations.json
-          if git diff --cached --quiet; then
-            echo "No change."
-            exit 0
-          fi
-          git commit -m "Snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
-          # GitHub has rejected a push with a bare "remote: Internal Server
-          # Error" — its problem, not ours, and gone by the next attempt. Rebase
-          # before each try in case an overlapping run landed first.
-          for attempt in 1 2 3; do
-            git pull --rebase origin main
-            if git push; then
-              exit 0
+          start=$(date +%s)
+          while :; do
+            cycle=$(date +%s)
+            node scripts/build-snapshot.mjs || echo "::warning::snapshot build exited non-zero"
+            git add data/snapshot.json data/stations.json
+            if git diff --cached --quiet; then
+              echo "No change."
+            else
+              git commit -q -m "Snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+              # GitHub has rejected a push with a bare "remote: Internal Server
+              # Error" — its problem, not ours, and gone by the next attempt.
+              # Rebase before each try in case another commit landed first.
+              pushed=false
+              for attempt in 1 2 3; do
+                if git pull -q --rebase origin main && git push -q; then pushed=true; break; fi
+                echo "Push attempt $attempt failed; waiting $((attempt * 10))s."
+                sleep $((attempt * 10))
+              done
+              $pushed || echo "::warning::push failed three times; will retry next cycle"
             fi
-            echo "Push attempt $attempt failed; waiting $((attempt * 10))s."
-            sleep $((attempt * 10))
+            [ "$ONCE" = "true" ] && break
+            # stop after about 5.5 hours so the successor takes over cleanly
+            [ $(( $(date +%s) - start )) -gt 19800 ] && break
+            wait=$(( 600 - ($(date +%s) - cycle) ))
+            [ $wait -gt 0 ] && sleep $wait
           done
-          echo "::error::Push failed three times — snapshot not committed."
-          exit 1
+
+      - name: Start the successor
+        if: ${{ steps.guard.outputs.skip != 'true' && github.event.inputs.once != 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          ME: ${{ github.run_id }}
+        run: |
+          gh workflow run snapshot.yml -R "$REPO" --ref main -f predecessor="$ME"

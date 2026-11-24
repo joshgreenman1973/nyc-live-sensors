@@ -33,14 +33,14 @@
   <p>Feeds fall into two groups:</p>
   <ul>
     <li><b>Direct feeds.</b> Sources that allow cross-origin requests are fetched by your browser, live, on a timer of one to five minutes per feed. Nothing passes through any intermediate server.</li>
-    <li><b>Snapshot feeds.</b> Sources that block cross-origin browser requests (the New York Independent System Operator, the National Data Buoy Center, the Metropolitan Transportation Authority, NYC Ferry, the traffic-camera directory and FloodNet) are fetched by a script that runs on GitHub Actions roughly every 15 minutes and writes <code>data/snapshot.json</code>. Tiles fed this way can be up to about 20 minutes behind; each shows its own "as of" time. GitHub's scheduler can also run late during busy periods, which shows up as amber (stale) status lights.</li>
+    <li><b>Snapshot feeds.</b> Sources that block cross-origin browser requests (the New York Independent System Operator, the National Data Buoy Center, the Metropolitan Transportation Authority, NYC Ferry, the traffic-camera directory and FloodNet) are fetched by a script that runs every 10 minutes and writes <code>data/snapshot.json</code>. The script runs inside one long GitHub Actions job that loops for about five and a half hours and then starts its successor; from October 2026 GitHub's own scheduler started only three or four runs a day of the original 15-minute schedule, which left these tiles hours stale. Tiles fed this way are usually 10 to 15 minutes behind; each shows its own "as of" time.</li>
   </ul>
-  <p>Every tile carries a status light: green means the latest reading is inside that feed's expected freshness window, amber means the feed is reachable but the reading is older than expected and red means the feed could not be read at all. The masthead counts how many of the feeds are currently reporting.</p>
+  <p>Every tile carries a status light: green means the latest reading is inside that feed's expected freshness window, amber means the feed is reachable but the reading is older than expected and red means the feed could not be read at all. The masthead counts how many feeds are current and how many are lagging; a lagging reading stays on its tile, with its age, but drops out of the crawling ticker.</p>
 
   <h2>The map</h2>
   <p>The map plots every sensor that has a published location, colored by domain and toggleable by layer. Fixed instruments (tide gauges, the wave buoy, stream gauges, weather stations, flood sensors, cameras, bike docks) sit at their installed coordinates; moving things (aircraft, ferries) appear at their last transmitted position. Traffic sensors draw as their actual road segments, colored by the latest speed. Clicking a camera dot loads that camera's live frame.</p>
   <ul>
-    <li>Camera and flood-sensor coordinates come from a <code>data/stations.json</code> file the snapshot script rewrites at most once a day (the hardware doesn't move; this keeps the every-15-minutes commits small). Aircraft refresh with their two-minute feed; ferry positions are up to about 15 minutes old and say so in their popup.</li>
+    <li>Camera and flood-sensor coordinates come from a <code>data/stations.json</code> file the snapshot script rewrites at most once a day (the hardware doesn't move; this keeps the every-10-minutes commits small). Aircraft and ferry positions come from the snapshot, so they are up to about 10 minutes old; the ferry popup says so.</li>
     <li>The traffic feed's coordinate strings are dirty — truncated pairs and dropped minus signs. Points outside a plausible New York box are discarded and lines are split where consecutive points jump implausibly far, so a small number of segments render partially.</li>
     <li>Subway trains are counted on the board but not mapped: the public train feed reports positions by track segment and stop, not coordinates. The base map is CARTO's dark tiles over OpenStreetMap data.</li>
   </ul>
@@ -75,7 +75,7 @@
     </tr>
     <tr>
       <td><b>Aircraft overhead</b></td>
-      <td>adsb.lol API, read by the 15-minute snapshot robot: <code>api.adsb.lol/v2/point/40.7128/-74.0060/30</code>. Until November 2026 this tile read airplanes.live directly; that service now refuses anonymous requests, and adsb.lol does not let browsers read it, so the reading is up to 15 minutes old (more when GitHub delays the robot).</td>
+      <td>adsb.lol API, read by the 10-minute snapshot robot: <code>api.adsb.lol/v2/point/40.7128/-74.0060/30</code>. Until November 2026 this tile read airplanes.live directly; that service now refuses anonymous requests, and adsb.lol does not let browsers read it, so the reading is up to about 10 minutes old.</td>
       <td>Snapshot robot, every 15 min</td>
       <td>Community-run network of Automatic Dependent Surveillance-Broadcast receivers. Counts aircraft not reporting "ground" status within 30 nautical miles of City Hall. Helicopter count uses the transponder's self-reported category (A7, rotorcraft), which some helicopters leave unset — treat it as a floor.</td>
     </tr>
@@ -95,12 +95,12 @@
       <td><b>Stream and tide gauges</b></td>
       <td>United States Geological Survey instantaneous values service, queried by the five boroughs' county codes, parameter 00065 (gage height)</td>
       <td>Browser, every 10 min; gauges report every 6 to 15 min</td>
-      <td>The set of gauges is discovered live from the county query, so new deployments appear automatically. All five current gauges measure stream stage on creeks and rivers, not harbor tide (NOAA covers that).</td>
+      <td>The set of gauges is discovered live from the county query, so new deployments appear automatically. The gauges measure stream stage on creeks and rivers, not harbor tide (NOAA covers that). The query also returns gauges that have stopped transmitting, some still carrying the agency's -999,999 no-data code from an equipment fault; the tile counts only real readings from the last three hours.</td>
     </tr>
     <tr>
       <td><b>Wave buoy</b></td>
       <td>National Data Buoy Center station 44065, <code>ndbc.noaa.gov/data/realtime2/44065.txt</code></td>
-      <td>Snapshot, every 15 min; buoy reports hourly</td>
+      <td>Snapshot, every 10 min; buoy reports hourly</td>
       <td>Moored at the New York Harbor entrance about 15 miles south of Breezy Point. "Significant wave height" is the average of the highest third of waves, the standard oceanographic measure.</td>
     </tr>
     <tr>
@@ -112,14 +112,14 @@
     <tr>
       <td><b>Street flood sensors</b></td>
       <td>FloodNet (a New York University and City University of New York project with city agencies), read through the FieldKit platform its dashboard runs on: project 174, sensor <code>wh.floodnet.depth</code></td>
-      <td>Snapshot, every 15 min</td>
+      <td>Snapshot, every 10 min</td>
       <td>Ultrasonic sensors measure water depth over roadways at flood-prone spots. Only stations with a depth reading in the last 6 hours are counted. Depth values are treated as millimeters, matching FloodNet's published data schema; a sensor is counted as "wet" above one inch (25.4 millimeters). Because the unit is inferred from the schema rather than labeled in the feed, treat the wet-sensor count as a floor. Dry readings hover near zero with sensor noise.</td>
     </tr>
     <tr>
       <td><b>Traffic speed sensors</b></td>
       <td>NYC Department of Transportation real-time traffic speed detectors, via NYC Open Data dataset <code>i4gi-tjb9</code></td>
       <td>Browser, every 5 min; sensors report every few minutes</td>
-      <td>These sensors sit on highways, bridges and tunnels — not local streets — so the average describes arterial traffic, not a crosstown block. Only readings from the last 40 minutes are counted. Borough averages are unweighted means across sensors.</td>
+      <td>These sensors sit on highways, bridges and tunnels — not local streets — so the average describes arterial traffic, not a crosstown block. Only the newest transmission is counted: readings within 30 minutes of the newest one in the feed. The city's copy of this feed sometimes stops updating for hours or days; when it does, the tile turns amber and names the day of its last update, and the map's road popups carry their reading's date. Borough averages are unweighted means across sensors.</td>
     </tr>
     <tr>
       <td><b>Traffic cameras</b></td>
@@ -143,7 +143,7 @@
       <td><b>Bike + walk counters</b></td>
       <td>NYC Department of Transportation automated bicycle and pedestrian counters, via NYC Open Data datasets <code>ct66-47at</code> (counts) and <code>6up2-gnw8</code> (sensor locations)</td>
       <td>Browser, every 15 min; counters bin in 15-minute intervals but reach the portal <b>hours</b> behind</td>
-      <td>The tile sums the trailing 24 hours and shows the newest bin's time. This is the least "live" feed on the board — the counters report continuously but the public copy lags a few hours, and the tile's amber light reflects that.</td>
+      <td>The tile sums the 24 hours ending at the newest posted bin (not the 24 hours ending now, which would undercount while the portal lags) and shows that bin's time. Only a handful of the counters tally pedestrians; the tile says how many. This is the least "live" feed on the board — the counters report continuously but the public copy lags a few hours, and the tile's amber light reflects that.</td>
     </tr>
     <tr>
       <td><b>Buses reporting</b></td>
@@ -155,25 +155,25 @@
       <td><b>Elevators + escalators</b></td>
       <td>Metropolitan Transportation Authority current-outage feed for subway elevators and escalators</td>
       <td>Browser, every 5 min</td>
-      <td>The feed lists equipment out of service right now, including planned maintenance. "On accessible routes" counts outages the MTA flags as affecting Americans with Disabilities Act accessibility.</td>
+      <td>The feed mixes equipment out of service now with planned shutdowns scheduled for coming days and weeks (flagged as upcoming), which usually outnumber the current outages several times over. The headline counts only the current ones; the scheduled ones get their own row. "On accessible routes" counts outages the MTA flags as affecting Americans with Disabilities Act accessibility.</td>
     </tr>
     <tr>
       <td><b>Commuter trains</b></td>
       <td>Long Island Rail Road and Metro-North real-time feeds (General Transit Feed Specification real-time)</td>
-      <td>Snapshot, every 15 min</td>
+      <td>Snapshot, every 10 min</td>
       <td>Counts trains present in each railroad's feed; where a feed carries trip updates but not vehicle positions, active trips stand in for trains.</td>
     </tr>
     <tr>
       <td><b>Subway trains reporting</b></td>
       <td>Metropolitan Transportation Authority real-time subway feeds (eight General Transit Feed Specification real-time feeds covering all lines) and the subway-alerts feed</td>
-      <td>Snapshot, every 15 min</td>
+      <td>Snapshot, every 10 min</td>
       <td>Counts trains transmitting a vehicle position. This is "trains the signal system is reporting," which can differ slightly from trains physically in motion; a position message can persist briefly after a trip ends. Alert count includes planned service changes currently in effect.</td>
     </tr>
     <tr>
       <td><b>NYC Ferry vessels</b></td>
       <td>NYC Ferry real-time vehicle-position feed</td>
-      <td>Snapshot, every 15 min</td>
-      <td>Counts boats transmitting positions; overnight the number drops to zero or near zero, which is real, not an outage.</td>
+      <td>Snapshot, every 10 min</td>
+      <td>Counts boats transmitting positions; overnight the number drops to zero or near zero, which is real, not an outage, and the tile says so between midnight and 6 a.m.</td>
     </tr>
     <tr>
       <td><b>Seismographs</b></td>
@@ -190,13 +190,13 @@
     <tr>
       <td><b>PATH trains</b></td>
       <td>Port Authority of New York and New Jersey RidePATH arrivals feed: <code>panynj.gov/bin/portauthority/ridepath.json</code></td>
-      <td>Snapshot, every 15 min</td>
+      <td>Snapshot, every 10 min</td>
       <td>The feed publishes upcoming arrivals per station rather than train positions, so the tile counts arrivals posted for the next 30 minutes — a service-level reading, not a train census. Snapshot timing means it can be up to 20 minutes behind.</td>
     </tr>
     <tr>
       <td><b>Power outages</b></td>
       <td>Con Edison outage-map data feed, summary file</td>
-      <td>Snapshot, every 15 min; the source updates every 15 to 30 min</td>
+      <td>Snapshot, every 10 min; the source updates every 15 to 30 min</td>
       <td>Customers without power and separate outage events across Con Edison's roughly 3.6 million customers. The Rockaways are served by PSEG Long Island and are not included. On a normal day a few hundred customers are dark somewhere.</td>
     </tr>
     <tr>
@@ -208,13 +208,13 @@
     <tr>
       <td><b>Electric demand</b></td>
       <td>New York Independent System Operator real-time actual load, <code>mis.nyiso.com/public/csv/pal/</code>, zone N.Y.C.</td>
-      <td>Snapshot, every 15 min; source updates about every 5 min</td>
+      <td>Snapshot, every 10 min; source updates about every 5 min</td>
       <td>The N.Y.C. zone (load zone J) covers the five boroughs. The statewide figure sums all 11 zones at the same timestamp.</td>
     </tr>
     <tr>
       <td><b>Fuel mix</b></td>
       <td>New York Independent System Operator real-time fuel mix, <code>mis.nyiso.com/public/csv/rtfuelmix/</code></td>
-      <td>Snapshot, every 15 min; source updates about every 5 min</td>
+      <td>Snapshot, every 10 min; source updates about every 5 min</td>
       <td>Statewide, not city-specific — the grid does not track electrons by borough. "Dual fuel" units burn gas or oil; the category is reported as the system operator labels it, without editorial regrouping.</td>
     </tr>
   </table>
@@ -224,7 +224,7 @@
   <p>Several tiles already come from privately run networks with public feeds: adsb.lol (volunteer aircraft-transponder receivers), aisstream.io (volunteer ship-transponder receivers), Citi Bike (Lyft's dock telemetry) and FloodNet (a university consortium). A July 2026 sweep of other private networks found:</p>
   <ul>
     <li><b>Sensor.Community</b> (citizen air-quality sensors, key-free and open): only 3 sensors currently report inside the five boroughs, one of them indoors — too sparse to summarize. Worth rechecking as the network grows.</li>
-    <li><b>PurpleAir</b> (the largest citizen air-sensor network, with real density in the city): the API requires a key that cannot be published in page code. It could join the 15-minute snapshot if a key were added as a repository secret.</li>
+    <li><b>PurpleAir</b> (the largest citizen air-sensor network, with real density in the city): the API requires a key that cannot be published in page code. It could join the 10-minute snapshot if a key were added as a repository secret.</li>
     <li><b>Raspberry Shake</b> (citizen seismographs): the network's public station service was unreachable when tested; the professional Lamont-Doherty network covers the same ground on the board.</li>
     <li><b>Weather Underground and Netatmo</b> (thousands of private weather stations in the city): both key-gated, and the airport-grade stations on the board are the better instruments anyway.</li>
     <li><b>SONYC</b> (the New York University noise-sensor project): its public data releases are historical archives, not a live feed.</li>
@@ -237,7 +237,7 @@
   <p>This board aims to include every public sensor network with a live, public interface. The notable ones that don't qualify, checked as of July 2026:</p>
   <ul>
     <li><b>Department of Transportation street activity sensors.</b> The Numina-based sensors now at roughly 100 locations count pedestrians, cyclists and vehicles continuously. The city owns the data and says datasets "will be available via NYC Open Data," but as of this writing there is no public real-time interface — only press releases. When it lands, it belongs here.</li>
-    <li><b>New York State's own networks are mostly key-gated.</b> The state Mesonet (126 research-grade weather stations, including several in the city) requires a data agreement, and 511NY (state roadway cameras and incident feeds) requires a registered key. Both could join the board's 15-minute snapshot if a key were added as a repository secret — the free 511NY registration is the lower bar. The state's real-time contributions here instead arrive through the grid operator (New York Independent System Operator) and the Metropolitan Transportation Authority.</li>
+    <li><b>New York State's own networks are mostly key-gated.</b> The state Mesonet (126 research-grade weather stations, including several in the city) requires a data agreement, and 511NY (state roadway cameras and incident feeds) requires a registered key. Both could join the board's 10-minute snapshot if a key were added as a repository secret — the free 511NY registration is the lower bar. The state's real-time contributions here instead arrive through the grid operator (New York Independent System Operator) and the Metropolitan Transportation Authority.</li>
     <li><b>Other feeds requiring a private API key</b> in public page code: PurpleAir and AirNow air-quality monitors and premium aircraft feeds. (Bus Time also requires a key, but a public rate-limited one already circulates, so buses made the board.)</li>
     <li><b>Indoor heat sensors (the Department of Housing Preservation and Development's Heat Sensors Program):</b> real sensors in apartments of buildings with chronic heat violations, reporting temperatures all winter — but the readings go only to the agency and the building owner. The only public artifact is the annual list of buildings selected for the program. The city's other temperature-sensor experiment, the 475-device Hyperlocal Temperature Monitoring network from the Cool Neighborhoods initiative, stopped collecting in October 2019 and survives only as an archive.</li>
     <li><b>Gunshot-detection microphones (ShotSpotter/SoundThinking):</b> the police department does not publish sensor activations, live or delayed. A July 2026 check of the city's open-data portal found zero ShotSpotter datasets; the closest public data is the police department's historic shooting-incident file, which is compiled from reports, not from the sensors.</li>

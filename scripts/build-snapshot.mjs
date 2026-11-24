@@ -1,7 +1,8 @@
 /* Builds data/snapshot.json — the readings a browser can't fetch directly
    (no CORS headers at the source): NYISO grid data, the harbor wave buoy,
    MTA subway train positions, NYC Ferry positions, the traffic-camera list
-   and FloodNet street flood sensors. Runs every 15 minutes via GitHub Actions.
+   and FloodNet street flood sensors. Run every 10 minutes by the long-lived
+   GitHub Actions job in .github/workflows/snapshot.yml.
    Every section is independent: one failing feed never empties the others. */
 
 import { writeFileSync, mkdirSync, readFileSync, existsSync } from "node:fs";
@@ -66,10 +67,20 @@ async function nyiso() {
 
   let fuelMix = null, fuelAsOf = null;
   try {
-    const fm = parseCSV(await fetchText(`https://mis.nyiso.com/public/csv/rtfuelmix/${etDateStamp()}rtfuelmix.csv`));
-    const fh = fm[0];
-    const fT = fh.indexOf("Time Stamp"), fC = fh.indexOf("Fuel Category"), fG = fh.indexOf("Gen MW");
-    const frows = fm.slice(1).filter(r => r[fG] !== "");
+    // Today's file doesn't exist for the first few minutes after midnight
+    // Eastern, and stays header-only until the first interval posts; fall
+    // back to yesterday's, as the load file does.
+    let frows, fC, fG, fT;
+    for (const off of [0, 1]) {
+      try {
+        const fm = parseCSV(await fetchText(`https://mis.nyiso.com/public/csv/rtfuelmix/${etDateStamp(off)}rtfuelmix.csv`));
+        const fh = fm[0];
+        fT = fh.indexOf("Time Stamp"); fC = fh.indexOf("Fuel Category"); fG = fh.indexOf("Gen MW");
+        frows = fm.slice(1).filter(r => r[fG] !== "" && r[fG] != null);
+        if (frows.length) break;
+      } catch (e) { if (off === 1) throw e; }
+    }
+    if (!frows?.length) throw new Error("fuel mix file empty");
     const fLast = frows[frows.length - 1][fT];
     fuelMix = frows.filter(r => r[fT] === fLast)
       .map(r => ({ fuel: r[fC], mw: parseFloat(r[fG]) }))
@@ -324,6 +335,8 @@ async function floodnet() {
   let latest = new Map(); // stationId -> {time, mm}
   const chunks = [];
   for (let i = 0; i < active.length; i += 60) chunks.push(active.slice(i, i + 60));
+  // One chunk at a time: FieldKit answers slowly (about 20 seconds a chunk)
+  // and returns 500s and timeouts when the chunks arrive in parallel.
   for (const chunk of chunks) {
     const ids = chunk.map(s => s.id).join(",");
     let rec;
@@ -360,7 +373,7 @@ async function floodnet() {
 /* ---------- daily positions file for the map ----------
    Camera and FloodNet sensor locations barely move, so they live in
    data/stations.json, rewritten at most once a day to keep the
-   every-15-minutes commits small. */
+   every-10-minutes commits small. */
 function stationsFile() {
   const path = new URL("../data/stations.json", import.meta.url).pathname;
   let prev = null;

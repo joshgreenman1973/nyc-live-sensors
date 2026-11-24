@@ -7,7 +7,7 @@ A live dashboard of what New York City's public real-time sensors are reporting 
 ## How it works
 
 - Static site, no server. CORS-open feeds (National Weather Service, NOAA tides, USGS gauges, NYC Open Data traffic speeds, Citi Bike, airplanes.live, Open-Meteo, radar tiles) are fetched live by the browser on per-feed timers.
-- Feeds that block cross-origin requests (NYISO, the NDBC wave buoy, MTA subway feeds, NYC Ferry, the traffic-camera directory, FloodNet) are captured into `data/snapshot.json` by `scripts/build-snapshot.mjs`, run every 15 minutes by the GitHub Actions workflow in `.github/workflows/snapshot.yml`.
+- Feeds that block cross-origin requests (NYISO, the NDBC wave buoy, MTA subway feeds, NYC Ferry, the traffic-camera directory, FloodNet) are captured into `data/snapshot.json` by `scripts/build-snapshot.mjs`, rebuilt every 10 minutes by a long-running GitHub Actions job in `.github/workflows/snapshot.yml` that restarts itself every ~5.5 hours (GitHub's cron alone started only a few runs a day from October 2026).
 - Full source-by-source documentation: [methodology.html](methodology.html) (also linked from the page).
 
 ## Run locally
