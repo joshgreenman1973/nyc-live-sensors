@@ -232,7 +232,7 @@ const FEEDS = [
       STATE.mesonet = st; mapPush("weather");
       const temps = st.map(p => Math.round(p.tempF));
       const lo = Math.min(...temps), hi = Math.max(...temps);
-      const the = n => n === "Bronx" ? "the Bronx" : n;
+      const inPlace = n => n === "Bronx" ? "in the Bronx" : n === "Staten Island" ? "on Staten Island" : "in " + n;
       const warm = st.reduce((a, b) => a.tempF > b.tempF ? a : b);
       const cool = st.reduce((a, b) => a.tempF < b.tempF ? a : b);
       const spread = hi === lo
@@ -240,7 +240,7 @@ const FEEDS = [
         : `${lo}°F to ${hi}°F`;
       const label = hi === lo
         ? "by the state's own stations, one to a borough."
-        : `across the boroughs, warmest in ${the(warm.name)} and coolest in ${the(cool.name)}.`;
+        : `across the boroughs, warmest ${inPlace(warm.name)} and coolest ${inPlace(cool.name)}.`;
       const rows = st.map(p =>
         `<div class="r"><span>${p.name}</span><b>${Math.round(p.tempF)}°F${p.wind != null ? `, wind ${Math.round(p.wind)}${p.gust != null && p.gust > p.wind + 3 ? `–${Math.round(p.gust)}` : ""} mph` : ""}</b></div>`).join("");
       const newest = st.reduce((a, b) => a.time > b.time ? a : b).time;
