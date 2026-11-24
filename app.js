@@ -1,4 +1,4 @@
-/* The instrumented city — live feed engine.
+/* The city that sensors see (and hear and feel) — live feed engine.
    Every feed is registered in FEEDS with its own fetch + render logic.
    CORS-open feeds are fetched straight from the browser; everything else
    arrives via data/snapshot.json, rebuilt every 10 minutes by GitHub Actions. */
@@ -70,14 +70,9 @@ function makeModule(f) {
   el.dataset.state = "wait";
   el.id = "mod-" + f.id;
   el.innerHTML = `
-    <div class="mod-head">
-      <div>
-        <div class="mod-title">${f.title}${f.badge ? `<span class="badge">${f.badge}</span>` : ""}</div>
-        <div class="mod-instrument">${f.instrument}</div>
-      </div>
-      <div class="led" title="feed status"></div>
-    </div>
-    <div class="mod-body"><div class="big" style="font-size:16px;color:var(--faint)">awaiting signal…</div></div>
+    <div class="mod-title">${f.title}${f.badge ? ` <span class="model">${f.badge}</span>` : ""}</div>
+    <div class="mod-instrument">${f.instrument}</div>
+    <div class="mod-body"><div class="note">Waiting for the feed.</div></div>
     <div class="mod-foot"><span class="src">${f.source}</span><span class="asof"></span></div>`;
   return el;
 }
@@ -86,8 +81,18 @@ function setModule(f, state, bodyHTML, asOfDate) {
   const el = $("#mod-" + f.id);
   el.dataset.state = state;
   if (bodyHTML != null) $(".mod-body", el).innerHTML = bodyHTML;
-  $(".asof", el).textContent = state === "err" ? "no signal" : (asOfDate ? asOfText(asOfDate) : "");
   if (asOfDate) el.dataset.asof = asOfDate.getTime();
+  paintAsOf(el);
+}
+/* the age line under each reading; a lagging one says so in words */
+function paintAsOf(el) {
+  const span = $(".asof", el);
+  if (!span) return;
+  const st = el.dataset.state;
+  if (st === "err") { span.innerHTML = "<b>No signal</b>"; return; }
+  if (!el.dataset.asof) { span.textContent = ""; return; }
+  const txt = asOfText(new Date(+el.dataset.asof));
+  span.innerHTML = st === "stale" ? `<b>Lagging</b> · ${txt}` : txt;
 }
 
 /* Decide ok vs stale from reading age. */
@@ -96,34 +101,42 @@ function stateFor(d, maxAgeMin) {
   return (Date.now() - d.getTime()) / 60000 <= maxAgeMin ? "ok" : "stale";
 }
 
-/* ---------- readings registry (feeds the ticker + masthead count) ---------- */
+/* ---------- readings registry (feeds the opening count and sentence) ---------- */
 
 const readings = new Map(); // feedId -> {domain, text, ok}
 function report(f, ok, tickerText) {
   // a reading older than its feed's freshness window is reported, but not
-  // as current: it stays off the ticker and counts as lagging in the masthead
+  // as current: it counts as lagging in the opening paragraph
+  // (tickerText is left over from the old crawling ticker; nothing shows it)
   const stale = $("#mod-" + f.id)?.dataset.state === "stale";
   readings.set(f.id, { domain: f.domain, text: tickerText, ok: ok && !stale, stale });
   updateMasthead();
-  updateTicker();
+  updateFinding();
 }
 
 function updateMasthead() {
   const total = FEEDS.length;
   const ok = [...readings.values()].filter(r => r.ok).length;
   const lagging = [...readings.values()].filter(r => r.stale).length;
-  $("#feed-status").textContent = `${ok} of ${total} feeds current${lagging ? ` · ${lagging} lagging` : ""}`;
-  $("#feed-status").style.color = ok >= total * 0.7 ? "var(--ok)" : "var(--stale)";
+  const dark = [...readings.values()].filter(r => !r.ok && !r.stale).length;
+  const parts = [`<b>${ok} of the ${total}</b> are current`];
+  if (lagging) parts.push(`${lagging} ${lagging === 1 ? "is" : "are"} lagging`);
+  if (dark) parts.push(`${dark} ${dark === 1 ? "has" : "have"} gone quiet`);
+  const last = parts.length > 1 ? " and " + parts.pop() : "";
+  $("#feed-status").innerHTML = `Right now ${parts.join(", ")}${last}.`;
 }
 
-let tickerTimer = null;
-function updateTicker() {
-  clearTimeout(tickerTimer);
-  tickerTimer = setTimeout(() => {
-    const items = [...readings.values()].filter(r => r.ok && r.text)
-      .map(r => `<span class="t-item"><span class="t-dom-${r.domain}">●</span> ${r.text}</span>`).join("");
-    if (items) $("#ticker").innerHTML = items + items; // doubled for seamless crawl
-  }, 400);
+/* The opening sentence: how many vehicles are broadcasting where they are. */
+function updateFinding() {
+  const bits = [];
+  const n = (v, one, many) => `<b>${fmtInt(v)}</b> ${v === 1 ? one : many}`;
+  if (readings.get("subway")?.ok && snapshot?.subway?.trains != null) bits.push(n(snapshot.subway.trains, "subway train", "subway trains"));
+  if (readings.get("buses")?.ok && STATE.buses) bits.push(n(STATE.buses.length, "bus", "buses"));
+  if (readings.get("aircraft")?.ok && STATE.aircraft) bits.push(n(STATE.aircraft.length, "aircraft", "aircraft"));
+  if (readings.get("ships")?.ok && STATE.ships) bits.push(n(STATE.ships.length, "vessel", "vessels"));
+  if (bits.length < 2) return;
+  const last = bits.pop();
+  $("#finding").innerHTML = `Right now ${bits.join(", ")} and ${last} are broadcasting their positions in and over New York City.`;
 }
 
 /* ---------- snapshot (non-CORS feeds, rebuilt every 10 min) ---------- */
@@ -182,8 +195,8 @@ const FEEDS = [
       const others = rows.filter(r => r !== lead).map(r =>
         `<div class="r"><span>${r.station}</span><b>${Math.round(r.tempF)}°F</b></div>`).join("");
       setModule(f, stateFor(lead.time, 100),
-        `<div class="big">${Math.round(lead.tempF)}<span class="unit">°F</span></div>
-         <div class="big-label">${lead.station}${lead.desc ? " · " + lead.desc : ""}${lead.wind != null ? ` · wind ${dirTxt(lead.windDir)} ${Math.round(lead.wind)} mph` : ""}${lead.rh != null ? ` · ${Math.round(lead.rh)}% humidity` : ""}</div>
+        `<div class="big">${Math.round(lead.tempF)}°F</div>
+         <div class="big-label">${lead.desc ? `and ${lead.desc} ` : ""}in ${lead.station}${lead.wind != null ? `, wind ${dirTxt(lead.windDir)} at ${Math.round(lead.wind)} mph` : ""}${lead.rh != null ? `, ${Math.round(lead.rh)}% humidity` : ""}.</div>
          <div class="rows">${others}</div>`, lead.time);
       report(f, true, `CENTRAL PARK <span class="t-val">${Math.round(lead.tempF)}°F</span>${lead.wind != null ? ` WIND ${Math.round(lead.wind)} MPH` : ""}`);
     }
@@ -207,10 +220,8 @@ const FEEDS = [
         `<div class="tilebox" id="radar-box">
            <div class="tilegrid">${base}</div>
            <div class="tilegrid overlay">${rad}</div>
-           <div class="scan"></div>
-           <div class="sweep"></div>
-           <div class="clearmsg"><b>Sky clear</b><span>no precipitation echoes — the antenna keeps scanning</span></div>
-           <div class="maplabel" id="radar-label">NEXRAD composite · greater New York · refreshes every 5 min</div>
+           <div class="clearmsg">No rain or snow on the radar right now.</div>
+           <div class="maplabel" id="radar-label">Radar composite of greater New York, refreshed every 5 minutes</div>
          </div>`, new Date());
       report(f, true, `RADAR <span class="t-val">LIVE</span>`);
       // A rain-free radar renders fully transparent, which reads as broken —
@@ -220,7 +231,7 @@ const FEEDS = [
         const box = $("#radar-box"), lab = $("#radar-label");
         if (hasEchoes === false && box) {
           box.classList.add("clear");
-          if (lab) lab.textContent = "radar live · refreshes every 5 min";
+          if (lab) lab.textContent = "Radar live, refreshed every 5 minutes";
         }
       });
     }
@@ -254,44 +265,9 @@ const FEEDS = [
       setModule(f, "ok",
         `<div class="tilebox">
            <img src="${url}" alt="GOES-East satellite view of the northeast" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-           <div class="scan"></div>
-           <div class="maplabel">GOES-East GeoColor · northeast sector · new frame about every 5 min · night shows city lights</div>
+           <div class="maplabel">GOES-East true color, northeast sector, a new frame about every 5 minutes; at night it shows city lights</div>
          </div>`, new Date());
       report(f, true, `SATELLITE <span class="t-val">LIVE</span>`);
-    }
-  },
-
-  {
-    id: "polarsat", domain: "sky", title: "Low-orbit pass", wide: true,
-    instrument: "Visible Infrared Imaging Radiometer Suite aboard the NOAA-20 polar orbiter, 512 miles up — a true-color look at the city itself, about 375 meters per pixel, one early-afternoon pass a day. On some days clouds hide the city.",
-    source: "NASA Global Imagery Browse Services",
-    every: 3600,
-    async run(f) {
-      const etISO = off => {
-        const d = new Date(Date.now() - off * 86400000);
-        return d.toLocaleDateString("en-CA", { timeZone: ET });
-      };
-      const base = d => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/${d}/GoogleMapsCompatible_Level9/9`;
-      let useDate = null, isToday = false;
-      for (const off of [0, 1, 2]) {
-        const d = etISO(off);
-        try {
-          const r = await fetch(`${base(d)}/192/150.jpg`, { method: "GET" });
-          if (r.ok && (await r.blob()).size > 1000) { useDate = d; isToday = off === 0; break; }
-        } catch {}
-      }
-      if (!useDate) throw new Error("no recent pass imagery");
-      const cells = [191, 192, 193].map(y => [149, 150, 151].map(x => ({ x, y }))).flat();
-      const imgs = cells.map(c => `<img src="${base(useDate)}/${c.y}/${c.x}.jpg" alt="">`).join("");
-      const [, m, dd] = useDate.split("-");
-      const dateTxt = new Date(+useDate.slice(0, 4), +m - 1, +dd).toLocaleDateString("en-US", { month: "long", day: "numeric" });
-      setModule(f, "ok",
-        `<div class="tilebox">
-           <div class="tilegrid">${imgs}</div>
-           <div class="scan"></div>
-           <div class="maplabel">${isToday ? "today's" : dateTxt + "'s"} pass · NOAA-20 crosses the city around 1:30 p.m.; imagery lands a few hours later</div>
-         </div>`, new Date());
-      report(f, true, `LOW-ORBIT PASS <span class="t-val">${isToday ? "TODAY" : dateTxt.toUpperCase()}</span>`);
     }
   },
 
@@ -320,8 +296,40 @@ const FEEDS = [
   },
 
   {
-    id: "airquality", domain: "sky", title: "Air quality", badge: "MODEL", wide: false,
-    instrument: "Not a physical sensor: Copernicus atmosphere model estimate for Lower Manhattan",
+    id: "polarsat", domain: "sky", title: "Low-orbit pass", wide: true,
+    instrument: "Visible Infrared Imaging Radiometer Suite aboard the NOAA-20 polar orbiter, 512 miles up — a true-color look at the city itself, about 375 meters per pixel, one early-afternoon pass a day. On some days clouds hide the city.",
+    source: "NASA Global Imagery Browse Services",
+    every: 3600,
+    async run(f) {
+      const etISO = off => {
+        const d = new Date(Date.now() - off * 86400000);
+        return d.toLocaleDateString("en-CA", { timeZone: ET });
+      };
+      const base = d => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/${d}/GoogleMapsCompatible_Level9/9`;
+      let useDate = null, isToday = false;
+      for (const off of [0, 1, 2]) {
+        const d = etISO(off);
+        // Before the day's pass is processed, GIBS serves a valid but
+        // all-black tile, so check the pixels rather than the file size.
+        if (await gibsHasImagery(`${base(d)}/192/150.jpg`)) { useDate = d; isToday = off === 0; break; }
+      }
+      if (!useDate) throw new Error("no recent pass imagery");
+      const cells = [191, 192, 193].map(y => [149, 150, 151].map(x => ({ x, y }))).flat();
+      const imgs = cells.map(c => `<img src="${base(useDate)}/${c.y}/${c.x}.jpg" alt="">`).join("");
+      const [, m, dd] = useDate.split("-");
+      const dateTxt = new Date(+useDate.slice(0, 4), +m - 1, +dd).toLocaleDateString("en-US", { month: "long", day: "numeric" });
+      setModule(f, "ok",
+        `<div class="tilebox">
+           <div class="tilegrid">${imgs}</div>
+           <div class="maplabel">${isToday ? "Today's" : dateTxt + "'s"} pass. NOAA-20 crosses the city around 1:30 p.m.; imagery lands a few hours later.</div>
+         </div>`, new Date());
+      report(f, true, `LOW-ORBIT PASS <span class="t-val">${isToday ? "TODAY" : dateTxt.toUpperCase()}</span>`);
+    }
+  },
+
+  {
+    id: "airquality", domain: "sky", title: "Air quality", badge: "(a model, not a sensor)", wide: false,
+    instrument: "The Copernicus atmosphere model's estimate for Lower Manhattan",
     source: "Open-Meteo air-quality API",
     every: 900,
     async run(f) {
@@ -331,8 +339,8 @@ const FEEDS = [
       const cat = c.us_aqi <= 50 ? "good" : c.us_aqi <= 100 ? "moderate" : c.us_aqi <= 150 ? "unhealthy for sensitive groups" : "unhealthy";
       const t = new Date(c.time);
       setModule(f, stateFor(t, 130),
-        `<div class="big">${Math.round(c.us_aqi)}<span class="unit">AQI</span></div>
-         <div class="big-label">${cat} — modeled estimate, not a monitor reading</div>
+        `<div class="big">${Math.round(c.us_aqi)}</div>
+         <div class="big-label">on the air-quality index, ${cat}, by the model's estimate rather than a monitor's reading.</div>
          <div class="rows">
            <div class="r"><span>Fine particles (PM2.5)</span><b>${fmt1(c.pm2_5)} µg/m³</b></div>
            <div class="r"><span>Ozone</span><b>${Math.round(c.ozone)} µg/m³</b></div>
@@ -368,7 +376,7 @@ const FEEDS = [
       const temp = wt?.data?.[0]?.v ? `<div class="r"><span>Water temperature</span><b>${Math.round(parseFloat(wt.data[0].v))}°F</b></div>` : "";
       setModule(f, stateFor(t, 40),
         `<div class="big">${fmt1(lvl)}<span class="unit">ft</span></div>
-         <div class="big-label">above mean lower low water${next ? " · " + next : ""}</div>
+         <div class="big-label">above mean lower low water${next ? "; " + next : ""}.</div>
          <div class="rows">${temp}</div>`, t);
       report(f, true, `BATTERY TIDE <span class="t-val">${fmt1(lvl)} FT</span>`);
     }
@@ -588,8 +596,7 @@ const FEEDS = [
           `<div class="camwrap" id="camwrap">
              <div class="camframe">
                <img id="camimg" src="" alt="live traffic camera">
-               <div class="scan"></div>
-               <button id="camresume">&#9654; resume tour</button>
+               <button id="camresume">Resume the tour</button>
                <div class="camlabel" id="camlabel"></div>
              </div>
              <div id="cammini" aria-label="every camera location — click one to view it"></div>
@@ -866,12 +873,12 @@ const FEEDS = [
       const t = new Date(/[Zz]|[+-]\d\d:?\d\d$/.test(raw) ? raw : raw + "Z");
       const cur = scales?.["0"];
       const gTxt = cur?.G ? `G${cur.G.Scale} (${cur.G.Text})` : null;
-      const word = kp < 3 ? "quiet" : kp < 4 ? "unsettled" : kp < 5 ? "active" : "storm conditions";
+      const word = kp < 3 ? "quiet" : kp < 4 ? "unsettled" : kp < 5 ? "active" : "in a storm";
       // Kp is stamped at the start of its three-hour window and posted after
       // the window closes, so a current value is routinely five-plus hours old
       setModule(f, stateFor(t, 7 * 60),
-        `<div class="big">${fmt1(kp)}<span class="unit">Kp</span></div>
-         <div class="big-label">${word} — the magnetic field over the region right now</div>
+        `<div class="big">${fmt1(kp)}</div>
+         <div class="big-label">on the planetary K index: the magnetic field over the region is ${word} right now.</div>
          <div class="rows">
            ${gTxt ? `<div class="r"><span>Geomagnetic storm scale</span><b>${gTxt}</b></div>` : ""}
            ${cur?.R ? `<div class="r"><span>Radio blackout scale</span><b>R${cur.R.Scale} (${cur.R.Text})</b></div>` : ""}
@@ -927,6 +934,25 @@ const FEEDS = [
     }
   }
 ];
+
+/* True when a GIBS tile holds real imagery rather than the black
+   placeholder served before a pass is processed. */
+async function gibsHasImagery(url) {
+  try {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    const ok = await new Promise(res => { img.onload = () => res(true); img.onerror = () => res(false); img.src = url; });
+    if (!ok) return false;
+    const c = document.createElement("canvas");
+    c.width = c.height = 32;
+    const ctx = c.getContext("2d", { willReadFrequently: true });
+    ctx.drawImage(img, 0, 0, 32, 32);
+    const px = ctx.getImageData(0, 0, 32, 32).data;
+    let lit = 0;
+    for (let i = 0; i < px.length; i += 4) if (px[i] + px[i + 1] + px[i + 2] > 60) lit++;
+    return lit > 256 * 0.25; // at least a quarter of the tile shows something
+  } catch { return false; }
+}
 
 /* Returns true if any radar tile has visible echoes, false if all are
    transparent, null if the check itself fails (tainted canvas, load error). */
@@ -1028,7 +1054,7 @@ function buildCameraMiniMap() {
     L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=cb1_2r82_1_ae4e70b6166057bc41b89638", { maxZoom: 19 }).addTo(camMini);
     window._camDots = [];
     for (const [lat, lon, name, cid] of stationsGeo.cameras) {
-      const d = L.circleMarker([lat, lon], { radius: 3, weight: 0, fillColor: "#ff6d3d", fillOpacity: 0.55 });
+      const d = L.circleMarker([lat, lon], { radius: 3, weight: 0, fillColor: INK["d-streets"], fillOpacity: 0.55 });
       d.on("click", () => {
         if (camSelDot) camSelDot.setStyle({ radius: 3, fillOpacity: 0.55 });
         d.setStyle({ radius: 6, fillOpacity: 1 });
@@ -1049,23 +1075,33 @@ function buildCameraMiniMap() {
    wet flood sensors) re-render as their feeds refresh.
    ===================================================================== */
 
+/* Colours from the stylesheet's tokens, so the map and the page agree. */
+const INK = {};
+function readInks() {
+  const cs = getComputedStyle(document.documentElement);
+  for (const k of ["fg", "fg2", "line", "sun", "cyan", "vermilion", "lilac", "orange", "mint", "rose", "cobalt",
+                   "d-sky", "d-water", "d-streets", "d-transit", "d-power", "d-ground"])
+    INK[k] = cs.getPropertyValue("--" + k).trim();
+}
+readInks();
+
 const MAP = window.MAP = {
   ready: false, map: null, layers: {},
 
   DEFS: [
-    { id: "floodnet", label: "Flood sensors", color: "#53d7f0", on: true },
-    { id: "noaa",     label: "Tide gauges + buoy", color: "#53d7f0", on: true },
-    { id: "usgs",     label: "Stream gauges", color: "#8fe3f5", on: true },
-    { id: "weather",  label: "Weather stations", color: "#ffb454", on: true },
-    { id: "aircraft", label: "Aircraft", color: "#ffb454", on: true },
-    { id: "traffic",  label: "Traffic speed", color: "#ff6d3d", on: true },
-    { id: "cameras",  label: "Cameras", color: "#ff6d3d", on: true },
-    { id: "bikecounters", label: "Bike counters", color: "#ffa07a", on: true },
-    { id: "buses",    label: "Buses", color: "#c08ae8", on: true },
-    { id: "citibike", label: "Citi Bike docks", color: "#ef7fd4", on: false },
-    { id: "ferry",    label: "Ferries", color: "#ef7fd4", on: true },
-    { id: "ships",    label: "Ships", color: "#6fe0c8", on: true },
-    { id: "quakes",   label: "Quake epicenters, 30 days", color: "#d2a06a", on: true }
+    { id: "floodnet", label: "Flood sensors", color: INK["d-water"], on: true },
+    { id: "noaa",     label: "Tide gauges and buoy", color: INK["d-water"], on: true },
+    { id: "usgs",     label: "Stream gauges", color: INK["d-water"], on: true },
+    { id: "ships",    label: "Ships", color: INK["d-water"], on: true },
+    { id: "weather",  label: "Weather stations", color: INK["d-sky"], on: true },
+    { id: "aircraft", label: "Aircraft", color: INK["d-sky"], on: true },
+    { id: "traffic",  label: "Traffic speed", color: INK["d-streets"], on: true },
+    { id: "cameras",  label: "Cameras", color: INK["d-streets"], on: true },
+    { id: "bikecounters", label: "Bike counters", color: INK["d-streets"], on: true },
+    { id: "citibike", label: "Citi Bike docks", color: INK["d-streets"], on: false },
+    { id: "buses",    label: "Buses", color: INK["d-transit"], on: true },
+    { id: "ferry",    label: "Ferries", color: INK["d-transit"], on: true },
+    { id: "quakes",   label: "Quake epicenters, 30 days", color: INK["d-ground"], on: true }
   ],
 
   init() {
@@ -1145,7 +1181,7 @@ const MAP = window.MAP = {
         body: () => STATE.airgap?.bay != null ? `<b>${fmt1(STATE.airgap.bay)} ft</b> of clearance under the deck` : "awaiting reading" }
     ];
     for (const it of items) {
-      const m = this.dot(it.lat, it.lon, { color: "#53d7f0", radius: 6 });
+      const m = this.dot(it.lat, it.lon, { color: INK["d-water"], radius: 6 });
       m.bindPopup(() => this.pop(`<h5>${it.name}</h5>${it.body()}`));
       l.group.addLayer(m);
     }
@@ -1158,7 +1194,7 @@ const MAP = window.MAP = {
     l.group.clearLayers();
     for (const s of STATE.usgs) {
       if (s.lat == null) continue;
-      const m = this.dot(s.lat, s.lon, { color: "#8fe3f5", radius: 5 });
+      const m = this.dot(s.lat, s.lon, { color: INK["d-water"], radius: 5, fillOpacity: .4 });
       m.bindPopup(this.pop(`<h5>${s.name.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}</h5>gauge height <b>${fmt1(s.val)} ft</b><br>as of ${fmtTimeET(s.time)}`));
       l.group.addLayer(m);
     }
@@ -1173,8 +1209,8 @@ const MAP = window.MAP = {
     for (const [lat, lon, name, sid] of stationsGeo.floodnet) {
       const w = wet.get(sid);
       const m = this.dot(lat, lon, w
-        ? { color: "#53d7f0", radius: 7, fillOpacity: 0.95 }
-        : { color: "#2e6b7d", radius: 2.5, weight: 0, fillOpacity: 0.55 });
+        ? { color: INK["d-water"], radius: 7, fillOpacity: 0.95 }
+        : { color: INK["d-water"], radius: 2.5, weight: 0, fillOpacity: 0.3 });
       m.bindPopup(this.pop(`<h5>${name}</h5>${w ? `<b>${fmt1(w.depthIn)} in of water on the street</b>` : "street flood sensor — currently dry"}`));
       l.group.addLayer(m);
     }
@@ -1188,7 +1224,7 @@ const MAP = window.MAP = {
     let n = 0;
     for (const [name, [lat, lon]] of Object.entries(coords)) {
       const r = STATE.weather?.find(x => x.station === name);
-      const m = this.dot(lat, lon, { color: "#ffb454", radius: 6 });
+      const m = this.dot(lat, lon, { color: INK["d-sky"], radius: 6 });
       m.bindPopup(() => this.pop(`<h5>${name} weather station</h5>${r ? `<b>${Math.round(r.tempF)}°F</b>${r.desc ? ` · ${r.desc}` : ""}${r.wind != null ? ` · wind ${Math.round(r.wind)} mph` : ""}` : "awaiting observation"}`));
       l.group.addLayer(m); n++;
     }
@@ -1203,7 +1239,7 @@ const MAP = window.MAP = {
     for (const a of STATE.aircraft) {
       if (a.lat == null || a.lon == null) continue;
       const heli = a.category === "A7";
-      const m = this.dot(a.lat, a.lon, { color: heli ? "#ffe08a" : "#ffb454", radius: heli ? 5 : 3.5, fillOpacity: 0.9 });
+      const m = this.dot(a.lat, a.lon, { color: INK["d-sky"], radius: heli ? 5.5 : 3.5, fillOpacity: heli ? 0.2 : 0.9, weight: heli ? 2 : 1 });
       const alt = typeof a.alt_baro === "number" ? `${fmtInt(a.alt_baro)} ft` : a.alt_baro || "—";
       m.bindPopup(this.pop(`<h5>${(a.flight || a.r || "aircraft").trim()}${heli ? " · helicopter" : ""}</h5>altitude <b>${alt}</b>${a.gs ? ` · ${Math.round(a.gs)} kt` : ""}${a.t ? ` · ${a.t}` : ""}`));
       l.group.addLayer(m); n++;
@@ -1225,7 +1261,7 @@ const MAP = window.MAP = {
     }
     if (!this.trafficCache.rows) return;
     l.group.clearLayers();
-    const ramp = s => s < 10 ? "#ff5d5d" : s < 20 ? "#ff8a4d" : s < 35 ? "#ffc14d" : "#57b890";
+    const ramp = s => s < 10 ? INK.vermilion : s < 20 ? INK.orange : s < 35 ? INK.sun : INK.mint;
     let n = 0;
     for (const r of this.trafficCache.rows) {
       const spd = parseFloat(r.speed);
@@ -1262,7 +1298,7 @@ const MAP = window.MAP = {
     if (!stationsGeo?.cameras) return;
     l.group.clearLayers();
     for (const [lat, lon, name, cid] of stationsGeo.cameras) {
-      const m = this.dot(lat, lon, { color: "#ff6d3d", radius: 2.5, weight: 0, fillOpacity: 0.6 });
+      const m = this.dot(lat, lon, { color: INK["d-streets"], radius: 2.5, weight: 0, fillOpacity: 0.6 });
       m.bindPopup(this.pop(`<h5>${name}</h5><img class="campop" alt="live camera frame" src="https://webcams.nyctmc.org/api/cameras/${cid}/image?t=${Math.floor(Date.now() / 30000)}">`), { minWidth: 290 });
       l.group.addLayer(m);
     }
@@ -1274,7 +1310,7 @@ const MAP = window.MAP = {
     if (!STATE.bikeMap) return;
     l.group.clearLayers();
     for (const s of STATE.bikeMap) {
-      const m = this.dot(s.lat, s.lon, { color: "#ffa07a", radius: 5 });
+      const m = this.dot(s.lat, s.lon, { color: INK["d-streets"], radius: 5, fillOpacity: .35, weight: 2 });
       m.bindPopup(this.pop(`<h5>${s.name}</h5><b>${fmtInt(s.total)} bike trips</b> counted in the 24 hours to the newest posted reading`));
       l.group.addLayer(m);
     }
@@ -1286,7 +1322,7 @@ const MAP = window.MAP = {
     if (!STATE.buses) return;
     l.group.clearLayers();
     for (const b of STATE.buses) {
-      const m = this.dot(b.lat, b.lon, { color: "#c08ae8", radius: 2, weight: 0, fillOpacity: 0.65 });
+      const m = this.dot(b.lat, b.lon, { color: INK["d-transit"], radius: 2, weight: 0, fillOpacity: 0.65 });
       m.bindPopup(this.pop(`<h5>${b.line || "bus"}</h5>position as of ${b.t ? fmtTimeET(new Date(b.t)) : "the latest poll"}`));
       l.group.addLayer(m);
     }
@@ -1308,8 +1344,8 @@ const MAP = window.MAP = {
       if (!info) continue;
       const bikes = s.num_bikes_available || 0;
       const m = this.dot(info.lat, info.lon, {
-        color: bikes ? "#ef7fd4" : "#5a3550", radius: 2, weight: 0,
-        fillOpacity: bikes ? 0.7 : 0.45
+        color: INK["d-streets"], radius: 2, weight: 0,
+        fillOpacity: bikes ? 0.7 : 0.2
       });
       m.bindPopup(this.pop(`<h5>${info.name}</h5><b>${bikes} bikes</b> (${s.num_ebikes_available || 0} electric) · ${s.num_docks_available || 0} open docks`));
       l.group.addLayer(m); n++;
@@ -1324,7 +1360,7 @@ const MAP = window.MAP = {
     const TYPES = { 3: "fishing/towing", 5: "special craft", 6: "passenger vessel", 7: "cargo ship", 8: "tanker", 9: "other vessel" };
     for (const s of STATE.ships) {
       const moving = (s.sog ?? 0) > 0.5;
-      const m = this.dot(s.lat, s.lon, { color: "#6fe0c8", radius: moving ? 5 : 3, fillOpacity: moving ? 0.9 : 0.5 });
+      const m = this.dot(s.lat, s.lon, { color: INK["d-water"], radius: moving ? 5 : 3, fillOpacity: moving ? 0.9 : 0.35 });
       const kind = s.st != null ? TYPES[Math.floor(s.st / 10)] : null;
       m.bindPopup(this.pop(`<h5>${s.name ? s.name.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : "Unnamed vessel"}</h5>${kind ? kind + " · " : ""}${s.sog != null ? `<b>${fmt1(s.sog)} kt</b>` : "speed unknown"}`));
       l.group.addLayer(m);
@@ -1338,7 +1374,7 @@ const MAP = window.MAP = {
     l.group.clearLayers();
     for (const q of STATE.quakes) {
       if (q.lat == null) continue;
-      const m = this.dot(q.lat, q.lon, { color: "#d2a06a", radius: 4 + Math.max(0, q.mag) * 2, fillOpacity: 0.5 });
+      const m = this.dot(q.lat, q.lon, { color: INK["d-ground"], radius: 4 + Math.max(0, q.mag) * 2, fillOpacity: 0.35 });
       m.bindPopup(this.pop(`<h5>M${fmt1(q.mag)} earthquake</h5>${q.place}<br>${q.time.toLocaleDateString("en-US", { month: "long", day: "numeric" })} at ${fmtTimeET(q.time)}`));
       l.group.addLayer(m);
     }
@@ -1350,7 +1386,7 @@ const MAP = window.MAP = {
     l.group.clearLayers();
     const boats = snapshot?.ferry?.positions || [];
     for (const b of boats) {
-      const m = this.dot(b.lat, b.lon, { color: "#ef7fd4", radius: 6 });
+      const m = this.dot(b.lat, b.lon, { color: INK["d-transit"], radius: 6 });
       m.bindPopup(this.pop(`<h5>NYC Ferry ${b.label}</h5>position as of the last snapshot (up to about 10 min old)`));
       l.group.addLayer(m);
     }
@@ -1361,12 +1397,12 @@ const MAP = window.MAP = {
 /* ---------- sections + boot ---------- */
 
 const SECTIONS = [
-  ["sky", "Sky", "radar · weather stations · transponders"],
-  ["water", "Water", "tide gauges · stream gauges · buoys · flood sensors · reservoirs"],
-  ["streets", "Streets", "speed sensors · cameras · counters · dock telemetry"],
-  ["transit", "Transit", "trains · buses · boats · broken elevators"],
-  ["power", "Power", "grid load · generation · outages"],
-  ["ground", "Ground", "seismographs · magnetometers"]
+  ["sky", "Sky", "Radar, weather stations, two satellites and aircraft transponders."],
+  ["water", "Water", "Tide gauges, stream gauges, a wave buoy, street flood sensors, bridge clearance, ships and the reservoirs."],
+  ["streets", "Streets", "Speed sensors, cameras, bike and pedestrian counters and bike-dock telemetry."],
+  ["transit", "Transit", "Trains, buses, ferries and the subway's broken elevators."],
+  ["power", "Power", "What the city draws, what's making it and who's in the dark."],
+  ["ground", "Ground", "Magnetometers and seismographs."]
 ];
 
 function build() {
@@ -1374,7 +1410,7 @@ function build() {
     const h = document.createElement("div");
     h.className = "section-head";
     h.dataset.domain = dom;
-    h.innerHTML = `<h2>${label}</h2><div class="rule"></div><span class="sub">${sub}</span>`;
+    h.innerHTML = `<h2>${label}</h2><p class="aside">${sub}</p>`;
     board.appendChild(h);
     FEEDS.filter(f => f.domain === dom).forEach(f => board.appendChild(makeModule(f)));
   });
@@ -1385,7 +1421,7 @@ async function runFeed(f) {
     await f.run(f);
   } catch (e) {
     console.warn(`[${f.id}]`, e.message);
-    setModule(f, "err", `<div class="big" style="font-size:15px;color:var(--faint)">no signal — feed unreachable or empty</div>`);
+    setModule(f, "err", `<div class="note">The feed could not be reached, or came back empty.</div>`);
     report(f, false, null);
   }
 }
@@ -1414,19 +1450,19 @@ async function boot() {
   // refresh relative "x min ago" labels
   setInterval(() => {
     document.querySelectorAll(".mod[data-asof]").forEach(el => {
-      const d = new Date(+el.dataset.asof);
-      const span = $(".asof", el);
-      if (span && el.dataset.state !== "err") span.textContent = asOfText(d);
+      paintAsOf(el);
     });
   }, 30000);
 }
 
-/* ---------- clock ---------- */
-setInterval(() => {
+/* ---------- date line ---------- */
+function tickDate() {
   const now = new Date();
-  $("#clock").textContent = now.toLocaleTimeString("en-US", { timeZone: ET, hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" });
-  $("#clock-date").textContent = now.toLocaleDateString("en-US", { timeZone: ET, weekday: "long", month: "long", day: "numeric", year: "numeric" }) + " · Eastern";
-}, 1000);
+  $("#clock-date").textContent = now.toLocaleDateString("en-US", { timeZone: ET, weekday: "long", month: "long", day: "numeric" })
+    + ", " + fmtTimeET(now);
+}
+tickDate();
+setInterval(tickDate, 15000);
 
 /* ---------- AI popover ---------- */
 $("#ai-btn").addEventListener("click", e => {

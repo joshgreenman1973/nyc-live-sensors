@@ -4,29 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Methodology — The city that sensors see (and hear and feel)</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62.5..125,100..900;1,62.5..125,100..900&family=Martian+Mono:wght@300..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  .doc { max-width: 860px; padding: 34px 40px 80px; }
-  .doc h2 { font-variation-settings: "wdth" 120; font-weight: 800; font-size: 20px; margin: 34px 0 10px; }
-  .doc h3 { font-variation-settings: "wdth" 116; font-weight: 700; font-size: 15px; margin: 22px 0 6px; text-transform: uppercase; letter-spacing: .05em; }
-  .doc p, .doc li { color: var(--dim); font-size: 14.5px; line-height: 1.65; margin-bottom: 10px; }
-  .doc ul { padding-left: 20px; }
-  .doc code { font-family: "Martian Mono", monospace; font-size: 11.5px; color: var(--ink); background: var(--panel); padding: 1px 5px; word-break: break-all; }
-  .doc table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 13px; }
-  .doc th, .doc td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); color: var(--dim); vertical-align: top; }
-  .doc th { color: var(--ink); font-variation-settings: "wdth" 112; text-transform: uppercase; font-size: 11px; letter-spacing: .08em; }
-  .doc td b { color: var(--ink); font-weight: 600; }
-  .back { display: inline-block; margin-bottom: 20px; font-size: 13px; }
+  .doc { max-width: 900px; padding: 0 var(--pad) 80px; }
+  .doc h1 { margin-top: 30px; }
+  .doc h2 { font-size: 1.6rem; margin: 40px 0 10px; }
+  .doc h3 { font-size: 1.15rem; font-weight: 700; margin: 24px 0 6px; }
+  .doc p, .doc li { color: var(--fg2); font-size: 17px; line-height: 1.6; margin: 0 0 10px; }
+  .doc p b, .doc li b { color: var(--fg); }
+  .doc ul { padding-left: 20px; margin: 0 0 12px; }
+  .doc code { font-family: var(--sans); font-size: .92em; color: var(--fg); background: var(--bg2); padding: 1px 5px; overflow-wrap: anywhere; }
+  .doc table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 15px; line-height: 1.45; }
+  .doc th { text-align: left; padding: 7px 12px 7px 0; border-bottom: 1.5px solid var(--fg); color: var(--fg2); font-size: var(--t-small); font-weight: 700; }
+  .doc td { text-align: left; padding: 9px 12px 9px 0; border-bottom: 1px solid var(--line2); color: var(--fg2); vertical-align: top; }
+  .doc td b { color: var(--fg); font-weight: 700; }
   .tablewrap { overflow-x: auto; }
 </style>
 </head>
 <body>
+<div class="sheet">
+<div class="strip"><a href="index.html">The city that sensors see (and hear and feel)</a><span>Methodology</span></div>
 <main class="doc">
-  <a class="back" href="index.html">&larr; Back to the board</a>
-  <h1 style="font-size:clamp(30px,5vw,52px)">Methodology</h1>
+  <h1>How this page works</h1>
   <p style="margin-top:10px">This page documents every data source behind The city that sensors see (and hear and feel), how each number is computed, how often it refreshes and what to be careful about. The page was built with AI assistance in July 2026. There is no database and no server: your browser reads most feeds directly from the agencies, and a scheduled script fills in the rest.</p>
 
   <h2>How data reaches the page</h2>
@@ -35,7 +34,7 @@
     <li><b>Direct feeds.</b> Sources that allow cross-origin requests are fetched by your browser, live, on a timer of one to five minutes per feed. Nothing passes through any intermediate server.</li>
     <li><b>Snapshot feeds.</b> Sources that block cross-origin browser requests (the New York Independent System Operator, the National Data Buoy Center, the Metropolitan Transportation Authority, NYC Ferry, the traffic-camera directory and FloodNet) are fetched by a script that runs every 10 minutes and writes <code>data/snapshot.json</code>. The script runs inside one long GitHub Actions job that loops for about five and a half hours and then starts its successor; from October 2026 GitHub's own scheduler started only three or four runs a day of the original 15-minute schedule, which left these tiles hours stale. Tiles fed this way are usually 10 to 15 minutes behind; each shows its own "as of" time.</li>
   </ul>
-  <p>Every tile carries a status light: green means the latest reading is inside that feed's expected freshness window, amber means the feed is reachable but the reading is older than expected and red means the feed could not be read at all. The masthead counts how many feeds are current and how many are lagging; a lagging reading stays on its tile, with its age, but drops out of the crawling ticker.</p>
+  <p>Every reading carries its "as of" time. When the latest reading is older than that feed's usual rhythm, the line says "Lagging" and the rule above the reading turns yellow; when the feed cannot be read at all, it says "No signal." The paragraph at the top counts how many feeds are current, lagging or quiet, and the opening sentence is built from whichever vehicle feeds (subway, buses, aircraft, ships) are current.</p>
 
   <h2>The map</h2>
   <p>The map plots every sensor that has a published location, colored by domain and toggleable by layer. Fixed instruments (tide gauges, the wave buoy, stream gauges, weather stations, flood sensors, cameras, bike docks) sit at their installed coordinates; moving things (aircraft, ferries) appear at their last transmitted position. Traffic sensors draw as their actual road segments, colored by the latest speed. Clicking a camera dot loads that camera's live frame.</p>
@@ -83,7 +82,7 @@
       <td><b>Air quality</b></td>
       <td>Open-Meteo air-quality API (Copernicus Atmosphere Monitoring Service model)</td>
       <td>Browser, every 15 min; model updates hourly</td>
-      <td><b>This is the one tile that is not a sensor.</b> It is a model estimate for Lower Manhattan, shown because the region's regulatory monitors do not publish a key-free real-time feed. It is labeled MODEL on the board. Confidence: directionally reliable, not monitor-grade.</td>
+      <td><b>This is the one tile that is not a sensor.</b> It is a model estimate for Lower Manhattan, shown because the region's regulatory monitors do not publish a key-free real-time feed. It is labeled as a model, not a sensor, on the page. Confidence: directionally reliable, not monitor-grade.</td>
     </tr>
     <tr>
       <td><b>Harbor tides</b></td>
@@ -119,7 +118,7 @@
       <td><b>Traffic speed sensors</b></td>
       <td>NYC Department of Transportation real-time traffic speed detectors, via NYC Open Data dataset <code>i4gi-tjb9</code></td>
       <td>Browser, every 5 min; sensors report every few minutes</td>
-      <td>These sensors sit on highways, bridges and tunnels — not local streets — so the average describes arterial traffic, not a crosstown block. Only the newest transmission is counted: readings within 30 minutes of the newest one in the feed. The city's copy of this feed sometimes stops updating for hours or days; when it does, the tile turns amber and names the day of its last update, and the map's road popups carry their reading's date. Borough averages are unweighted means across sensors.</td>
+      <td>These sensors sit on highways, bridges and tunnels — not local streets — so the average describes arterial traffic, not a crosstown block. Only the newest transmission is counted: readings within 30 minutes of the newest one in the feed. The city's copy of this feed sometimes stops updating for hours or days; when it does, the tile is marked lagging and names the day of its last update, and the map's road popups carry their reading's date. Borough averages are unweighted means across sensors.</td>
     </tr>
     <tr>
       <td><b>Traffic cameras</b></td>
@@ -143,7 +142,7 @@
       <td><b>Bike + walk counters</b></td>
       <td>NYC Department of Transportation automated bicycle and pedestrian counters, via NYC Open Data datasets <code>ct66-47at</code> (counts) and <code>6up2-gnw8</code> (sensor locations)</td>
       <td>Browser, every 15 min; counters bin in 15-minute intervals but reach the portal <b>hours</b> behind</td>
-      <td>The tile sums the 24 hours ending at the newest posted bin (not the 24 hours ending now, which would undercount while the portal lags) and shows that bin's time. Only a handful of the counters tally pedestrians; the tile says how many. This is the least "live" feed on the board — the counters report continuously but the public copy lags a few hours, and the tile's amber light reflects that.</td>
+      <td>The tile sums the 24 hours ending at the newest posted bin (not the 24 hours ending now, which would undercount while the portal lags) and shows that bin's time. Only a handful of the counters tally pedestrians; the tile says how many. This is the least "live" feed on the board — the counters report continuously but the public copy lags a few hours, and the tile allows 10 hours before marking it lagging.</td>
     </tr>
     <tr>
       <td><b>Buses reporting</b></td>
@@ -256,7 +255,8 @@
     <li>This page is for curiosity and situational awareness, not safety-critical decisions.</li>
   </ul>
 
-  <p style="margin-top:30px"><a href="index.html">&larr; Back to the board</a> &middot; <a href="https://github.com/joshgreenman1973/nyc-live-sensors">Source code</a></p>
+  <p style="margin-top:30px"><a href="index.html">Back to the sensors</a> &middot; <a href="https://github.com/joshgreenman1973/nyc-live-sensors">Source code</a></p>
 </main>
+</div>
 </body>
 </html>
