@@ -36,6 +36,12 @@ const cToF = c => c * 9 / 5 + 32;
 const mToFt = m => m * 3.28084;
 const kmhToMph = k => k * 0.621371;
 const msToMph = ms => ms * 2.23694;
+const ktToMph = k => k * 1.15078;
+/* compass word for a bearing, eight points ("northwest") */
+const dirWord = d => d == null || isNaN(d) ? "" :
+  ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"][Math.round(d / 45) % 8];
+/* NOAA CO-OPS "yyyy-MM-dd HH:mm" asked for in GMT */
+const parseUTC = t => new Date(t.replace(" ", "T") + "Z");
 
 /* Parse a NOAA CO-OPS "yyyy-MM-dd HH:mm" local (ET) timestamp. */
 function parseETLocal(t) {
@@ -134,6 +140,7 @@ function updateFinding() {
   if (readings.get("buses")?.ok && STATE.buses) bits.push(n(STATE.buses.length, "bus", "buses"));
   if (readings.get("aircraft")?.ok && STATE.aircraft) bits.push(n(STATE.aircraft.length, "aircraft", "aircraft"));
   if (readings.get("ships")?.ok && STATE.ships) bits.push(n(STATE.ships.length, "vessel", "vessels"));
+  if (readings.get("scooters")?.ok && STATE.scooters) bits.push(n(STATE.scooters.total, "shared scooter or e-bike", "shared scooters and e-bikes"));
   if (bits.length < 2) return;
   const last = bits.pop();
   $("#finding").innerHTML = `Right now ${bits.join(", ")} and ${last} are broadcasting their positions in and over New York City.`;
@@ -199,6 +206,49 @@ const FEEDS = [
          <div class="big-label">${lead.desc ? `and ${lead.desc} ` : ""}in ${lead.station}${lead.wind != null ? `, wind ${dirTxt(lead.windDir)} at ${Math.round(lead.wind)} mph` : ""}${lead.rh != null ? `, ${Math.round(lead.rh)}% humidity` : ""}.</div>
          <div class="rows">${others}</div>`, lead.time);
       report(f, true, `CENTRAL PARK <span class="t-val">${Math.round(lead.tempF)}°F</span>${lead.wind != null ? ` WIND ${Math.round(lead.wind)} MPH` : ""}`);
+    }
+  },
+
+  {
+    id: "mesonet", domain: "sky", title: "A weather station in every borough", wide: false,
+    instrument: "New York State Mesonet stations on rooftops and grounds in all five boroughs, reporting every five minutes",
+    source: "New York State Mesonet, University at Albany",
+    every: 300,
+    async run(f) {
+      const j = await getJSON("https://api.nysmesonet.org/data/index.php/geojson/nysm/latest");
+      const want = { MANH: "Manhattan", BKLN: "Brooklyn", QUEE: "Queens", BRON: "Bronx", STAT: "Staten Island" };
+      const st = (j?.features || []).map(x => x.properties).filter(p => want[p.STID] && p.TAIR != null)
+        .map(p => ({
+          id: p.STID, name: want[p.STID], lat: p.LAT, lon: p.LON,
+          tempF: cToF(p.TAIR),
+          wind: p.WSPD != null ? msToMph(p.WSPD) : null,
+          gust: p.WMAX != null ? msToMph(p.WMAX) : null,
+          dir: p.WDIR, rh: p.RELH, sun: p.SRAD,
+          time: new Date(p.TIME)
+        }))
+        .filter(p => Date.now() - p.time.getTime() < 3 * 3600000);
+      if (!st.length) throw new Error("no borough stations");
+      st.sort((a, b) => Object.keys(want).indexOf(a.id) - Object.keys(want).indexOf(b.id));
+      STATE.mesonet = st; mapPush("weather");
+      const temps = st.map(p => Math.round(p.tempF));
+      const lo = Math.min(...temps), hi = Math.max(...temps);
+      const the = n => n === "Bronx" ? "the Bronx" : n;
+      const warm = st.reduce((a, b) => a.tempF > b.tempF ? a : b);
+      const cool = st.reduce((a, b) => a.tempF < b.tempF ? a : b);
+      const spread = hi === lo
+        ? `${lo}°F in ${st.length === 5 ? "all five boroughs" : st.length + " boroughs"}`
+        : `${lo}°F to ${hi}°F`;
+      const label = hi === lo
+        ? "by the state's own stations, one to a borough."
+        : `across the boroughs, warmest in ${the(warm.name)} and coolest in ${the(cool.name)}.`;
+      const rows = st.map(p =>
+        `<div class="r"><span>${p.name}</span><b>${Math.round(p.tempF)}°F${p.wind != null ? `, wind ${Math.round(p.wind)}${p.gust != null && p.gust > p.wind + 3 ? `–${Math.round(p.gust)}` : ""} mph` : ""}</b></div>`).join("");
+      const newest = st.reduce((a, b) => a.time > b.time ? a : b).time;
+      setModule(f, stateFor(newest, 40),
+        `<div class="big">${spread}</div>
+         <div class="big-label">${label}</div>
+         <div class="rows">${rows}</div>`, newest);
+      report(f, true, null);
     }
   },
 
@@ -328,24 +378,38 @@ const FEEDS = [
   },
 
   {
-    id: "airquality", domain: "sky", title: "Air quality", badge: "(a model, not a sensor)", wide: false,
-    instrument: "The Copernicus atmosphere model's estimate for Lower Manhattan",
-    source: "Open-Meteo air-quality API",
-    every: 900,
+    id: "airquality", domain: "sky", title: "Air quality", wide: false,
+    instrument: "State air monitors' hourly index for New York City, with the Copernicus model's estimate alongside",
+    source: "EPA AirNow (New York State Department of Environmental Conservation monitors), via snapshot; Open-Meteo",
+    every: 900, fromSnapshot: true,
     async run(f) {
-      const j = await getJSON("https://air-quality-api.open-meteo.com/v1/air-quality?latitude=40.7128&longitude=-74.006&current=us_aqi,pm2_5,ozone&timezone=America%2FNew_York");
-      const c = j.current;
-      if (c?.us_aqi == null) throw new Error("no aq");
-      const cat = c.us_aqi <= 50 ? "good" : c.us_aqi <= 100 ? "moderate" : c.us_aqi <= 150 ? "unhealthy for sensitive groups" : "unhealthy";
-      const t = new Date(c.time);
-      setModule(f, stateFor(t, 130),
-        `<div class="big">${Math.round(c.us_aqi)}</div>
-         <div class="big-label">on the air-quality index, ${cat}, by the model's estimate rather than a monitor's reading.</div>
-         <div class="rows">
-           <div class="r"><span>Fine particles (PM2.5)</span><b>${fmt1(c.pm2_5)} µg/m³</b></div>
-           <div class="r"><span>Ozone</span><b>${Math.round(c.ozone)} µg/m³</b></div>
-         </div>`, t);
-      report(f, true, `AIR QUALITY (MODEL) <span class="t-val">${Math.round(c.us_aqi)} AQI</span>`);
+      const cat = v => v <= 50 ? "good" : v <= 100 ? "moderate" : v <= 150 ? "unhealthy for sensitive groups" : v <= 200 ? "unhealthy" : "very unhealthy";
+      const an = snapshot?.airnow;
+      const measured = an?.readings?.length ? an : null;
+      const model = await getJSON("https://air-quality-api.open-meteo.com/v1/air-quality?latitude=40.7128&longitude=-74.006&current=us_aqi,pm2_5,ozone&timezone=America%2FNew_York")
+        .then(j => j?.current?.us_aqi != null ? j.current : null).catch(() => null);
+      if (!measured && !model) throw new Error("no air quality");
+      const name = p => p === "PM2.5" ? "Fine particles (PM2.5)" : p === "OZONE" ? "Ozone" : p === "PM10" ? "Coarse particles (PM10)" : p;
+      const modelRow = model ? `<div class="r"><span>The Copernicus model's estimate</span><b>${Math.round(model.us_aqi)}</b></div>` : "";
+      if (measured) {
+        const top = measured.readings.reduce((a, b) => a.aqi >= b.aqi ? a : b);
+        const t = new Date(measured.observed);
+        const rows = measured.readings.map(r => `<div class="r"><span>${name(r.parameter)}</span><b>${r.aqi}</b></div>`).join("");
+        setModule(f, stateFor(t, 180),
+          `<div class="big">${top.aqi}</div>
+           <div class="big-label">on the air-quality index, ${cat(top.aqi)}, as measured by the state's monitors over the hour starting ${fmtTimeET(t)}; the index follows whichever pollutant reads worst, here ${top.parameter === "PM2.5" ? "fine particles" : top.parameter.toLowerCase()}.</div>
+           <div class="rows">${rows}${modelRow}</div>`, t);
+      } else {
+        const t = new Date(model.time);
+        setModule(f, stateFor(t, 130),
+          `<div class="big">${Math.round(model.us_aqi)}</div>
+           <div class="big-label">on the air-quality index, ${cat(model.us_aqi)}, by the model's estimate. The state monitors' reading could not be loaded.</div>
+           <div class="rows">
+             <div class="r"><span>Fine particles (PM2.5)</span><b>${fmt1(model.pm2_5)} µg/m³</b></div>
+             <div class="r"><span>Ozone</span><b>${Math.round(model.ozone)} µg/m³</b></div>
+           </div>`, t);
+      }
+      report(f, true, null);
     }
   },
 
@@ -401,12 +465,82 @@ const FEEDS = [
   },
 
   {
+    id: "currents", domain: "water", title: "Harbor currents", wide: false,
+    instrument: "Acoustic current meters on navigation buoys in the Kill Van Kull and at the mouth of Newark Bay",
+    source: "NOAA New York and New Jersey Harbor PORTS",
+    every: 360,
+    async run(f) {
+      const base = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=latest&units=english&time_zone=gmt&format=json&product=currents&bin=1&station=";
+      const meters = [
+        { id: "n06010", name: "Kill Van Kull", lat: 40.6436, lon: -74.1389 },
+        { id: "n07010", name: "Newark Bay entrance", lat: 40.6471, lon: -74.1555 }
+      ];
+      const got = await Promise.all(meters.map(m => getJSON(base + m.id).then(j => {
+        const d = j?.data?.[0];
+        return d && d.s !== "" ? { ...m, kt: parseFloat(d.s), dir: parseFloat(d.d), time: parseUTC(d.t) } : null;
+      }).catch(() => null)));
+      const live = got.filter(Boolean);
+      if (!live.length) throw new Error("no current readings");
+      STATE.currents = live; mapPush("noaa");
+      const lead = live[0];
+      const rest = live.slice(1).map(m =>
+        `<div class="r"><span>${m.name}</span><b>${fmt1(m.kt)} knots, toward the ${dirWord(m.dir)}</b></div>`).join("");
+      setModule(f, stateFor(lead.time, 40),
+        `<div class="big">${fmt1(lead.kt)}<span class="unit">knots</span></div>
+         <div class="big-label">of water running toward the ${dirWord(lead.dir)} through the ${lead.name}, the channel ships take to Port Newark and Elizabeth, about ${fmt1(ktToMph(lead.kt))} mph.</div>
+         <div class="rows">${rest}</div>`, lead.time);
+      report(f, true, null);
+    }
+  },
+
+  {
+    id: "harborwind", domain: "water", title: "Wind on the harbor", wide: false,
+    instrument: "Anemometers at NOAA water-level stations on Robbins Reef light, Mariners Harbor and Kings Point",
+    source: "NOAA tides and currents",
+    every: 360,
+    async run(f) {
+      const base = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=latest&units=english&time_zone=gmt&format=json&station=";
+      const sts = [
+        { id: "8530973", name: "Robbins Reef", where: "in the Upper Bay", lat: 40.6584, lon: -74.0647 },
+        { id: "8519532", name: "Mariners Harbor", where: "on Staten Island's north shore", lat: 40.6383, lon: -74.16 },
+        { id: "8516945", name: "Kings Point", where: "on Long Island Sound", lat: 40.8103, lon: -73.7649 }
+      ];
+      const [winds, air, pres] = await Promise.all([
+        Promise.all(sts.map(st => getJSON(base + st.id + "&product=wind").then(j => {
+          const d = j?.data?.[0];
+          return d && d.s !== "" ? { ...st, mph: ktToMph(parseFloat(d.s)), gust: d.g !== "" ? ktToMph(parseFloat(d.g)) : null, from: parseFloat(d.d), time: parseUTC(d.t) } : null;
+        }).catch(() => null))),
+        getJSON(base + "8530973&product=air_temperature").catch(() => null),
+        getJSON(base + "8530973&product=air_pressure").catch(() => null)
+      ]);
+      const live = winds.filter(Boolean);
+      if (!live.length) throw new Error("no wind readings");
+      STATE.harborwind = live; mapPush("weather");
+      const lead = live[0];
+      const tF = air?.data?.[0]?.v ? Math.round(parseFloat(air.data[0].v)) : null;
+      const mb = pres?.data?.[0]?.v ? Math.round(parseFloat(pres.data[0].v)) : null;
+      const rows = live.slice(lead.id === "8530973" ? 1 : 0).map(w =>
+        `<div class="r"><span>${w.name}</span><b>${Math.round(w.mph)} mph${w.gust != null ? `, gusts ${Math.round(w.gust)}` : ""}</b></div>`).join("")
+        + (lead.id === "8530973" && tF != null ? `<div class="r"><span>Air on the reef</span><b>${tF}°F${mb != null ? `, ${fmtInt(mb)} millibars` : ""}</b></div>` : "");
+      setModule(f, stateFor(lead.time, 40),
+        `<div class="big">${Math.round(lead.mph)}<span class="unit">mph</span></div>
+         <div class="big-label">out of the ${dirWord(lead.from)} at ${lead.name} ${lead.where}${lead.gust != null ? `, gusting to ${Math.round(lead.gust)}` : ""}.</div>
+         <div class="rows">${rows}</div>`, lead.time);
+      report(f, true, null);
+    }
+  },
+
+  {
     id: "usgs", domain: "water", title: "Stream + tide gauges", wide: false,
-    instrument: "United States Geological Survey gauges in the five boroughs' streams and creeks",
+    instrument: "United States Geological Survey gauges in the five boroughs' streams and creeks, plus a water-quality sonde in the Bronx River",
     source: "USGS instantaneous values service",
     every: 600,
     async run(f) {
-      const j = await getJSON("https://waterservices.usgs.gov/nwis/iv/?format=json&countyCd=36005,36047,36061,36081,36085&parameterCd=00065&siteStatus=active");
+      const counties = "countyCd=36005,36047,36061,36081,36085";
+      const [j, wq] = await Promise.all([
+        getJSON(`https://waterservices.usgs.gov/nwis/iv/?format=json&${counties}&parameterCd=00065&siteStatus=active`),
+        getJSON(`https://waterservices.usgs.gov/nwis/iv/?format=json&${counties}&parameterCd=00010,00300,63680&siteStatus=active`).catch(() => null)
+      ]);
       const ts = j?.value?.timeSeries || [];
       const sites = ts.map(s => {
         const vals = s.values?.[0]?.value || [];
@@ -432,10 +566,31 @@ const FEEDS = [
         .replace(/\b\w/g, c => c.toUpperCase());
       const rows = sites.sort((a, b) => b.time - a.time).slice(0, 4).map(s =>
         `<div class="r"><span>${short(s.name)}</span><b>${fmt1(s.val)} ft</b></div>`).join("");
+      // Water-quality sondes (only the Bronx River's is live): same freshness rules
+      const quality = {};
+      for (const s of wq?.value?.timeSeries || []) {
+        const vals = s.values?.[0]?.value || [];
+        const last = vals[vals.length - 1];
+        if (!last) continue;
+        const v = parseFloat(last.value), t = new Date(last.dateTime);
+        const noData = parseFloat(s.variable?.noDataValue ?? -999999);
+        if (isNaN(v) || v === noData || v <= -9999 || Date.now() - t.getTime() > 3 * 3600000) continue;
+        const name = short(s.sourceInfo.siteName);
+        const geo = s.sourceInfo.geoLocation?.geogLocation;
+        const q = quality[name] = quality[name] || { name, lat: geo?.latitude, lon: geo?.longitude, time: t };
+        q[s.variable.variableCode[0].value] = v;
+      }
+      const qual = Object.values(quality);
+      STATE.usgsQuality = qual;
+      const qrows = qual.map(q => [
+        q["00010"] != null ? `<div class="r"><span>${q.name} water temperature</span><b>${Math.round(cToF(q["00010"]))}°F</b></div>` : "",
+        q["00300"] != null ? `<div class="r"><span>Dissolved oxygen</span><b>${fmt1(q["00300"])} mg/L</b></div>` : "",
+        q["63680"] != null ? `<div class="r"><span>Cloudiness (turbidity)</span><b>${fmt1(q["63680"])} FNU</b></div>` : ""
+      ].join("")).join("");
       setModule(f, stateFor(newest, 180),
         `<div class="big">${sites.length}</div>
-         <div class="big-label">gauges reporting water height right now</div>
-         <div class="rows">${rows}</div>`, newest);
+         <div class="big-label">gauges reporting water height right now${qual.length ? `, and a sonde in the ${qual[0].name} reporting how clean the water is` : ""}.</div>
+         <div class="rows">${rows}${qrows}</div>`, newest);
       report(f, true, `USGS GAUGES REPORTING <span class="t-val">${sites.length}</span>`);
     }
   },
@@ -619,6 +774,50 @@ const FEEDS = [
            <div class="r"><span>Open docks</span><b>${fmtInt(docks)}</b></div>
          </div>`, t);
       report(f, true, `CITI BIKES AVAILABLE <span class="t-val">${fmtInt(bikes)}</span>`);
+    }
+  },
+
+  {
+    id: "scooters", domain: "streets", title: "Shared scooters + e-bikes", wide: false,
+    instrument: "GPS units on every dockless scooter and e-bike in the city's share program, reported by the three operators. Only Veo's appear on the map.",
+    source: "Veo, Lime and Bird general bikeshare feeds (Lime and Bird via snapshot)",
+    every: 300, fromSnapshot: true,
+    async run(f) {
+      const veoBase = "https://cluster-prod.veoride.com/api/shares/name/";
+      const veo = await Promise.all(["nyc", "nyq"].map(z => getJSON(`${veoBase}${z}/gbfs/free_bike_status`).catch(() => null)));
+      const types = await getJSON(`${veoBase}nyc/gbfs/vehicle_types`)
+        .then(j => Object.fromEntries((j?.data?.vehicle_types || []).map(t => [t.vehicle_type_id, t.form_factor])))
+        .catch(() => ({}));
+      const veoBikes = veo.flatMap(j => j?.data?.bikes || []);
+      const ops = [];
+      let veoTime = null;
+      if (veoBikes.length) {
+        const ready = veoBikes.filter(b => !b.is_disabled && !b.is_reserved);
+        const isBike = b => types[b.vehicle_type_id] === "bicycle";
+        STATE.veo = ready.map(b => ({ lat: +b.lat, lon: +b.lon, kind: isBike(b) ? "e-bike" : "scooter", range: b.current_range_meters }));
+        mapPush("veo");
+        veoTime = new Date(Math.min(...veo.filter(Boolean).map(j => (j.last_updated || 0) * 1000)));
+        ops.push({ name: "Veo", scooters: ready.filter(b => !isBike(b)).length, ebikes: ready.filter(isBike).length, total: veoBikes.length });
+      }
+      const sc = snapshot?.scooters;
+      for (const [k, name] of [["lime", "Lime"], ["bird", "Bird"]])
+        if (sc?.[k]) ops.push({ name, scooters: sc[k].scooters, ebikes: sc[k].ebikes, total: sc[k].total });
+      if (!ops.length) throw new Error("no scooter feeds");
+      const ready = ops.reduce((n, o) => n + o.scooters + o.ebikes, 0);
+      STATE.scooters = { total: ops.reduce((n, o) => n + o.total, 0) };
+      ops.sort((a, b) => (b.scooters + b.ebikes) - (a.scooters + a.ebikes));
+      const rows = ops.flatMap(o => [
+        o.scooters ? `<div class="r"><span>${o.name} scooters</span><b>${fmtInt(o.scooters)}</b></div>` : "",
+        o.ebikes ? `<div class="r"><span>${o.name} e-bikes</span><b>${fmtInt(o.ebikes)}</b></div>` : ""
+      ]).join("");
+      // freshness is set by the older of the two sources
+      const times = [veoTime, sc?.asOf ? new Date(sc.asOf) : null].filter(t => t && !isNaN(t));
+      const t = new Date(Math.min(...times));
+      setModule(f, stateFor(t, 30),
+        `<div class="big">${fmtInt(ready)}</div>
+         <div class="big-label">dockless scooters and e-bikes parked and ready to ride, nearly all in the Bronx and Queens, where the city's share program runs.</div>
+         <div class="rows">${rows}</div>`, t);
+      report(f, true, null);
     }
   },
 
@@ -1071,7 +1270,7 @@ const MAP = window.MAP = {
   ready: false, map: null, layers: {},
 
   DEFS: [
-    { id: "noaa",     label: "Tide gauges and buoy", color: INK["d-water"], on: true },
+    { id: "noaa",     label: "Tide gauges, current meters and buoy", color: INK["d-water"], on: true },
     { id: "usgs",     label: "Stream gauges", color: INK["d-water"], on: true },
     { id: "ships",    label: "Ships", color: INK["d-water"], on: true },
     { id: "weather",  label: "Weather stations", color: INK["d-sky"], on: true },
@@ -1080,6 +1279,7 @@ const MAP = window.MAP = {
     { id: "cameras",  label: "Cameras", color: INK["d-streets"], on: true },
     { id: "bikecounters", label: "Bike counters", color: INK["d-streets"], on: true },
     { id: "citibike", label: "Citi Bike docks", color: INK["d-streets"], on: false },
+    { id: "veo",      label: "Veo scooters + e-bikes", color: INK["d-streets"], on: false },
     { id: "buses",    label: "Buses", color: INK["d-transit"], on: true },
     { id: "ferry",    label: "Ferries", color: INK["d-transit"], on: true },
     { id: "quakes",   label: "Quake epicenters, 30 days", color: INK["d-ground"], on: true }
@@ -1161,6 +1361,9 @@ const MAP = window.MAP = {
       { lat: 40.642, lon: -74.1421, name: "Bayonne Bridge air gap",
         body: () => STATE.airgap?.bay != null ? `<b>${fmt1(STATE.airgap.bay)} ft</b> of clearance under the deck` : "awaiting reading" }
     ];
+    for (const c of STATE.currents || [])
+      items.push({ lat: c.lat, lon: c.lon, name: `${c.name} current meter`,
+        body: () => `current <b>${fmt1(c.kt)} knots</b> toward the ${dirWord(c.dir)}<br>as of ${fmtTimeET(c.time)}` });
     for (const it of items) {
       const m = this.dot(it.lat, it.lon, { color: INK["d-water"], radius: 6 });
       m.bindPopup(() => this.pop(`<h5>${it.name}</h5>${it.body()}`));
@@ -1179,6 +1382,15 @@ const MAP = window.MAP = {
       m.bindPopup(this.pop(`<h5>${s.name.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}</h5>gauge height <b>${fmt1(s.val)} ft</b><br>as of ${fmtTimeET(s.time)}`));
       l.group.addLayer(m);
     }
+    for (const q of STATE.usgsQuality || []) {
+      if (q.lat == null) continue;
+      const bits = [q["00010"] != null ? `water <b>${Math.round(cToF(q["00010"]))}°F</b>` : "",
+        q["00300"] != null ? `dissolved oxygen <b>${fmt1(q["00300"])} mg/L</b>` : "",
+        q["63680"] != null ? `turbidity <b>${fmt1(q["63680"])} FNU</b>` : ""].filter(Boolean).join(" · ");
+      const m = this.dot(q.lat, q.lon, { color: INK["d-water"], radius: 6, fillOpacity: .9 });
+      m.bindPopup(this.pop(`<h5>${q.name} water-quality sonde</h5>${bits}<br>as of ${fmtTimeET(q.time)}`));
+      l.group.addLayer(m);
+    }
     this.setCount("usgs", STATE.usgs.length);
   },
 
@@ -1191,6 +1403,16 @@ const MAP = window.MAP = {
       const r = STATE.weather?.find(x => x.station === name);
       const m = this.dot(lat, lon, { color: INK["d-sky"], radius: 6 });
       m.bindPopup(() => this.pop(`<h5>${name} weather station</h5>${r ? `<b>${Math.round(r.tempF)}°F</b>${r.desc ? ` · ${r.desc}` : ""}${r.wind != null ? ` · wind ${Math.round(r.wind)} mph` : ""}` : "awaiting observation"}`));
+      l.group.addLayer(m); n++;
+    }
+    for (const p of STATE.mesonet || []) {
+      const m = this.dot(p.lat, p.lon, { color: INK["d-sky"], radius: 6 });
+      m.bindPopup(this.pop(`<h5>${p.name} Mesonet station</h5><b>${Math.round(p.tempF)}°F</b>${p.wind != null ? ` · wind ${Math.round(p.wind)} mph from the ${dirWord(p.dir)}` : ""}${p.rh != null ? ` · ${Math.round(p.rh)}% humidity` : ""}<br>as of ${fmtTimeET(p.time)}`));
+      l.group.addLayer(m); n++;
+    }
+    for (const w of STATE.harborwind || []) {
+      const m = this.dot(w.lat, w.lon, { color: INK["d-sky"], radius: 5, fillOpacity: .4 });
+      m.bindPopup(this.pop(`<h5>${w.name} wind</h5><b>${Math.round(w.mph)} mph</b> from the ${dirWord(w.from)}${w.gust != null ? `, gusts ${Math.round(w.gust)}` : ""}<br>as of ${fmtTimeET(w.time)}`));
       l.group.addLayer(m); n++;
     }
     this.setCount("weather", n);
@@ -1356,6 +1578,18 @@ const MAP = window.MAP = {
       l.group.addLayer(m);
     }
     this.setCount("ferry", boats.length);
+  },
+
+  /* ---- Veo scooters and e-bikes (off by default: 2,000+ dots) ---- */
+  draw_veo(l) {
+    if (!STATE.veo) return;
+    l.group.clearLayers();
+    for (const v of STATE.veo) {
+      const m = this.dot(v.lat, v.lon, { color: INK["d-streets"], radius: 2, weight: 0, fillOpacity: 0.7 });
+      m.bindPopup(this.pop(`<h5>Veo ${v.kind}</h5>parked and ready${v.range ? ` · about ${Math.round(v.range / 1609)} miles of charge` : ""}`));
+      l.group.addLayer(m);
+    }
+    this.setCount("veo", STATE.veo.length);
   }
 };
 
@@ -1385,9 +1619,9 @@ function makeNote(n) {
 /* ---------- sections + boot ---------- */
 
 const SECTIONS = [
-  ["sky", "Sky", "Radar, weather stations, two satellites and aircraft transponders."],
-  ["water", "Water", "Tide gauges, stream gauges, a wave buoy, bridge clearance, ships and the reservoirs."],
-  ["streets", "Streets", "Speed sensors, cameras, bike and pedestrian counters and bike-dock telemetry."],
+  ["sky", "Sky", "Radar, weather stations, two satellites, aircraft transponders and air monitors."],
+  ["water", "Water", "Tide gauges, current meters, harbor wind, stream gauges, a wave buoy, bridge clearance, ships and the reservoirs."],
+  ["streets", "Streets", "Speed sensors, cameras, bike and pedestrian counters, bike docks and dockless scooters."],
   ["transit", "Transit", "Trains, buses, ferries and the subway's broken elevators."],
   ["power", "Power", "What the city draws, what's making it and who's in the dark."],
   ["ground", "Ground", "Magnetometers and seismographs."]

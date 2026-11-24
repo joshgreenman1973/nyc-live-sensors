@@ -27,6 +27,7 @@
 
   --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --title: 'Gloock', Georgia, serif;
   --t-micro: 13px;
   --t-small: 14px;
   --t-body: 17px;
@@ -64,8 +65,8 @@ button.linkish {
 }
 .head { padding: 30px var(--pad) 6px; }
 h1 {
-  font-family: var(--display); font-weight: 700; margin: 0;
-  font-size: var(--t-h1); line-height: 1.05; letter-spacing: -.015em;
+  font-family: var(--title); font-weight: 400; margin: 0;
+  font-size: var(--t-h1); line-height: 1.05; letter-spacing: 0;
   text-wrap: balance;
 }
 .finding {

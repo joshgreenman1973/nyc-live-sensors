@@ -1,7 +1,7 @@
 /* Builds data/snapshot.json — the readings a browser can't fetch directly
    (no CORS headers at the source): NYISO grid data, the harbor wave buoy,
-   MTA subway train positions, NYC Ferry positions and the traffic-camera
-   list. (FloodNet street flood sensors were read here until November 2026;
+   MTA subway train positions, NYC Ferry positions, the traffic-camera
+   list, counts of Lime and Bird scooters and the AirNow air-quality index. (FloodNet street flood sensors were read here until November 2026;
    see the methodology for why that tile was retired.) Run every 10 minutes by the long-lived
    GitHub Actions job in .github/workflows/snapshot.yml.
    Every section is independent: one failing feed never empties the others. */
@@ -315,6 +315,72 @@ async function cameras() {
   };
 }
 
+/* ---------- Lime and Bird shared e-scooters: counts only ----------
+   Neither operator's feed can be read from a browser (Lime sends no CORS
+   header; Bird's is unreliable), so the robot counts them here. Positions
+   are left out to keep the every-10-minutes commits small; Veo's feed is
+   CORS-open and the page reads and maps it directly. */
+async function scooters() {
+  const base = {
+    lime: "https://data.lime.bike/api/partners/v2/gbfs/new_york/",
+    bird: "https://mds.bird.co/gbfs/v2/public/new-york/"
+  };
+  // Lime's New York feed strays a few vehicles onto Long Island
+  const inCity = b => b.lat > 40.49 && b.lat < 40.92 && b.lon > -74.26 && b.lon < -73.70;
+  const out = {};
+  for (const [k, url] of Object.entries(base)) {
+    try {
+      const j = await fetchJSON(url + "free_bike_status.json");
+      const types = {};
+      try {
+        const vt = await fetchJSON(url + "vehicle_types.json");
+        (vt?.data?.vehicle_types || []).forEach(t => (types[t.vehicle_type_id] = t.form_factor));
+      } catch {}
+      const bikes = (j?.data?.bikes || []).map(b => ({ ...b, lat: +b.lat, lon: +b.lon })).filter(inCity);
+      if (!bikes.length) throw new Error("empty feed");
+      const ready = bikes.filter(b => !b.is_disabled && !b.is_reserved);
+      const isBike = b => (types[b.vehicle_type_id] || b.vehicle_type || "scooter") === "bicycle";
+      out[k] = {
+        total: bikes.length,
+        scooters: ready.filter(b => !isBike(b)).length,
+        ebikes: ready.filter(isBike).length,
+        updated: j.last_updated ? new Date(j.last_updated * 1000).toISOString() : now()
+      };
+    } catch (e) {
+      console.error(`scooters ${k}:`, e.message);
+      if (previous.scooters?.[k]) out[k] = previous.scooters[k];
+    }
+  }
+  if (!Object.keys(out).length) throw new Error("both scooter feeds failed");
+  snapshot.scooters = { ...out, asOf: now() };
+}
+
+/* ---------- AirNow: the measured air-quality index for New York City ----------
+   The state's monitors report hourly to the EPA's AirNow. Its key-free
+   public file (reportingarea.dat) is CORS-open but 1.3 MB, so the robot
+   reads it and keeps only the city's rows. */
+async function airnow() {
+  const text = await fetchText("https://files.airnowtech.org/airnow/today/reportingarea.dat");
+  const rows = text.split(/\r?\n/).map(l => l.split("|"))
+    .filter(r => r[7] === "New York City Region" && r[5] === "O" && r[2]);
+  if (!rows.length) throw new Error("no New York City observations");
+  // IssueDate|ValidDate|ValidTime|TimeZone|Seq|DataType|Primary|Area|State|Lat|Lon|Parameter|AQI|Category|ActionDay|Discussion|Source
+  const stamp = r => {
+    const [mo, da, yy] = r[1].split("/").map(Number);
+    const [h, mi] = r[2].split(":").map(Number);
+    const off = r[3] === "EDT" ? 4 : 5;
+    return Date.UTC(2000 + yy, mo - 1, da, h + off, mi || 0);
+  };
+  const latest = Math.max(...rows.map(stamp));
+  const now_ = rows.filter(r => stamp(r) === latest);
+  snapshot.airnow = {
+    observed: new Date(latest).toISOString(),
+    readings: now_.map(r => ({ parameter: r[11], aqi: +r[12], category: r[13] })),
+    source: now_[0][16] || "",
+    asOf: now()
+  };
+}
+
 /* ---------- daily positions file for the map ----------
    Camera locations barely move, so they live in
    data/stations.json, rewritten at most once a day to keep the
@@ -338,8 +404,8 @@ function stationsFile() {
 }
 
 /* ---------- run everything, carry stale sections forward ---------- */
-const jobs = { nyiso, buoy, aircraft, subway, rail, ferry, cameras, coned, path, reservoirs };
-const carry = { nyiso: "nyiso", buoy: "buoy", aircraft: "aircraft", subway: "subway", rail: "rail", ferry: "ferry", cameras: "cameras", coned: "coned", path: "path", reservoirs: "reservoirs" };
+const jobs = { nyiso, buoy, aircraft, subway, rail, ferry, cameras, coned, path, reservoirs, scooters, airnow };
+const carry = { nyiso: "nyiso", buoy: "buoy", aircraft: "aircraft", subway: "subway", rail: "rail", ferry: "ferry", cameras: "cameras", coned: "coned", path: "path", reservoirs: "reservoirs", scooters: "scooters", airnow: "airnow" };
 
 for (const [name, job] of Object.entries(jobs)) {
   try {
