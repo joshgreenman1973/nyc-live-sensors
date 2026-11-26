@@ -1,21 +1,21 @@
 {
- "generated": "2026-11-26T08:12:20.586Z",
+ "generated": "2026-11-26T08:22:20.558Z",
  "nyiso": {
-  "nycLoadMw": 4303.446,
-  "isoLoadMw": 14223.4383,
-  "asOf": "2026-11-26T07:55:00.000Z",
+  "nycLoadMw": 4302.712,
+  "isoLoadMw": 14237.6234,
+  "asOf": "2026-11-26T08:05:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3143
+    "mw": 3137
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3609
+    "mw": 3675
    },
    {
     "fuel": "Nuclear",
-    "mw": 3345
+    "mw": 3344
    },
    {
     "fuel": "Other Fossil Fuels",
@@ -23,61 +23,69 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 244
+    "mw": 248
    },
    {
     "fuel": "Wind",
-    "mw": 1287
+    "mw": 1295
    },
    {
     "fuel": "Hydro",
-    "mw": 1615
+    "mw": 1607
    }
   ],
-  "fuelAsOf": "2026-11-26T07:55:00.000Z",
-  "nycPriceMwh": 41.36,
-  "priceAsOf": "2026-11-26T08:10:00.000Z"
+  "fuelAsOf": "2026-11-26T08:05:00.000Z",
+  "nycPriceMwh": 41.28,
+  "priceAsOf": "2026-11-26T08:20:00.000Z"
  },
  "buoy": {
-  "waveHeightM": 2.4,
+  "waveHeightM": 2.5,
   "domPeriodS": 7,
   "waterTempC": 13.7,
   "windMs": 14,
   "airTempC": 9.4,
-  "pressureHpa": 1033.9,
-  "asOf": "2026-11-26T07:20:00.000Z"
+  "pressureHpa": 1033.7,
+  "asOf": "2026-11-26T07:50:00.000Z"
  },
  "aircraft": {
-  "asOf": "2026-11-26T08:12:21.001Z",
+  "asOf": "2026-11-26T08:22:21.003Z",
   "ac": [
    {
-    "flight": "GTX248",
-    "r": "N140S",
-    "t": "BE58",
+    "flight": "N4086E",
+    "r": "N4086E",
+    "t": "PA31",
     "category": "A1",
-    "alt_baro": 5900,
-    "gs": 217,
-    "lat": 40.4217,
-    "lon": -74.2334
+    "alt_baro": 925,
+    "gs": 96,
+    "lat": 40.7506,
+    "lon": -74.46
    },
    {
-    "flight": "ACA7073",
-    "r": "C-FKPT",
-    "t": "A320",
-    "category": "A3",
-    "alt_baro": 18525,
-    "gs": 388,
-    "lat": 40.4097,
-    "lon": -74.1744
+    "flight": "N492AE",
+    "r": "N492AE",
+    "t": "EC35",
+    "category": "A7",
+    "alt_baro": 1000,
+    "gs": 124,
+    "lat": 40.8778,
+    "lon": -74.0886
+   },
+   {
+    "flight": "CCK25",
+    "category": "A2",
+    "alt_baro": -575,
+    "gs": 94,
+    "lat": 40.8503,
+    "lon": -74.065
    }
   ]
  },
  "subway": {
-  "trains": 220,
+  "trains": 219,
   "feedsOk": 8,
   "feeds": 8,
   "alerts": 11,
-  "asOf": "2026-11-26T08:12:21.563Z"
+  "asOf": "2026-11-26T08:22:21.692Z"
  },
  "rail": {
   "lirr": {
@@ -85,125 +93,125 @@
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 99,
+   "trains": 101,
    "viaVehicles": true
   },
-  "asOf": "2026-11-26T08:12:21.630Z"
+  "asOf": "2026-11-26T08:22:21.813Z"
  },
  "ferry": {
   "vessels": 0,
   "positions": [],
-  "asOf": "2026-11-26T08:12:21.679Z"
+  "asOf": "2026-11-26T08:22:21.855Z"
  },
  "cameras": {
   "total": 978,
   "list": [
    {
-    "name": "Major Deegan Expwy @ 225 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/a65f8b8a-c0ba-4138-81a5-783ba837490d/image"
+    "name": "Crotona Pkwy @ Cross Bronx Expwy",
+    "url": "https://webcams.nyctmc.org/api/cameras/4053642d-dd92-4045-ac55-069110659563/image"
    },
    {
-    "name": "Canal St @ Greenwich St ( Holland Tunnel )",
-    "url": "https://webcams.nyctmc.org/api/cameras/25ad72fe-e74c-49af-b4c0-34c9eac14655/image"
-   },
-   {
-    "name": "Flatbush Ave @ Empire Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/2e43a9d0-1df8-4a38-ae20-2e0f359bb55d/image"
-   },
-   {
-    "name": "C3-SIE-11-EB_at_Renwick_Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/bcb706e6-135a-4981-8a06-7545f6e05ddd/image"
-   },
-   {
-    "name": "Flushing Ave @ Grand Ave & 64 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/b47d139f-69ae-427e-86b4-f970f9e990e1/image"
-   },
-   {
-    "name": "C1-BRE-10-NB_at_Middle_Twn_Rd-Ex7C",
-    "url": "https://webcams.nyctmc.org/api/cameras/e38e3af7-19e6-4c8d-aa05-a21c8d5a7b29/image"
-   },
-   {
-    "name": "Central Park West @ 77 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/90c74649-458d-4b5f-8f58-9ab77f03f4ad/image"
-   },
-   {
-    "name": "Atlantic Ave @ 111 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/0039e6bf-5244-4b4e-b7dc-d02056bbfdc9/image"
-   },
-   {
-    "name": "Drumgoogle Rd E @ Vernon Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/29aaea67-bf67-4d6f-b572-f810f48f5b48/image"
-   },
-   {
-    "name": "Cross Island Pkwy @ West Alley Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/fb34b9cf-f64d-4645-96f6-bd0243dffda0/image"
-   },
-   {
-    "name": "C1-MDE-12-SB_at_Heath_Ave-Ex9",
-    "url": "https://webcams.nyctmc.org/api/cameras/1a626331-3c36-48bd-91a5-edd930c314c0/image"
-   },
-   {
-    "name": "2 Ave @ E 128 Street",
-    "url": "https://webcams.nyctmc.org/api/cameras/152e384f-7d80-4240-8995-bd75b78b582f/image"
+    "name": "BB-24 South Rdwy @ Above South St",
+    "url": "https://webcams.nyctmc.org/api/cameras/0ccf3a51-8981-4e03-92a9-00b1c59f0b9b/image"
    },
    {
     "name": "Rockaway Pkwy @ Flatlands Ave",
     "url": "https://webcams.nyctmc.org/api/cameras/2048e8ae-11df-4ff9-8f4d-b8621af47081/image"
    },
    {
-    "name": "Father Capodanno Blvd @ 2000 FT N of Seaview Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/54e7c710-bdef-411d-801a-806060a418f6/image"
+    "name": "Narrows Rd South @ Fingerboard Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/7be9623c-4f70-4815-bc54-5f0411491b83/image"
    },
    {
-    "name": "Nassau Expwy @ N. Hanger Rd",
-    "url": "https://webcams.nyctmc.org/api/cameras/a7ea0f7b-b44a-4dee-af25-e37820845eac/image"
+    "name": "C5-GCP-13-EB_at_72nd_Rd-Ex11",
+    "url": "https://webcams.nyctmc.org/api/cameras/5c258011-2fa1-4b50-96c9-738ec3cf678c/image"
    },
    {
-    "name": "C1-MDE-11-NB_at_W.179th_St-Ex8",
-    "url": "https://webcams.nyctmc.org/api/cameras/b9ba6a87-0e0b-4c5a-ad6a-7ead399e0864/image"
+    "name": "C1-CBE-10-SB_at_Brx.Rvr_Pkwy-Ex4A",
+    "url": "https://webcams.nyctmc.org/api/cameras/efea49ae-8d39-4ebd-b2a9-9259361d4233/image"
    },
    {
-    "name": "6 Ave @ 23 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/fcc24aa5-4da0-48f2-aa43-e70e4677517c/image"
+    "name": "Riverside Dr @ 79 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/36672d97-80d3-48f0-b3c4-6e6125069b90/image"
    },
    {
-    "name": "Ocean Pkwy @ Kings Hwy",
-    "url": "https://webcams.nyctmc.org/api/cameras/26b347aa-b8c0-4539-b061-87c8a6472d04/image"
+    "name": "Ocean Pkwy @ Church Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/2293205b-2b15-44da-8220-6833a13c5a80/image"
+   },
+   {
+    "name": "West Shore Expy @ South Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/a6b2c1c8-1124-4dec-aa22-c8d87f6835ec/image"
+   },
+   {
+    "name": "Van Dam St @ 48 Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/8645493f-d08c-4c0e-a572-b40f5fbeec56/image"
+   },
+   {
+    "name": "Boston Rd @ Gun hill Rd",
+    "url": "https://webcams.nyctmc.org/api/cameras/cbd86999-5bb1-4f2d-addd-dbf15fa3609d/image"
+   },
+   {
+    "name": "MADISON @ 57 ST",
+    "url": "https://webcams.nyctmc.org/api/cameras/421960d6-54a8-4f12-a5ee-7a07390def4c/image"
+   },
+   {
+    "name": "Gatling Pl @ 86 St - 186.2",
+    "url": "https://webcams.nyctmc.org/api/cameras/a4fa36ac-f546-4ec1-b579-135f0ab204de/image"
+   },
+   {
+    "name": "C3-SIE-08-EB_at_Bradley_Ave-Ex11",
+    "url": "https://webcams.nyctmc.org/api/cameras/08922d10-ec77-4e36-aa87-962ebfc39212/image"
+   },
+   {
+    "name": "Queens Plaza North @ 2811 (Westside)",
+    "url": "https://webcams.nyctmc.org/api/cameras/76ce9adc-f73d-46b7-9ca7-fe6d7521b603/image"
+   },
+   {
+    "name": "C1-MDE-13-SB_at_Van_Cortlandt-Ex11",
+    "url": "https://webcams.nyctmc.org/api/cameras/fcde67cd-f29e-40c6-8f84-1f3a336315c4/image"
+   },
+   {
+    "name": "Park Ave @ 57 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/f4d2c0f5-0148-45e7-95ba-a5185d8e8060/image"
+   },
+   {
+    "name": "7 Ave @ 9 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/089d8066-4e5e-4549-9496-a5f4ffb56ef5/image"
    }
   ],
-  "asOf": "2026-11-26T08:12:21.923Z"
+  "asOf": "2026-11-26T08:22:21.992Z"
  },
  "coned": {
   "customersOut": 0,
   "customersServed": 3626606,
   "outages": 0,
-  "asOf": "2026-11-26T08:05:00.000Z"
+  "asOf": "2026-11-26T08:20:00.000Z"
  },
  "path": {
-  "arrivals": 19,
+  "arrivals": 21,
   "stations": 13,
-  "asOf": "2026-11-26T08:12:22.212Z"
+  "asOf": "2026-11-26T08:22:22.116Z"
  },
  "reservoirs": {
   "pctFull": 81.2,
   "pctNormal": 81.2,
   "pageDate": "November 25, 2026",
-  "asOf": "2026-11-26T08:12:22.461Z"
+  "asOf": "2026-11-26T08:22:22.287Z"
  },
  "scooters": {
   "lime": {
-   "total": 5197,
-   "scooters": 5197,
+   "total": 5202,
+   "scooters": 5202,
    "ebikes": 0,
-   "updated": "2026-11-26T08:12:23.000Z"
+   "updated": "2026-11-26T08:22:22.000Z"
   },
   "bird": {
-   "total": 204,
-   "scooters": 136,
+   "total": 205,
+   "scooters": 137,
    "ebikes": 0,
-   "updated": "2026-11-26T08:10:58.000Z"
+   "updated": "2026-11-26T08:20:58.000Z"
   },
-  "asOf": "2026-11-26T08:12:23.541Z"
+  "asOf": "2026-11-26T08:22:23.199Z"
  },
  "airnow": {
   "observed": "2026-11-26T08:00:00.000Z",
@@ -220,6 +228,6 @@
    }
   ],
   "source": "New York Dept. of Environmental Conservation",
-  "asOf": "2026-11-26T08:12:24.170Z"
+  "asOf": "2026-11-26T08:22:23.539Z"
  }
 }
