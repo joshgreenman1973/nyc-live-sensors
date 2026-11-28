@@ -1,17 +1,17 @@
 {
- "generated": "2026-11-28T01:55:40.186Z",
+ "generated": "2026-11-28T02:05:40.434Z",
  "nyiso": {
-  "nycLoadMw": 5324.9297,
-  "isoLoadMw": 16677.394699999997,
-  "asOf": "2026-11-28T01:40:00.000Z",
+  "nycLoadMw": 5310.467,
+  "isoLoadMw": 16612.0157,
+  "asOf": "2026-11-28T01:50:00.000Z",
   "fuelMix": [
    {
     "fuel": "Dual Fuel",
-    "mw": 3974
+    "mw": 3918
    },
    {
     "fuel": "Natural Gas",
-    "mw": 3401
+    "mw": 3370
    },
    {
     "fuel": "Nuclear",
@@ -23,435 +23,581 @@
    },
    {
     "fuel": "Other Renewables",
-    "mw": 212
+    "mw": 204
    },
    {
     "fuel": "Wind",
-    "mw": 1359
+    "mw": 1362
    },
    {
     "fuel": "Hydro",
-    "mw": 3242
+    "mw": 3174
    }
   ],
-  "fuelAsOf": "2026-11-28T01:40:00.000Z",
+  "fuelAsOf": "2026-11-28T01:50:00.000Z",
   "nycPriceMwh": 36.71,
-  "priceAsOf": "2026-11-28T01:55:00.000Z"
+  "priceAsOf": "2026-11-28T02:05:00.000Z"
  },
  "buoy": {
   "waveHeightM": 2.6,
   "domPeriodS": 10,
   "waterTempC": 13.6,
-  "windMs": 12,
-  "airTempC": 9.5,
-  "pressureHpa": 999.8,
+  "windMs": 13,
+  "airTempC": 9.4,
+  "pressureHpa": 1000,
   "asOf": "2026-11-28T01:20:00.000Z"
  },
  "aircraft": {
-  "asOf": "2026-11-28T01:55:41.001Z",
+  "asOf": "2026-11-28T02:05:41.501Z",
   "ac": [
+   {
+    "flight": "UAL1501",
+    "r": "N17272",
+    "t": "B37M",
+    "category": "A3",
+    "alt_baro": 6375,
+    "gs": 271,
+    "lat": 40.5853,
+    "lon": -74.6262
+   },
+   {
+    "flight": "JBU2265",
+    "r": "N3232J",
+    "t": "BCS3",
+    "category": "A3",
+    "alt_baro": 40000,
+    "gs": 398,
+    "lat": 40.6834,
+    "lon": -74.5774
+   },
+   {
+    "flight": "DAL683",
+    "r": "N518DQ",
+    "t": "A21N",
+    "category": "A3",
+    "alt_baro": 22175,
+    "gs": 492,
+    "lat": 40.9556,
+    "lon": -74.5219
+   },
+   {
+    "flight": "FFT3423",
+    "r": "N384FR",
+    "t": "A20N",
+    "category": "A3",
+    "alt_baro": 17400,
+    "gs": 340,
+    "lat": 40.8023,
+    "lon": -74.4807
+   },
+   {
+    "flight": "UAL2480",
+    "r": "N14120",
+    "t": "B752",
+    "category": "A4",
+    "alt_baro": 4525,
+    "gs": 296,
+    "lat": 40.8898,
+    "lon": -74.4322
+   },
+   {
+    "flight": "UAL1784",
+    "r": "N37468",
+    "t": "B739",
+    "category": "A3",
+    "alt_baro": 6550,
+    "gs": 233,
+    "lat": 40.6295,
+    "lon": -74.2955
+   },
+   {
+    "flight": "POE2143",
+    "r": "C-GKQG",
+    "t": "DH8D",
+    "category": "A2",
+    "alt_baro": 4575,
+    "gs": 277,
+    "lat": 41.0366,
+    "lon": -74.2798
+   },
+   {
+    "flight": "JZA825",
+    "r": "C-FBJZ",
+    "t": "CRJ7",
+    "category": "A3",
+    "alt_baro": 31975,
+    "gs": 412,
+    "lat": 41.0237,
+    "lon": -74.2795
+   },
+   {
+    "flight": "UAL1122",
+    "r": "N22995",
+    "t": "B789",
+    "category": "A5",
+    "alt_baro": 6375,
+    "gs": 282,
+    "lat": 40.4318,
+    "lon": -74.2196
+   },
+   {
+    "flight": "AAL1953",
+    "r": "N915NN",
+    "t": "B738",
+    "category": "A3",
+    "alt_baro": 14625,
+    "gs": 298,
+    "lat": 40.3309,
+    "lon": -74.2092
+   },
+   {
+    "flight": "RPA3609",
+    "r": "N760YX",
+    "t": "E75L",
+    "category": "A3",
+    "alt_baro": 1600,
+    "gs": 136,
+    "lat": 40.6721,
+    "lon": -74.1807
+   },
+   {
+    "flight": "RPA4598",
+    "r": "N424YX",
+    "t": "E75L",
+    "category": "A3",
+    "alt_baro": 14850,
+    "gs": 322,
+    "lat": 41.1285,
+    "lon": -74.1802
+   },
+   {
+    "flight": "SWA2579",
+    "r": "N952WN",
+    "t": "B737",
+    "category": "A3",
+    "alt_baro": 14275,
+    "gs": 268,
+    "lat": 40.9186,
+    "lon": -74.1577
+   },
    {
     "flight": "UAL700",
     "r": "N37523",
     "t": "B39M",
     "category": "A3",
-    "alt_baro": 6350,
-    "gs": 277,
-    "lat": 40.647,
-    "lon": -74.6094
+    "alt_baro": 875,
+    "gs": 155,
+    "lat": 40.72,
+    "lon": -74.1473
    },
    {
-    "flight": "UAL673",
-    "r": "N37252",
-    "t": "B738",
+    "flight": "UAL1895",
+    "r": "N17335",
+    "t": "B38M",
     "category": "A3",
-    "alt_baro": 10375,
-    "gs": 345,
-    "lat": 40.4984,
-    "lon": -74.2791
+    "alt_baro": 4025,
+    "gs": 226,
+    "lat": 40.9186,
+    "lon": -74.1206
    },
    {
-    "flight": "APZ131",
-    "r": "HL8517",
-    "t": "B789",
+    "flight": "UAL1950",
+    "r": "N14016",
+    "t": "B78X",
     "category": "A5",
-    "alt_baro": 5925,
-    "gs": 277,
-    "lat": 41.1272,
-    "lon": -74.2475
+    "alt_baro": 2000,
+    "gs": 166,
+    "lat": 40.7683,
+    "lon": -74.1165
    },
    {
-    "flight": "UAL2217",
-    "r": "N34137",
-    "t": "B752",
-    "category": "A4",
-    "alt_baro": 6375,
-    "gs": 276,
-    "lat": 40.4462,
-    "lon": -74.2265
+    "flight": "DAL468",
+    "r": "N374DX",
+    "t": "A321",
+    "category": "A3",
+    "alt_baro": 7275,
+    "gs": 294,
+    "lat": 40.5926,
+    "lon": -74.0883
    },
    {
-    "flight": "AAL2772",
-    "r": "N998NN",
+    "flight": "UAL2060",
+    "r": "N27292",
+    "t": "B38M",
+    "category": "A3",
+    "alt_baro": 2875,
+    "gs": 172,
+    "lat": 40.857,
+    "lon": -74.0689
+   },
+   {
+    "flight": "JBU195",
+    "r": "N768JB",
+    "t": "A320",
+    "category": "A3",
+    "alt_baro": 12400,
+    "gs": 339,
+    "lat": 40.7462,
+    "lon": -74.0621
+   },
+   {
+    "flight": "N403TD",
+    "r": "N403TD",
+    "t": "B407",
+    "category": "A7",
+    "alt_baro": 1300,
+    "gs": 129,
+    "lat": 40.6513,
+    "lon": -74.0539
+   },
+   {
+    "flight": "UAL2197",
+    "r": "N38257",
     "t": "B738",
     "category": "A3",
-    "alt_baro": 16725,
-    "gs": 318,
-    "lat": 40.3288,
-    "lon": -74.2182
+    "alt_baro": 5875,
+    "gs": 287,
+    "lat": 40.6672,
+    "lon": -73.9961
    },
    {
-    "flight": "UAL1287",
-    "r": "N47462",
-    "category": "A3",
-    "alt_baro": 1925,
-    "gs": 191,
-    "lat": 40.6517,
-    "lon": -74.1926
+    "flight": "EJA407",
+    "r": "N407QS",
+    "t": "E55P",
+    "category": "A2",
+    "alt_baro": 14700,
+    "gs": 261,
+    "lat": 40.9633,
+    "lon": -73.9949
    },
    {
-    "flight": "UAL14",
-    "r": "N663UA",
-    "t": "B763",
+    "flight": "CPA094",
+    "r": "B-LJN",
+    "t": "B748",
     "category": "A5",
-    "alt_baro": 7800,
-    "gs": 299,
-    "lat": 40.7422,
-    "lon": -74.1814
+    "alt_baro": 15700,
+    "gs": 301,
+    "lat": 40.6593,
+    "lon": -73.9916
    },
    {
-    "flight": "RPA3509",
-    "r": "N774YX",
-    "t": "E75L",
-    "category": "A3",
-    "alt_baro": 2775,
-    "gs": 177,
-    "lat": 40.8002,
-    "lon": -74.0956
-   },
-   {
-    "flight": "AAL1668",
-    "r": "N886NN",
-    "t": "B738",
-    "category": "A3",
-    "alt_baro": 18900,
-    "gs": 319,
-    "lat": 40.8277,
-    "lon": -74.0615
+    "flight": "EJA490",
+    "r": "N490QS",
+    "t": "E55P",
+    "category": "A1",
+    "alt_baro": 2375,
+    "gs": 183,
+    "lat": 41.1166,
+    "lon": -73.9767
    },
    {
     "flight": "N587MA",
     "r": "N587MA",
     "t": "P28A",
     "category": "A1",
-    "alt_baro": 1700,
-    "gs": 101,
-    "lat": 40.6029,
-    "lon": -74.0425
+    "alt_baro": 1900,
+    "gs": 90,
+    "lat": 40.827,
+    "lon": -73.9651
    },
    {
-    "flight": "JBU97",
-    "r": "N3156J",
-    "t": "BCS3",
+    "flight": "RPA4345",
+    "r": "N857RW",
+    "t": "E170",
     "category": "A3",
-    "alt_baro": 10375,
-    "gs": 253,
-    "lat": 40.4564,
-    "lon": -74.014
+    "alt_baro": 7350,
+    "gs": 251,
+    "lat": 40.8289,
+    "lon": -73.9577
    },
    {
-    "flight": "AAR224",
-    "r": "HL8308",
-    "t": "A359",
+    "flight": "UAL82",
+    "r": "N24974",
+    "t": "B789",
     "category": "A5",
-    "alt_baro": 14225,
-    "gs": 303,
-    "lat": 40.5782,
-    "lon": -73.9894
+    "alt_baro": 10350,
+    "gs": 410,
+    "lat": 40.8379,
+    "lon": -73.9319
    },
    {
-    "flight": "AAL1530",
-    "r": "N915US",
-    "t": "A321",
-    "category": "A3",
-    "alt_baro": 6425,
-    "gs": 298,
-    "lat": 40.6964,
-    "lon": -73.9527
-   },
-   {
-    "flight": "OAE520",
-    "r": "N351AX",
-    "t": "B763",
-    "category": "A5",
-    "alt_baro": 29050,
-    "gs": 529,
-    "lat": 40.8502,
-    "lon": -73.9361
-   },
-   {
-    "flight": "CMP366",
-    "r": "HP-1821CMP",
-    "t": "B738",
-    "category": "A3",
-    "alt_baro": 37000,
-    "gs": 492,
-    "lat": 40.3082,
-    "lon": -73.9349
-   },
-   {
-    "flight": "SWA3546",
-    "r": "N8626B",
-    "t": "B738",
-    "category": "A3",
-    "alt_baro": 3625,
-    "gs": 226,
-    "lat": 40.8437,
-    "lon": -73.8998
-   },
-   {
-    "flight": "UAL64",
-    "r": "N13014",
-    "t": "B78X",
-    "category": "A5",
-    "alt_baro": 12775,
-    "gs": 397,
-    "lat": 40.9708,
-    "lon": -73.8275
-   },
-   {
-    "flight": "JBU719",
-    "r": "N3104J",
-    "t": "BCS3",
-    "category": "A3",
-    "alt_baro": 3275,
-    "gs": 186,
-    "lat": 40.592,
-    "lon": -73.8232
-   },
-   {
-    "flight": "JBU337",
-    "r": "N583JB",
+    "flight": "ACA736",
+    "r": "C-FDGQ",
     "t": "A320",
     "category": "A3",
-    "alt_baro": 925,
-    "gs": 162,
-    "lat": 40.6254,
-    "lon": -73.7829
+    "alt_baro": 2025,
+    "gs": 151,
+    "lat": 40.854,
+    "lon": -73.814
    },
    {
-    "flight": "EDV4946",
-    "r": "N549CA",
-    "t": "CRJ9",
+    "flight": "RPA5658",
+    "r": "N211JQ",
+    "t": "E75L",
     "category": "A3",
-    "alt_baro": 21100,
-    "gs": 336,
-    "lat": 41.106,
-    "lon": -73.7666
+    "alt_baro": 2500,
+    "gs": 182,
+    "lat": 40.5956,
+    "lon": -73.7996
    },
    {
-    "flight": "JBU882",
-    "r": "N999JQ",
-    "t": "A321",
+    "flight": "AAL2849",
+    "r": "N944AN",
+    "t": "B738",
     "category": "A3",
-    "alt_baro": 750,
-    "gs": 132,
-    "lat": 40.6598,
-    "lon": -73.7434
+    "alt_baro": 18600,
+    "gs": 354,
+    "lat": 40.9564,
+    "lon": -73.7847
    },
    {
-    "flight": "DAL624",
-    "r": "N693DL",
-    "t": "B752",
-    "category": "A4",
-    "alt_baro": 2200,
-    "gs": 137,
-    "lat": 40.7229,
-    "lon": -73.6944
-   },
-   {
-    "flight": "JBU1652",
-    "r": "N585JB",
-    "t": "A320",
+    "flight": "UAL673",
+    "r": "N37252",
+    "t": "B738",
     "category": "A3",
-    "alt_baro": 30625,
-    "gs": 513,
-    "lat": 40.6539,
-    "lon": -73.6156
-   },
-   {
-    "flight": "JBU2662",
-    "r": "N998JE",
-    "t": "A321",
-    "category": "A3",
-    "alt_baro": 2375,
-    "gs": 216,
-    "lat": 40.6871,
-    "lon": -73.5612
+    "alt_baro": 2775,
+    "gs": 156,
+    "lat": 40.9081,
+    "lon": -73.7441
    },
    {
     "flight": "EVA032",
     "r": "B-16718",
     "t": "B77W",
     "category": "A5",
-    "alt_baro": 4700,
-    "gs": 284,
-    "lat": 40.4235,
-    "lon": -73.5524
+    "alt_baro": 1350,
+    "gs": 146,
+    "lat": 40.6859,
+    "lon": -73.723
+   },
+   {
+    "flight": "VIR46K",
+    "r": "G-VFAN",
+    "t": "B789",
+    "category": "A5",
+    "alt_baro": 7000,
+    "gs": 307,
+    "lat": 40.53,
+    "lon": -73.6819
+   },
+   {
+    "flight": "UAL2168",
+    "r": "N37368",
+    "t": "B38M",
+    "category": "A3",
+    "alt_baro": 4300,
+    "gs": 203,
+    "lat": 40.8954,
+    "lon": -73.6682
+   },
+   {
+    "flight": "SWR2K",
+    "r": "HB-JHI",
+    "t": "A333",
+    "category": "A5",
+    "alt_baro": 34575,
+    "gs": 571,
+    "lat": 40.3719,
+    "lon": -73.6542
+   },
+   {
+    "flight": "JBU282",
+    "r": "N3145J",
+    "t": "BCS3",
+    "category": "A3",
+    "alt_baro": 6325,
+    "gs": 290,
+    "lat": 40.33,
+    "lon": -73.6114
+   },
+   {
+    "flight": "JBU2486",
+    "r": "N3240J",
+    "t": "BCS3",
+    "category": "A3",
+    "alt_baro": 2350,
+    "gs": 207,
+    "lat": 40.7696,
+    "lon": -73.5708
+   },
+   {
+    "flight": "AAL1668",
+    "r": "N886NN",
+    "t": "B738",
+    "category": "A3",
+    "alt_baro": 4375,
+    "gs": 279,
+    "lat": 40.4184,
+    "lon": -73.5616
+   },
+   {
+    "flight": "JBU158",
+    "r": "N607JB",
+    "t": "A320",
+    "category": "A3",
+    "alt_baro": 4375,
+    "gs": 267,
+    "lat": 40.5166,
+    "lon": -73.5209
+   },
+   {
+    "flight": "AAR224",
+    "r": "HL8308",
+    "t": "A359",
+    "category": "A5",
+    "alt_baro": 4375,
+    "gs": 240,
+    "lat": 40.6544,
+    "lon": -73.5021
+   },
+   {
+    "flight": "BAW172",
+    "r": "G-VIIK",
+    "t": "B772",
+    "category": "A5",
+    "alt_baro": 7825,
+    "gs": 341,
+    "lat": 40.5637,
+    "lon": -73.4754
    },
    {
     "flight": "ACA7086",
     "r": "C-FGJI",
     "t": "A320",
     "category": "A3",
-    "alt_baro": 2525,
-    "gs": 264,
-    "lat": 40.5716,
-    "lon": -73.507
+    "alt_baro": 525,
+    "gs": 117,
+    "lat": 40.7394,
+    "lon": -73.4148
    }
   ]
  },
  "subway": {
-  "trains": 573,
+  "trains": 561,
   "feedsOk": 8,
   "feeds": 8,
-  "alerts": 8,
-  "asOf": "2026-11-28T01:55:42.160Z"
+  "alerts": 10,
+  "asOf": "2026-11-28T02:05:42.766Z"
  },
  "rail": {
   "lirr": {
-   "trains": 40,
+   "trains": 37,
    "viaVehicles": true
   },
   "mnr": {
-   "trains": 125,
+   "trains": 121,
    "viaVehicles": true
   },
-  "asOf": "2026-11-28T01:55:42.776Z"
+  "asOf": "2026-11-28T02:05:43.297Z"
  },
  "ferry": {
-  "vessels": 8,
+  "vessels": 5,
   "positions": [
    {
-    "lat": 40.64005,
-    "lon": -74.03819,
+    "lat": 40.64623,
+    "lon": -74.07414,
     "label": "H107"
    },
    {
-    "lat": 40.71004,
-    "lon": -73.97257,
+    "lat": 40.70582,
+    "lon": -73.99178,
     "label": "H204"
    },
    {
-    "lat": 40.69252,
-    "lon": -74.00535,
-    "label": "H206"
-   },
-   {
-    "lat": 40.70591,
-    "lon": -73.99203,
+    "lat": 40.70246,
+    "lon": -74.00175,
     "label": "H208"
    },
    {
-    "lat": 40.7312,
-    "lon": -73.96359,
+    "lat": 40.74209,
+    "lon": -73.96212,
     "label": "H209"
    },
    {
-    "lat": 40.70421,
-    "lon": -74.00114,
-    "label": "H113"
-   },
-   {
-    "lat": 40.70265,
-    "lon": -74.00434,
-    "label": "H091"
-   },
-   {
-    "lat": 40.74864,
-    "lon": -73.9576,
+    "lat": 40.76019,
+    "lon": -73.94846,
     "label": "H120"
    }
   ],
-  "asOf": "2026-11-28T01:55:42.934Z"
+  "asOf": "2026-11-28T02:05:43.498Z"
  },
  "cameras": {
   "total": 975,
   "list": [
    {
-    "name": "Park Ave @ 72 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/b062d611-e0e8-40be-a180-c583391276f5/image"
+    "name": "Major Deegan Expwy @ 225 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/a65f8b8a-c0ba-4138-81a5-783ba837490d/image"
    },
    {
-    "name": "WEBSTER AVE @ NEREID AVE",
-    "url": "https://webcams.nyctmc.org/api/cameras/6a841f4c-93ef-4f51-b38d-80e70053ff8d/image"
+    "name": "QBB UL Entrance @ Thomson Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/b963b25c-9fcf-4a12-b502-c57468510315/image"
    },
    {
-    "name": "Hamilton Ave @ Henry St",
-    "url": "https://webcams.nyctmc.org/api/cameras/c74510ed-35cf-4908-ad10-f2c9575cc853/image"
+    "name": "C2-BQE-06_WB_at_Congress_St-Ex27",
+    "url": "https://webcams.nyctmc.org/api/cameras/e2a52948-46af-41f0-9769-623e4a7d2900/image"
    },
    {
-    "name": "Narrows Rd South @ Hylan Blvd",
-    "url": "https://webcams.nyctmc.org/api/cameras/bfcd953c-3faf-48ea-a49a-848c706399b6/image"
+    "name": "Hylan Ave @ Page Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/01ffcaef-7c54-4f16-8668-bce6efbcfcb1/image"
    },
    {
-    "name": "GCP @ 166 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/858ef4e8-5058-4db2-96e2-70f71b65aa24/image"
-   },
-   {
-    "name": "9 Ave @ 57 St",
-    "url": "https://webcams.nyctmc.org/api/cameras/37e2a4b6-2fbd-42f5-9d2d-130b664783f2/image"
+    "name": "Seagirt Blvd @ B 32 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/a01a8c98-d314-4eb4-b97c-4a4f80d71c4b/image"
    },
    {
     "name": "Fordham Rd @ Hughes Ave",
     "url": "https://webcams.nyctmc.org/api/cameras/2a0ec6ff-9284-466a-9785-9f6df84ea4cf/image"
    },
    {
-    "name": "C2-GE-12_W_WB_at_26th St-Ex23",
-    "url": "https://webcams.nyctmc.org/api/cameras/a74c9c59-b6e1-4f7d-b260-7f54954e6e47/image"
+    "name": "Grand St @ Allen St",
+    "url": "https://webcams.nyctmc.org/api/cameras/48cd1b5b-f361-4683-9d83-492d4789d7ea/image"
    },
    {
-    "name": "C3-WSE-02-SB_at_Woodrow_Rd-Ex3",
-    "url": "https://webcams.nyctmc.org/api/cameras/54b2e31f-d9d7-43bd-b86f-3b15f4881ae8/image"
+    "name": "3 Ave @ Prospect Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/db8c2d21-00cd-4508-945d-38fcd92367d2/image"
    },
    {
-    "name": "Main St @ Roosevelt Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/23605598-4eb1-46c2-8b80-8a8c124f020a/image"
+    "name": "C3-SIE-11-EB_at_Renwick_Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/bcb706e6-135a-4981-8a06-7545f6e05ddd/image"
    },
    {
-    "name": "Harlem River Dr @ Dyckman St /10 Av",
-    "url": "https://webcams.nyctmc.org/api/cameras/e610bc71-9bfb-4a92-928d-ad33cd1b9afd/image"
-   },
-   {
-    "name": "Boston Rd @ Claremont Pkwy @ Wilkins Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/1d5b7624-9334-4348-8119-4d0221988d24/image"
-   },
-   {
-    "name": "Flatbush Ave and Atlantic Ave",
-    "url": "https://webcams.nyctmc.org/api/cameras/fa287d30-44a9-48ef-90d6-5ab0a54eab15/image"
-   },
-   {
-    "name": "C3-SIE-02-EB_at_WSE_Int-Ex3",
-    "url": "https://webcams.nyctmc.org/api/cameras/07f88e60-2b93-4bba-9784-8cac3c9b7f52/image"
-   },
-   {
-    "name": "Myrtle Ave @ 79 Lane - 73.74",
-    "url": "https://webcams.nyctmc.org/api/cameras/3c1e0011-7dbc-4bc9-af2d-e9347754bf91/image"
-   },
-   {
-    "name": "E 57 St @ QBB UPPER LEVEL",
-    "url": "https://webcams.nyctmc.org/api/cameras/9d86d84c-6d3a-45a6-a8ad-fb5ab52f2b52/image"
+    "name": "Clearview @ Northern Blvd",
+    "url": "https://webcams.nyctmc.org/api/cameras/e96fb86f-4bf6-4f97-b7f3-ec4f2e960788/image"
    },
    {
     "name": "C1-MDE-09-SB_at_Depot_Pl-Ex7-CBX",
     "url": "https://webcams.nyctmc.org/api/cameras/c8b15922-4262-459a-85d5-17442ec9c54f/image"
    },
    {
-    "name": "Sands St @ Adams St",
-    "url": "https://webcams.nyctmc.org/api/cameras/d324cf02-ff01-4b1d-a480-39143ced22cc/image"
+    "name": "1 Ave @ 14 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/23994d9e-7e59-4808-8d47-405f779d19cf/image"
+   },
+   {
+    "name": "3 Ave @ Atlantic Ave",
+    "url": "https://webcams.nyctmc.org/api/cameras/f801cf2f-cd02-4077-aa53-99ee8a00e1ab/image"
+   },
+   {
+    "name": "C3-WSE-06-NB_at_Muldoon_Ave-Ex5",
+    "url": "https://webcams.nyctmc.org/api/cameras/efc538d1-4711-4f6e-b81c-e555fc37d127/image"
+   },
+   {
+    "name": "GCP @ 31 ST",
+    "url": "https://webcams.nyctmc.org/api/cameras/1e88b34b-2058-402e-9a3d-aca1c57696bf/image"
+   },
+   {
+    "name": "C1-MDE-05-SB_at_E.153rd_St-Ex4",
+    "url": "https://webcams.nyctmc.org/api/cameras/bfdc1e75-c363-49c6-8236-7e9e9c9c1cdd/image"
+   },
+   {
+    "name": "3 Ave @ E 86 St",
+    "url": "https://webcams.nyctmc.org/api/cameras/10c5f42d-6b32-4533-9c35-5715af4e4c76/image"
+   },
+   {
+    "name": "BB-22 BQE @ Old Fulton St",
+    "url": "https://webcams.nyctmc.org/api/cameras/64862ed3-03e3-4452-9e59-189dbeec4a4f/image"
    }
   ],
-  "asOf": "2026-11-28T01:55:43.623Z"
+  "asOf": "2026-11-28T02:05:44.202Z"
  },
  "coned": {
   "customersOut": 909,
@@ -460,30 +606,30 @@
   "asOf": "2026-11-28T01:50:00.000Z"
  },
  "path": {
-  "arrivals": 45,
+  "arrivals": 44,
   "stations": 13,
-  "asOf": "2026-11-28T01:55:44.368Z"
+  "asOf": "2026-11-28T02:05:44.731Z"
  },
  "reservoirs": {
   "pctFull": 82,
   "pctNormal": 81.7,
   "pageDate": "November 27, 2026",
-  "asOf": "2026-11-28T01:55:44.767Z"
+  "asOf": "2026-11-28T02:05:45.100Z"
  },
  "scooters": {
   "lime": {
-   "total": 5006,
-   "scooters": 5006,
+   "total": 5023,
+   "scooters": 5023,
    "ebikes": 0,
-   "updated": "2026-11-28T01:55:45.000Z"
+   "updated": "2026-11-28T02:05:45.000Z"
   },
   "bird": {
    "total": 125,
-   "scooters": 80,
+   "scooters": 79,
    "ebikes": 0,
-   "updated": "2026-11-28T01:54:56.000Z"
+   "updated": "2026-11-28T02:04:56.000Z"
   },
-  "asOf": "2026-11-28T01:55:45.352Z"
+  "asOf": "2026-11-28T02:05:45.657Z"
  },
  "airnow": {
   "observed": "2026-11-28T01:00:00.000Z",
@@ -500,6 +646,6 @@
    }
   ],
   "source": "New York Dept. of Environmental Conservation",
-  "asOf": "2026-11-28T01:55:45.618Z"
+  "asOf": "2026-11-28T02:05:45.972Z"
  }
 }
